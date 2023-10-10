@@ -1,0 +1,118 @@
+[Game]
+Game=Hunchback
+
+[Index]
+MemoryMaps
+Graphics
+DataTables
+Reference
+
+[Links]
+Sprites=[Sprites]
+
+[Index:Graphics:Graphics]
+Sprites
+Title
+
+[Page:Sprites]
+SectionPrefix=Sprites
+
+[Page:Title]
+SectionPrefix=Title
+
+[Title:Title screen]
+#HTML( #R$9C40 <br/><img src="./images/scr/title.png"/> )
+
+[Sprites:Quasimodo right]
+#HTML( #R$C350
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_00-04.png"/></td>
+    <td><img src="./images/udgs/Sprite_01-05.png"/></td>
+    <td><img src="./images/udgs/Sprite_02-06.png"/></td>
+    <td><img src="./images/udgs/Sprite_03-07.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Quasimodo left]
+#HTML( #R$C4D0
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_08-0C.png"/></td>
+    <td><img src="./images/udgs/Sprite_09-0D.png"/></td>
+    <td><img src="./images/udgs/Sprite_0A-0E.png"/></td>
+    <td><img src="./images/udgs/Sprite_0B-0F.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Arrow left]
+#HTML( #R$C650
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_10.png"/></td>
+    <td><img src="./images/udgs/Sprite_11.png"/></td>
+    <td><img src="./images/udgs/Sprite_12.png"/></td>
+    <td><img src="./images/udgs/Sprite_13.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Fireball left]
+#HTML( #R$C710
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_14.png"/></td>
+    <td><img src="./images/udgs/Sprite_15.png"/></td>
+    <td><img src="./images/udgs/Sprite_16.png"/></td>
+    <td><img src="./images/udgs/Sprite_17.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Arrow right]
+#HTML( #R$C7D0
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_18.png"/></td>
+    <td><img src="./images/udgs/Sprite_19.png"/></td>
+    <td><img src="./images/udgs/Sprite_1A.png"/></td>
+    <td><img src="./images/udgs/Sprite_1B.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Fireball right]
+#HTML( #R$C890
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_1C.png"/></td>
+    <td><img src="./images/udgs/Sprite_1D.png"/></td>
+    <td><img src="./images/udgs/Sprite_1E.png"/></td>
+    <td><img src="./images/udgs/Sprite_1F.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Quasimodo on rope]
+#HTML( #R$C950
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_20-21.png"/></td>
+    <td><img src="./images/udgs/Sprite_22-23.png"/></td>
+    <td><img src="./images/udgs/Sprite_24-25.png"/></td>
+    <td><img src="./images/udgs/Sprite_26-27.png"/></td>
+  </tr>
+</table>
+)
+
+[Sprites:Chasing knight]
+#HTML( #R$CAD0
+<table>
+  <tr>
+    <td><img src="./images/udgs/Sprite_28-29.png"/></td>
+    <td><img src="./images/udgs/Sprite_2A-2B.png"/></td>
+  </tr>
+</table>
+)
