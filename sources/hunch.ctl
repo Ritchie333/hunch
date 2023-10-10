@@ -1,12 +1,17 @@
-@ $607C start
-@ $607C org
+@ $4000 start
+@ $4000 org
 
-@ $607C replace=/#CHARSET/#UDG(#PC)/
-@ $607C replace=/#SPRITE4/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$C0);(#PC+$D0);(#PC+$E0);(#PC+$C8);(#PC+$D8);(#PC+$E8)
-@ $607C replace=/#SPRITE5/#UDGARRAY3,5;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
-@ $607C replace=/#SPRITE2/#UDGARRAY3,6;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
-@ $607C replace=/#SPRITE3/#UDGARRAY3,3;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
-@ $607C replace=/#SPRITE14/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
+@ $4000 replace=/#CHARSET/#UDG(#PC)/
+@ $4000 replace=/#SPRITE4/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$C0);(#PC+$D0);(#PC+$E0);(#PC+$C8);(#PC+$D8);(#PC+$E8)
+@ $4000 replace=/#SPRITE5/#UDGARRAY3,5;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
+@ $4000 replace=/#SPRITE2/#UDGARRAY3,6;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
+@ $4000 replace=/#SPRITE3/#UDGARRAY3,3;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
+@ $4000 replace=/#SPRITE14/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
+
+b $4000 Loading screen
+D $4000 #UDGTABLE { #SCR2(loading) } TABLE#
+
+u $5B00 Unused
 
 c $607C Main entry point 1
 
@@ -392,7 +397,7 @@ c $9B43
 s $9B4A
 
 b $9C40 Title screen
-  $9C40 #UDGTABLE { #SCR1,0,0,32,24,$9C40,$B440(title) } TABLE#
+  $9C40 #UDGTABLE { #SCR2,0,0,32,24,$9C40,$B440(title) } TABLE#
 
 s $B740
 c $B798 Draw a sprite

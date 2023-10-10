@@ -12,15 +12,18 @@ Sprites=[Sprites]
 
 [Index:Graphics:Graphics]
 Sprites
-Title
+Screens
 
 [Page:Sprites]
 SectionPrefix=Sprites
 
-[Page:Title]
-SectionPrefix=Title
+[Page:Screens]
+SectionPrefix=Screens
 
-[Title:Title screen]
+[Screens:Loading screen]
+#HTML( #R$4000 <br/><img src="./images/scr/loading.png"/> )
+
+[Screens:Title screen]
 #HTML( #R$9C40 <br/><img src="./images/scr/title.png"/> )
 
 [Sprites:Quasimodo right]
