@@ -134,8 +134,63 @@ SectionPrefix=Screens
 </table>
 )
 
+[UDGs:Pit left]
+#HTML(#R$927E</br><img src="./images/udgs/pit_left.png"/>)
+
+[UDGs:Ramparts]
+#HTML(#R$9259</br><img src="./images/udgs/ramparts.png"/>)
+
+[UDGs:Long ramparts]
+#HTML(#R$92A3</br><img src="./images/udgs/ramparts_long.png"/>)
+
+[UDGs:Soldiers]
+#HTML(#R$9325</br><img src="./images/udgs/soldier_frames.png"/>)
+
+[UDGs:End of level score box]
+#HTML(#R$941A</br><img src="./images/udgs/scorebox.png"/>)
+
+[UDGs:Options]
+#HTML( #R$948B
+  <table>
+  <tr>
+  <td><img src="./images/udgs/opt_1.png"/></td>
+  <td><img src="./images/udgs/opt_2.png"/></td>
+  </tr>
+  <tr>
+  <td><img src="./images/udgs/opt_3.png"/></td>
+  </tr>
+  <tr>
+  <td><img src="./images/udgs/opt_4.png"/></td>
+  </tr>
+  <tr>
+  <td><img src="./images/udgs/opt_5.png"/></td>
+  </tr>
+  <tr>
+  <td><img src="./images/udgs/opt_6.png"/></td>
+  </tr>
+  <tr>
+  <td><img src="./images/udgs/opt_7.png"/></td>
+  </tr>
+  </table>
+)
+
 [UDGs:SCORE]
-#HTML(<img src="./images/udgs/score.png"/>)
+#HTML(
+  #R$96B0</br>
+  <img src="./images/udgs/score.png"/>
+)
+
+[UDGs:Row of bells]
+#HTML(
+  #R$96C5</br>
+  <img src="./images/udgs/bells.png"/>
+  )
+
+[UDGs:Esmerelda]
+#HTML(
+  #R$9756<br/>
+  <img src="./images/udgs/esmerelda.png"/>
+)
 
 [UDGs:HELP]
 #HTML(

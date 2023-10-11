@@ -8,7 +8,7 @@
 @ $4000 replace=/#SPRITE5,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
 @ $4000 replace=/#SPRITE14,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
 
-@ $4000 replace=/#GFX\i/(\1*8+$CD0C)/
+@ $4000 replace=/#GX\i/(\1*8+$CD0C)/
 
 b $4000 Loading screen
 D $4000 #UDGTABLE { #SCR2(loading) } TABLE#
@@ -334,6 +334,7 @@ B $9089,$1D0,$4
 b $9259 Graphics : Ramparts (short) left edge
 D $9259 Used by the routine at #R$9ACA
 B $925A,$24,$4
+D $9259 #UDGARRAY1,7;#GX$24;#GX$25;#GX$25(Ramparts)
 
 b $92D4 Graphics : Blank bell area
 D $92D4 Used by the routine at #R$9ACA
@@ -342,63 +343,78 @@ B $92D5,$50,$4
 b $927E Graphics : Pit left edge
 D $927E Used by the routine at #R$9ACA
 B $927F,$24,$4
-D $927E #UDGARRAY1,7;#GFX$24;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25(Pit_left)
+D $927E #UDGARRAY1,7;#GX$24;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25(Pit_left)
 
 b $92A3 Graphics : Ramparts (long) left edge
 D $92A3 Used by the routine at #R$9ACA
 B $92A4,$30,$4
+D $92A3 #UDGARRAY1,7;#GX$24;#GX$25;#GX$25;#GX$25(Ramparts_long)
 
 b $9325 Graphics : Rampart soldiers
 D $9325 Used by the routine at #R$9ACA
 B $9326,$78,$4
+D $9325 #UDGARRAY2,6;#GX$52;#GX0;#GX$46;#GX0;#GX$47;#GX$48;#GX$49;#GX$4A;#GX$4B;#GX$4C;#GX$4D;#GX$4E(Soldier*) #UDGARRAY2,6;#GX$46;#GX0;#GX$4F;#GX0;#GX$47;#GX$48;#GX$49;#GX$4A;#GX$50;#GX$4C;#GX$51;#GX$4E(Soldier_raised*) #UDGARRAY*(Soldier;Soldier_raised)(Soldier_frames)
 
 b $939E Graphics : Rampart soldiers raised spears
 D $939E Used by the routine at #R$9ACA
 B $939F,$24,$4
+D $939E #UDGARRAY1,6;#GX$46;#GX$4F(Soldier_spear)
 
 b $93C3 Graphics : Rampart soldiers raised foot
 D $93C3 Used by the routine at #R$9ACA
 B $93C4,$18,$4
+D $93C3 #UDGARRAY1,6;#GX$50;#GX$51(Soldier_foot)
 
 b $93DC Graphics : Rampart soldiers lowered spears
 D $93DC Used by the routine at #R$9ACA
 B $93DD,$24,$4
+D $93DC #UDGARRAY1,6;#GX$46;#GX$46(Soldier_!spear)
 
 b $9401 Graphics : Rampart soldiers lowered foot
 D $9401 Used by the routine at #R$9ACA
 B $9402,$18,$4
+D $9401 #UDGARRAY1,6;#GX$4B;#GX$4D(Soldier_!foot)
 
 b $941A Graphics : End of level score box
 D $941A Used by the routine at #R$9ACA
 B $941B,$70,$4
+D $941A #UDGARRAY7,$96;#GX$55;#GX$56;#GX$56;#GX$56;#GX$56;#GX$56;#GX$57;#GX$58;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$59;#GX$58;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$59;#GX$5A;#GX$5B;#GX$5B;#GX$5B;#GX$5B;#GX$5B;#GX$5C(Scorebox)
 
 b $948B Graphics : Start of game options
 D $948B Used by the routine at #R$9ACA
 B $948C,$224,$4
+D $948B #UDGARRAY12,5;#GX$8C;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$8D;#GX$8B;#GX$7F;#GX$80;#GX$7F;#GX$83;#GX$85;#GX$86;#GX$7F;#GX$87;#GX$92;#GX$93;#GX$7E;#GX$8B;#GX$81;#GX$82;#GX$81;#GX$84;#GX$81;#GX$84;#GX$81;#GX$88;#GX$89;#GX$8A;#GX$7E;#GX$8E;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$8F(Opt_1)
+. #UDGARRAY9,7;#GX$75;#GX$6D;#GX$6E;#GX$67;#GX$6E;#GX$76;#GX$6A;#GX$67;#GX0;#GX$7C;#GX$7B;#GX$76;#GX$7A;#GX$7C;#GX$72;#GX$6C;#GX$7A;#GX$70(Opt_2)
+D $948B #UDGARRAY11,7;#GX$5E;#GX$6F;#GX0;#GX$70;#GX$6E;#GX$71;#GX$72;#GX$68;#GX$6C;#GX$6D;#GX$73(Opt_3)
+D $948B #UDGARRAY22,7;#GX$5F;#GX$6F;#GX0;#GX$70;#GX$6E;#GX$74;#GX$75;#GX$67;#GX$6A;#GX$68;#GX$76;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E(Opt_4)
+D $948B #UDGARRAY24,7;#GX$60;#GX$6F;#GX0;#GX$75;#GX$6D;#GX$68;#GX$6A;#GX$6E;#GX$70;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E(Opt_5)
+D $948B #UDGARRAY20,7;#GX$61;#GX$6F;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E;#GX0;#GX$5F(Opt_6)
+D $948B #UDGARRAY7,7;#GX$62;#GX$6F;#GX0;#GX$73;#GX$6E;#GX$74;#GX$68(Opt_7)
 
 b $96B0 Graphics : SCORE
 D $96B0 Used by the routine at #R$9ACA
 B $96B1,$14,$4
-D $96B0 #UDGARRAY5,7;#GFX$67;#GFX$79;#GFX$68;#GFX$6D;#GFX$6E(Score)
+D $96B0 #UDGARRAY5,7;#GX$67;#GX$79;#GX$68;#GX$6D;#GX$6E(Score)
 
 b $96C5 Graphics : Row of bells
 D $96C5 Used by the routine at #R$9ACA
 B $96C6,$90,$4
-D $96C5 #UDGARRAY11,6;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29(Bells)
+D $96C5 #UDGARRAY11,6;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0(Bells)
 
 b $9756 Graphics : Esmerelda
 D $9756 Used by the routine at #R$9ACA
 B $9757,$88,$4
+D $9756 #UDGARRAY4,$3A;#GX0,0;#GX$A0,2;#GX$A1,2;#GX0,0;#GX$A0,2;#GX$A2,2;#GX$A2,2;#GX$A1,2;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$A4,6;#GX$A3,6;#GX$01;#GX$01;#GX$A6,6;#GX$A5,5;#GX$01;#GX$01;#GX$A8,2;#GX$A7,2;#GX$01;#GX$01;#GX$AA,2;#GX$A9,2;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01(Esmerelda)
 
 b $97DF Graphics : HELP
 D $97DF Used by the routine at #R$9ACA
 B $97E0,$10,$4
-D $97DF #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help*)
+D $97DF #UDGARRAY2,2;#GX$AB;#GX$AC;#GX$AD;#GX$AE(Help*)
 
 b $97F0 Graphics : Heart
 D $97F0 Used by the routine at #R$9ACA
 B $97F1,$10,$4
-D $97F0 #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
+D $97F0 #UDGARRAY2,2;#GX$AF;#GX$B0;#GX$B1;#GX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
 
 s $9801
 b $9858 Copy of Quasimodo L

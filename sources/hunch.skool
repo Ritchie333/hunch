@@ -5,7 +5,7 @@
 @replace=/#SPRITE4,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$C0);(\2+$D0);(\2+$E0);(\2+$C8);(\2+$D8);(\2+$E8)
 @replace=/#SPRITE5,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
 @replace=/#SPRITE14,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
-@replace=/#GFX\i/(\1*8+$CD0C)/
+@replace=/#GX\i/(\1*8+$CD0C)/
 ; Loading screen
 ;
 ; #UDGTABLE
@@ -5039,6 +5039,8 @@ b$9088 DEFB $74
 ; Graphics : Ramparts (short) left edge
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,7;#GX$24;#GX$25;#GX$25(Ramparts)
 b$9259 DEFB $09
  $925A DEFB $07,$58,$07,$24
  $925E DEFB $07,$58,$0E,$24
@@ -5054,7 +5056,7 @@ b$9259 DEFB $09
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY1,7;#GFX$24;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25(Pit_left)
+; #UDGARRAY1,7;#GX$24;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25;#GX$25(Pit_left)
 b$927E DEFB $09
  $927F DEFB $07,$58,$09,$24
  $9283 DEFB $07,$60,$09,$25
@@ -5069,6 +5071,8 @@ b$927E DEFB $09
 ; Graphics : Ramparts (long) left edge
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,7;#GX$24;#GX$25;#GX$25;#GX$25(Ramparts_long)
 b$92A3 DEFB $0C
  $92A4 DEFB $07,$58,$07,$24
  $92A8 DEFB $07,$58,$0E,$24
@@ -5111,6 +5115,10 @@ b$92D4 DEFB $14
 ; Graphics : Rampart soldiers
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY2,6;#GX$52;#GX0;#GX$46;#GX0;#GX$47;#GX$48;#GX$49;#GX$4A;#GX$4B;#GX$4C;#GX$4D;#GX$4E(Soldier*)
+; #UDGARRAY2,6;#GX$46;#GX0;#GX$4F;#GX0;#GX$47;#GX$48;#GX$49;#GX$4A;#GX$50;#GX$4C;#GX$51;#GX$4E(Soldier_raised*)
+; #UDGARRAY*(Soldier;Soldier_raised)(Soldier_frames)
 b$9325 DEFB $1E
  $9326 DEFB $00,$48,$08,$52
  $932A DEFB $06,$50,$08,$46
@@ -5146,6 +5154,8 @@ b$9325 DEFB $1E
 ; Graphics : Rampart soldiers raised spears
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,6;#GX$46;#GX$4F(Soldier_spear)
 b$939E DEFB $09
  $939F DEFB $06,$50,$08,$46
  $93A3 DEFB $06,$50,$0F,$46
@@ -5160,6 +5170,8 @@ b$939E DEFB $09
 ; Graphics : Rampart soldiers raised foot
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,6;#GX$50;#GX$51(Soldier_foot)
 b$93C3 DEFB $06
  $93C4 DEFB $06,$68,$08,$50
  $93C8 DEFB $06,$70,$08,$51
@@ -5171,6 +5183,8 @@ b$93C3 DEFB $06
 ; Graphics : Rampart soldiers lowered spears
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,6;#GX$46;#GX$46(Soldier_!spear)
 b$93DC DEFB $09
  $93DD DEFB $06,$50,$08,$4F
  $93E1 DEFB $06,$50,$0F,$4F
@@ -5185,6 +5199,8 @@ b$93DC DEFB $09
 ; Graphics : Rampart soldiers lowered foot
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY1,6;#GX$4B;#GX$4D(Soldier_!foot)
 b$9401 DEFB $06
  $9402 DEFB $06,$68,$08,$4B
  $9406 DEFB $06,$70,$08,$4D
@@ -5196,6 +5212,8 @@ b$9401 DEFB $06
 ; Graphics : End of level score box
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY7,$96;#GX$55;#GX$56;#GX$56;#GX$56;#GX$56;#GX$56;#GX$57;#GX$58;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$59;#GX$58;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$52,7;#GX$59;#GX$5A;#GX$5B;#GX$5B;#GX$5B;#GX$5B;#GX$5B;#GX$5C(Scorebox)
 b$941A DEFB $1C
  $941B DEFB $96,$58,$00,$55
  $941F DEFB $96,$58,$01,$56
@@ -5229,6 +5247,19 @@ b$941A DEFB $1C
 ; Graphics : Start of game options
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY12,5;#GX$8C;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$90;#GX$8D;#GX$8B;#GX$7F;#GX$80;#GX$7F;#GX$83;#GX$85;#GX$86;#GX$7F;#GX$87;#GX$92;#GX$93;#GX$7E;#GX$8B;#GX$81;#GX$82;#GX$81;#GX$84;#GX$81;#GX$84;#GX$81;#GX$88;#GX$89;#GX$8A;#GX$7E;#GX$8E;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$91;#GX$8F(Opt_1)
+; #UDGARRAY9,7;#GX$75;#GX$6D;#GX$6E;#GX$67;#GX$6E;#GX$76;#GX$6A;#GX$67;#GX0;#GX$7C;#GX$7B;#GX$76;#GX$7A;#GX$7C;#GX$72;#GX$6C;#GX$7A;#GX$70(Opt_2)
+; .
+; #UDGARRAY11,7;#GX$5E;#GX$6F;#GX0;#GX$70;#GX$6E;#GX$71;#GX$72;#GX$68;#GX$6C;#GX$6D;#GX$73(Opt_3)
+; .
+; #UDGARRAY22,7;#GX$5F;#GX$6F;#GX0;#GX$70;#GX$6E;#GX$74;#GX$75;#GX$67;#GX$6A;#GX$68;#GX$76;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E(Opt_4)
+; .
+; #UDGARRAY24,7;#GX$60;#GX$6F;#GX0;#GX$75;#GX$6D;#GX$68;#GX$6A;#GX$6E;#GX$70;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E(Opt_5)
+; .
+; #UDGARRAY20,7;#GX$61;#GX$6F;#GX0;#GX$78;#GX$76;#GX$6A;#GX$6E;#GX$6D;#GX$69;#GX$6C;#GX$7A;#GX$6E;#GX0;#GX$5F(Opt_6)
+; .
+; #UDGARRAY7,7;#GX$62;#GX$6F;#GX0;#GX$73;#GX$6E;#GX$74;#GX$68(Opt_7)
 b$948B DEFB $89
  $948C DEFB $05,$00,$00,$8C
  $9490 DEFB $05,$00,$01,$90
@@ -5372,7 +5403,7 @@ b$948B DEFB $89
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY5,7;#GFX$67;#GFX$79;#GFX$68;#GFX$6D;#GFX$6E(Score)
+; #UDGARRAY5,7;#GX$67;#GX$79;#GX$68;#GX$6D;#GX$6E(Score)
 b$96B0 DEFB $05
  $96B1 DEFB $07,$60,$01,$67
  $96B5 DEFB $07,$60,$02,$79
@@ -5384,7 +5415,7 @@ b$96B0 DEFB $05
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY11,6;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29(Bells)
+; #UDGARRAY11,6;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX0;#GX$26;#GX$27;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX0;#GX$28;#GX$29;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0;#GX0;#GX$2A;#GX0(Bells)
 b$96C5 DEFB $24
  $96C6 DEFB $06,$20,$0B,$26
  $96CA DEFB $06,$20,$0C,$27
@@ -5426,6 +5457,8 @@ b$96C5 DEFB $24
 ; Graphics : Esmerelda
 ;
 ; Used by the routine at #R$9ACA
+; .
+; #UDGARRAY4,$3A;#GX0,0;#GX$A0,2;#GX$A1,2;#GX0,0;#GX$A0,2;#GX$A2,2;#GX$A2,2;#GX$A1,2;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$A4,6;#GX$A3,6;#GX$01;#GX$01;#GX$A6,6;#GX$A5,5;#GX$01;#GX$01;#GX$A8,2;#GX$A7,2;#GX$01;#GX$01;#GX$AA,2;#GX$A9,2;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01;#GX$01(Esmerelda)
 b$9756 DEFB $22
  $9757 DEFB $02,$10,$19,$A0
  $975B DEFB $02,$10,$1A,$A1
@@ -5466,7 +5499,7 @@ b$9756 DEFB $22
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help*)
+; #UDGARRAY2,2;#GX$AB;#GX$AC;#GX$AD;#GX$AE(Help*)
 b$97DF DEFB $04
  $97E0 DEFB $02,$20,$15,$AB
  $97E4 DEFB $02,$20,$16,$AC
@@ -5477,7 +5510,7 @@ b$97DF DEFB $04
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
+; #UDGARRAY2,2;#GX$AF;#GX$B0;#GX$B1;#GX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
 b$97F0 DEFB $04
  $97F1 DEFB $02,$20,$15,$AF
  $97F5 DEFB $02,$20,$16,$B0
