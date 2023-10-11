@@ -5560,7 +5560,7 @@ c$9A4C LD B,$20      ;
 
 ; Convert Y co-ordinate to a screen address
 ;
-; Used by the routines at #R$9A90, #R$9B0C and #R$9B2C.
+; Used by the routines at #R$9A90 and #R$9B0C.
 ;
 ; D Y co-ordinate
 ; HL On exit, holds the screen address
@@ -5618,7 +5618,7 @@ c$9A90 PUSH AF       ;
 
 ; Convert a graphic ID to an address in memory
 ;
-; Used by the routines at #R$9A90, #R$9B0C and #R$9B2C.
+; Used by the routines at #R$9A90 and #R$9B0C.
 ;
 ; C Graphic ID
 ; DE On return, holds a memory address
@@ -5723,31 +5723,29 @@ c$9B0C PUSH AF       ;
 ; Game status buffer entry at 9B2B
 g$9B2B DEFB $08
 
-; Routine at 9B2C
-c$9B2C CALL $9A73    ;
- $9B2F LD A,E        ;
- $9B30 ADD A,L       ;
- $9B31 LD L,A        ;
- $9B32 PUSH HL       ;
- $9B33 CALL $9AAE    ;
- $9B36 POP HL        ;
- $9B37 LD B,$08      ;
-*$9B39 LD A,(DE)     ;
- $9B3A CP (HL)       ;
- $9B3B CALL Z,$9B43  ;
- $9B3E INC DE        ;
- $9B3F INC H         ;
- $9B40 DJNZ $9B39    ;
- $9B42 RET           ;
+; Unused
+u$9B2C CALL $9A73
+ $9B2F LD A,E
+ $9B30 ADD A,L
+ $9B31 LD L,A
+ $9B32 PUSH HL
+ $9B33 CALL $9AAE
+ $9B36 POP HL
+ $9B37 LD B,$08
+*$9B39 LD A,(DE)
+ $9B3A CP (HL)
+ $9B3B CALL Z,$9B43
+ $9B3E INC DE
+ $9B3F INC H
+ $9B40 DJNZ $9B39
+ $9B42 RET
 
-; Routine at 9B43
-;
-; Used by the routine at #R$9B2C.
-c$9B43 PUSH HL       ;
- $9B44 LD HL,$9B2B   ;
- $9B47 INC (HL)      ;
- $9B48 POP HL        ;
- $9B49 RET           ;
+; Unused
+u$9B43 PUSH HL
+ $9B44 LD HL,$9B2B
+ $9B47 INC (HL)
+ $9B48 POP HL
+ $9B49 RET
 
 ; Unused
 s$9B4A DEFS $F6
@@ -8100,153 +8098,136 @@ u$D5AC DEFM " LD B,2",$0D,"i2  LD A,(SOL.E)",$0D,"i6  LD E,A",$0D,"i@ CB PUSH BC
  $E5AB DEFM $81,"6  LD A,3",$0D,$81,"@  LD B,9",$0D,$81,"D DFG LD (HL),A",$0D,$81,"H  ADD HL,DE",$0D,$81,"R  DJNZ DFG"
  $E5EC DEFM $0D,$81,"V  RET ",$0D,$81,$60,"  END ",$0D,$FF,$04,$11,$BD,$EB,$1A,$CD,$A7,$FC,"(",$03,$13,$18,$F7
 
-; Routine at E60D
-c$E60D DEC DE        ;
- $E60E EX DE,HL      ;
- $E60F CALL $EC1B    ;
- $E612 LD HL,($EB9A) ;
- $E615 XOR A         ;
- $E616 OR L          ;
- $E617 JP NZ,$EE69   ;
- $E61A ADD A,H       ;
- $E61B JP Z,$EE69    ;
-*$E61E LD ($E600),A  ;
- $E621 LD DE,$0000   ;
- $E624 LD HL,($EB8E) ;
- $E627 INC HL        ;
-*$E628 LD A,(HL)     ;
- $E629 CP $FF        ;
- $E62B JR Z,$E650    ;
- $E62D LD A,($E600)  ;
- $E630 ADD A,E       ;
- $E631 DAA           ;
- $E632 LD E,A        ;
- $E633 JR NC,$E63C   ;
- $E635 LD A,D        ;
- $E636 ADD A,$01     ;
- $E638 DAA           ;
- $E639 LD D,A        ;
- $E63A JR C,$E647    ;
-*$E63C LD (HL),D     ;
- $E63D INC HL        ;
- $E63E LD (HL),E     ;
- $E63F LD A,$0D      ;
- $E641 LD B,$FF      ;
- $E643 CPIR          ;
- $E645 JR $E628      ;
-*$E647 LD A,($E600)  ;
- $E64A SUB $01       ;
- $E64C DAA           ;
- $E64D JR $E61E      ;
+; Unused
+u$E60D DEC DE
+ $E60E EX DE,HL
+ $E60F CALL $EC1B
+ $E612 LD HL,($EB9A)
+ $E615 XOR A
+ $E616 OR L
+ $E617 JP NZ,$EE69
+ $E61A ADD A,H
+ $E61B JP Z,$EE69
+*$E61E LD ($E600),A
+ $E621 LD DE,$0000
+ $E624 LD HL,($EB8E)
+ $E627 INC HL
+*$E628 LD A,(HL)
+ $E629 CP $FF
+ $E62B JR Z,$E650
+ $E62D LD A,($E600)
+ $E630 ADD A,E
+ $E631 DAA
+ $E632 LD E,A
+ $E633 JR NC,$E63C
+ $E635 LD A,D
+ $E636 ADD A,$01
+ $E638 DAA
+ $E639 LD D,A
+ $E63A JR C,$E647
+*$E63C LD (HL),D
+ $E63D INC HL
+ $E63E LD (HL),E
+ $E63F LD A,$0D
+ $E641 LD B,$FF
+ $E643 CPIR
+ $E645 JR $E628
+*$E647 LD A,($E600)
+ $E64A SUB $01
+ $E64C DAA
+ $E64D JR $E61E
 
 ; Unused
 s$E64F DEFS $01
 
-; Routine at E650
-;
-; Used by the routine at #R$E60D.
-c$E650 JP $EE69      ;
-
-; Routine at E653
-c$E653 CP $5B        ;
- $E655 JR C,$E659    ;
- $E657 AND $5F       ;
-*$E659 CP $3A        ;
- $E65B JR NC,$E663   ;
- $E65D CP $30        ;
- $E65F JR C,$E676    ;
- $E661 JR $E66C      ;
-*$E663 CP $41        ;
- $E665 JR C,$E676    ;
- $E667 CP $47        ;
- $E669 CCF           ;
- $E66A JR C,$E676    ;
-*$E66C AND $4F       ;
- $E66E CP $0A        ;
- $E670 JR C,$E674    ;
- $E672 SUB $37       ;
-*$E674 AND A         ;
- $E675 RET           ;
-
-; Routine at E676
-;
-; Used by the routine at #R$E653.
-c$E676 CALL $FC94    ;
- $E679 SCF           ;
- $E67A RET Z         ;
- $E67B JP $F8AC      ;
-
-; Routine at E67E
-c$E67E LD HL,$EC0E   ;
- $E681 LD (HL),$FE   ;
- $E683 LD A,$28      ;
- $E685 LD ($F9A8),A  ;
- $E688 LD BC,$EBC0   ;
- $E68B LD A,(BC)     ;
- $E68C CP $20        ;
- $E68E JR Z,$E69C    ;
- $E690 CALL $EA66    ;
-; This entry point is used by the routine at #R$E69C.
-*$E693 LD HL,$0000   ;
- $E696 LD ($EBAC),HL ;
- $E699 JP $F75B      ;
-
-; Routine at E69C
-;
-; Used by the routine at #R$E67E.
-c$E69C LD A,$18      ;
- $E69E LD ($F9A8),A  ;
- $E6A1 JR $E693      ;
-
-; Routine at E6A3
-c$E6A3 LD A,$7F      ;
- $E6A5 IN A,($FE)    ;
- $E6A7 BIT 2,A       ;
- $E6A9 JR Z,$E6A3    ;
- $E6AB CALL $FE26    ;
- $E6AE RET           ;
+; Unused
+u$E650 JP $EE69
+ $E653 CP $5B
+ $E655 JR C,$E659
+ $E657 AND $5F
+*$E659 CP $3A
+ $E65B JR NC,$E663
+ $E65D CP $30
+ $E65F JR C,$E676
+ $E661 JR $E66C
+*$E663 CP $41
+ $E665 JR C,$E676
+ $E667 CP $47
+ $E669 CCF
+ $E66A JR C,$E676
+*$E66C AND $4F
+ $E66E CP $0A
+ $E670 JR C,$E674
+ $E672 SUB $37
+*$E674 AND A
+ $E675 RET
+*$E676 CALL $FC94
+ $E679 SCF
+ $E67A RET Z
+ $E67B JP $F8AC
+ $E67E LD HL,$EC0E
+ $E681 LD (HL),$FE
+ $E683 LD A,$28
+ $E685 LD ($F9A8),A
+ $E688 LD BC,$EBC0
+ $E68B LD A,(BC)
+ $E68C CP $20
+ $E68E JR Z,$E69C
+ $E690 CALL $EA66
+*$E693 LD HL,$0000
+ $E696 LD ($EBAC),HL
+ $E699 JP $F75B
+*$E69C LD A,$18
+ $E69E LD ($F9A8),A
+ $E6A1 JR $E693
+*$E6A3 LD A,$7F
+ $E6A5 IN A,($FE)
+ $E6A7 BIT 2,A
+ $E6A9 JR Z,$E6A3
+ $E6AB CALL $FE26
+ $E6AE RET
 
 ; Unused
 s$E6AF DEFS $01
 
-; Routine at E6B0
+; Unused
 ;
-; Used by the routine at #R$EC9C.
-c$E6B0 PUSH HL       ;
- $E6B1 LD HL,$EBDF   ;
- $E6B4 LD A,(HL)     ;
- $E6B5 CP $0D        ;
- $E6B7 JR NZ,$E6BB   ;
- $E6B9 LD (HL),$20   ;
-*$E6BB POP HL        ;
- $E6BC LD A,($5CB0)  ;
- $E6BF RET           ;
+; Used by the routine at #R$EB81.
+u$E6B0 PUSH HL
+ $E6B1 LD HL,$EBDF
+ $E6B4 LD A,(HL)
+ $E6B5 CP $0D
+ $E6B7 JR NZ,$E6BB
+ $E6B9 LD (HL),$20
+*$E6BB POP HL
+ $E6BC LD A,($5CB0)
+ $E6BF RET
 
 ; Unused
 s$E6C0 DEFS $01
 
-; Routine at E6C1
-c$E6C1 RES 3,(IY+$30) ;
- $E6C5 CALL $F28D     ;
- $E6C8 RET            ;
+; Unused
+u$E6C1 RES 3,(IY+$30)
+ $E6C5 CALL $F28D
+ $E6C8 RET
 
-; Routine at E6C9
-c$E6C9 LD HL,($5C53) ;
- $E6CC DEC HL        ;
- $E6CD LD ($5C57),HL ;
- $E6D0 INC HL        ;
- $E6D1 LD ($5C4B),HL ;
- $E6D4 LD (HL),$80   ;
- $E6D6 INC HL        ;
- $E6D7 LD ($5C59),HL ;
- $E6DA LD (HL),$0D   ;
- $E6DC INC HL        ;
- $E6DD LD (HL),$80   ;
- $E6DF INC HL        ;
- $E6E0 LD ($5C61),HL ;
- $E6E3 LD ($5C63),HL ;
- $E6E6 LD ($5C65),HL ;
- $E6E9 JP $EE2D      ;
+; Unused
+u$E6C9 LD HL,($5C53)
+ $E6CC DEC HL
+ $E6CD LD ($5C57),HL
+ $E6D0 INC HL
+ $E6D1 LD ($5C4B),HL
+ $E6D4 LD (HL),$80
+ $E6D6 INC HL
+ $E6D7 LD ($5C59),HL
+ $E6DA LD (HL),$0D
+ $E6DC INC HL
+ $E6DD LD (HL),$80
+ $E6DF INC HL
+ $E6E0 LD ($5C61),HL
+ $E6E3 LD ($5C63),HL
+ $E6E6 LD ($5C65),HL
+ $E6E9 JP $EE2D
 
 ; Data block at E6EC
 b$E6EC DEFB $00,$00,$00,$00,$00,$00,$00,$00
@@ -8353,59 +8334,51 @@ b$E6EC DEFB $00,$00,$00,$00,$00,$00,$00,$00
  $EA14 DEFB $20,$20,$20,$20,$20,$20,$20,$20
  $EA1C DEFB $4C
 
-; Routine at EA1D
-c$EA1D LD L,(HL)     ;
- $EA1E OR H          ;
- $EA1F LD (HL),A     ;
- $EA20 LD BC,$0080   ;
- $EA23 NOP           ;
- $EA24 LD A,$20      ;
- $EA26 LD DE,$EA01   ;
- $EA29 LD B,$0A      ;
-*$EA2B LD (DE),A     ;
- $EA2C INC DE        ;
- $EA2D DJNZ $EA2B    ;
- $EA2F CALL $EA34    ;
- $EA32 JR $EA3C      ;
-
-; Routine at EA34
-;
-; Used by the routine at #R$EA1D.
-c$EA34 PUSH HL       ;
-*$EA35 INC HL        ;
- $EA36 CP (HL)       ;
- $EA37 JR Z,$EA35    ;
- $EA39 POP DE        ;
- $EA3A INC DE        ;
- $EA3B RET           ;
-
-; Routine at EA3C
-;
-; Used by the routine at #R$EA1D.
-c$EA3C EX DE,HL      ;
- $EA3D RET NC        ;
- $EA3E EX DE,HL      ;
- $EA3F LD A,$22      ;
- $EA41 CP (HL)       ;
- $EA42 RET NZ        ;
- $EA43 LD BC,$000B   ;
- $EA46 INC HL        ;
- $EA47 PUSH HL       ;
-*$EA48 CPI           ;
- $EA4A JR Z,$EA52    ;
- $EA4C JP PE,$EA48   ;
- $EA4F POP DE        ;
- $EA50 DEC HL        ;
- $EA51 RET           ;
-*$EA52 LD A,$0A      ;
- $EA54 SUB C         ;
- $EA55 LD C,A        ;
- $EA56 POP DE        ;
- $EA57 LD HL,$EA00   ;
- $EA5A LD (HL),$03   ;
- $EA5C INC HL        ;
- $EA5D LD (HL),$FF   ;
- $EA5F EX DE,HL      ;
+; Unused
+u$EA1D LD L,(HL)
+ $EA1E OR H
+ $EA1F LD (HL),A
+ $EA20 LD BC,$0080
+ $EA23 NOP
+ $EA24 LD A,$20
+ $EA26 LD DE,$EA01
+ $EA29 LD B,$0A
+*$EA2B LD (DE),A
+ $EA2C INC DE
+ $EA2D DJNZ $EA2B
+ $EA2F CALL $EA34
+ $EA32 JR $EA3C
+*$EA34 PUSH HL
+*$EA35 INC HL
+ $EA36 CP (HL)
+ $EA37 JR Z,$EA35
+ $EA39 POP DE
+ $EA3A INC DE
+ $EA3B RET
+*$EA3C EX DE,HL
+ $EA3D RET NC
+ $EA3E EX DE,HL
+ $EA3F LD A,$22
+ $EA41 CP (HL)
+ $EA42 RET NZ
+ $EA43 LD BC,$000B
+ $EA46 INC HL
+ $EA47 PUSH HL
+*$EA48 CPI
+ $EA4A JR Z,$EA52
+ $EA4C JP PE,$EA48
+ $EA4F POP DE
+ $EA50 DEC HL
+ $EA51 RET
+*$EA52 LD A,$0A
+ $EA54 SUB C
+ $EA55 LD C,A
+ $EA56 POP DE
+ $EA57 LD HL,$EA00
+ $EA5A LD (HL),$03
+ $EA5C INC HL
+ $EA5D LD (HL),$FF
+ $EA5F EX DE,HL
 
 ; Update state if Quasimodo is near a rope
 ;
@@ -8426,15 +8399,11 @@ c$EA60 LD A,($B9FB)  ;
  $EA79 SLA A         ;
  $EA7B ADD A,$21     ;
  $EA7D LD ($EAB0),A  ;
-; This entry point is used by the routine at #R$ED05.
+; This entry point is used by the routine at #R$EB81.
 *$EA80 LD A,E        ;
  $EA81 LD ($EAB1),A  ;
  $EA84 RET           ;
-
-; Routine at EA85
-;
-; Used by the routine at #R$EA60.
-c$EA85 LD A,($BA4A)  ;
+*$EA85 LD A,($BA4A)  ;
  $EA88 SUB $01       ;
  $EA8A LD B,A        ;
  $EA8B LD A,$80      ;
@@ -8455,8 +8424,13 @@ c$EA85 LD A,($BA4A)  ;
  $EAA7 RET           ;
 
 ; Data block at EAA8
-b$EAA8 DEFB $EA,$C9,$00,$00,$00,$00,$00,$00
- $EAB0 DEFB $21,$0F,$23,$0F,$04,$5C,$FE,$FF
+b$EAA8 DEFB $EA,$C9
+
+; Unused
+s$EAAA DEFS $06
+
+; Data block at EAB0
+b$EAB0 DEFB $21,$0F,$23,$0F,$04,$5C,$FE,$FF
  $EAB8 DEFB $28,$F9,$F5,$F3,$06,$30,$3E,$01
  $EAC0 DEFB $C5,$EE,$10,$D3
 
@@ -8508,7 +8482,7 @@ c$EAF1 LD HL,$5960   ;
  $EB03 JR NZ,$EAF7   ;
  $EB05 RET           ;
 
-; Routine at EB06
+; Check for "left" pressing "4" (?)
 ;
 ; Used by the routine at #R$65BA.
 c$EB06 LD A,$F7      ;
@@ -8517,7 +8491,7 @@ c$EB06 LD A,$F7      ;
  $EB0C JP NZ,$662B   ;
  $EB0F JP $65F1      ;
 
-; Routine at EB12
+; Jump to #R$EB3A
 ;
 ; Used by the routine at #R$662B.
 c$EB12 JR $EB3A      ;
@@ -8525,7 +8499,7 @@ c$EB12 JR $EB3A      ;
 ; Unused
 s$EB14 DEFS $06
 
-; Routine at EB1A
+; Jump to #R$EB46
 ;
 ; Used by the routine at #R$6691.
 c$EB1A JR $EB46      ;
@@ -8533,7 +8507,7 @@ c$EB1A JR $EB46      ;
 ; Unused
 s$EB1C DEFS $04
 
-; Routine at EB20
+; Check for "right" on Protek Interface
 ;
 ; Used by the routine at #R$65BA.
 c$EB20 LD A,$EF      ;
@@ -8542,21 +8516,22 @@ c$EB20 LD A,$EF      ;
  $EB26 JP NZ,$662B   ;
  $EB29 JP $65F1      ;
 
-; Routine at EB2C
+; Check for "left" on Protek Interface
 ;
 ; Used by the routine at #R$662B.
 c$EB2C LD A,$F7      ;
- $EB2E IN A,($FE)    ;
+; This entry point is used by the routine at #R$EB81.
+*$EB2E IN A,($FE)    ;
  $EB30 BIT 4,A       ;
  $EB32 JP NZ,$6691   ;
  $EB35 JP $6652      ;
 
-; Routine at EB38
+; Jump to #R$EB50
 ;
 ; Used by the routine at #R$6691.
 c$EB38 JR $EB50      ;
 
-; Routine at EB3A
+; Check for "left" pressing "1" (?)
 ;
 ; Used by the routine at #R$EB12.
 c$EB3A LD A,$F7      ;
@@ -8565,7 +8540,7 @@ c$EB3A LD A,$F7      ;
  $EB40 JP NZ,$6691   ;
  $EB43 JP $6652      ;
 
-; Routine at EB46
+; Check for "left" pressing "4" (?)
 ;
 ; Used by the routine at #R$EB1A.
 c$EB46 LD A,$F7      ;
@@ -8580,8 +8555,6 @@ c$EB46 LD A,$F7      ;
 u$EB50 DEFM ">",$EF,$DB,$FE,$CB,"G",$C0,$C3,$C3,"fAUTO",$A0,"RENUM",$A0,$A0,"LOAD",$A0,"VERIFY",$A0,"MONITOR",$A0,$D2,$C5,$D4,$D5,$D2,$CE,$A0
 
 ; Routine at EB81
-;
-; Used by the routine at #R$EC6E.
 c$EB81 BIT 6,(IY+$76) ;
  $EB85 RET NZ         ;
  $EB86 EXX            ;
@@ -8590,150 +8563,182 @@ c$EB81 BIT 6,(IY+$76) ;
  $EB8B EX AF,AF'      ;
  $EB8C EXX            ;
  $EB8D RET            ;
-
-; Data block at EB8E
-b$EB8E DEFB $B4,$77,$20,$9C,$FF,$E5,$5C,$F4
- $EB96 DEFB $0F,$00,$55,$AD,$24,$00,$40,$FF
- $EB9E DEFB $02,$B7,$BC,$C2,$C7,$DF,$CF,$FF
- $EBA6 DEFB $07,$EC,$F5,$E5,$4C,$70,$29,$72
- $EBAE DEFB $7C,$60,$08,$5E,$00,$00,$10,$00
- $EBB6 DEFB $0D,$D2,$C5,$D4,$D5,$D2,$CE,$20
- $EBBE DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBC6 DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBCE DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBD6 DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBDE DEFB $20,$0D,$20,$20,$20,$20,$20,$20
- $EBE6 DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBEE DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBF6 DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EBFE DEFB $20,$20,$20,$20,$20,$20,$20,$20
- $EC06 DEFB $20,$0D
-
-; Routine at EC08
-c$EC08 XOR A          ;
+ $EB8E OR H           ;
+ $EB8F LD (HL),A      ;
+ $EB90 JR NZ,$EB2E    ;
+ $EB92 RST $38        ;
+ $EB93 PUSH HL        ;
+ $EB94 LD E,H         ;
+ $EB95 CALL P,$000F   ;
+ $EB98 LD D,L         ;
+ $EB99 XOR L          ;
+ $EB9A INC H          ;
+ $EB9B NOP            ;
+ $EB9C LD B,B         ;
+ $EB9D RST $38        ;
+ $EB9E LD (BC),A      ;
+ $EB9F OR A           ;
+ $EBA0 CP H           ;
+ $EBA1 JP NZ,$DFC7    ;
+ $EBA4 RST $08        ;
+ $EBA5 RST $38        ;
+ $EBA6 RLCA           ;
+ $EBA7 CALL PE,$E5F5  ;
+ $EBAA LD C,H         ;
+ $EBAB LD (HL),B      ;
+ $EBAC ADD HL,HL      ;
+ $EBAD LD (HL),D      ;
+ $EBAE LD A,H         ;
+ $EBAF LD H,B         ;
+ $EBB0 EX AF,AF'      ;
+ $EBB1 LD E,(HL)      ;
+ $EBB2 NOP            ;
+ $EBB3 NOP            ;
+ $EBB4 DJNZ $EBB6     ;
+*$EBB6 DEC C          ;
+ $EBB7 JP NC,$D4C5    ;
+ $EBBA PUSH DE        ;
+ $EBBB JP NC,$20CE    ;
+ $EBBE JR NZ,$EBE0    ;
+ $EBC0 JR NZ,$EBE2    ;
+ $EBC2 JR NZ,$EBE4    ;
+ $EBC4 JR NZ,$EBE6    ;
+ $EBC6 JR NZ,$EBE8    ;
+ $EBC8 JR NZ,$EBEA    ;
+ $EBCA JR NZ,$EBEC    ;
+ $EBCC JR NZ,$EBEE    ;
+ $EBCE JR NZ,$EBF0    ;
+ $EBD0 JR NZ,$EBF2    ;
+ $EBD2 JR NZ,$EBF4    ;
+ $EBD4 JR NZ,$EBF6    ;
+ $EBD6 JR NZ,$EBF8    ;
+ $EBD8 JR NZ,$EBFA    ;
+ $EBDA JR NZ,$EBFC    ;
+ $EBDC JR NZ,$EBFE    ;
+ $EBDE JR NZ,$EBED    ;
+*$EBE0 JR NZ,$EC02    ;
+*$EBE2 JR NZ,$EC04    ;
+*$EBE4 JR NZ,$EC06    ;
+*$EBE6 JR NZ,$EC08    ;
+*$EBE8 JR NZ,$EC0A    ;
+*$EBEA JR NZ,$EC0C    ;
+*$EBEC JR NZ,$EC0E    ;
+*$EBEE JR NZ,$EC10    ;
+*$EBF0 JR NZ,$EC12    ;
+*$EBF2 JR NZ,$EC14    ;
+*$EBF4 JR NZ,$EC16    ;
+*$EBF6 JR NZ,$EC18    ;
+*$EBF8 JR NZ,$EC1A    ;
+*$EBFA JR NZ,$EC1C    ;
+*$EBFC JR NZ,$EC1E    ;
+*$EBFE JR NZ,$EC20    ;
+ $EC00 JR NZ,$EC22    ;
+*$EC02 JR NZ,$EC24    ;
+*$EC04 JR NZ,$EC26    ;
+*$EC06 JR NZ,$EC15    ;
+*$EC08 XOR A          ;
  $EC09 LD (HL),A      ;
- $EC0A OR L           ;
+*$EC0A OR L           ;
  $EC0B LD L,A         ;
- $EC0C AND B          ;
+*$EC0C AND B          ;
  $EC0D LD D,B         ;
- $EC0E RST $38        ;
+*$EC0E RST $38        ;
  $EC0F NOP            ;
- $EC10 BIT 6,(IY+$76) ;
- $EC14 RET Z          ;
- $EC15 PUSH HL        ;
- $EC16 CALL $0ECD     ;
+*$EC10 BIT 6,(IY+$76) ;
+*$EC14 RET Z          ;
+*$EC15 PUSH HL        ;
+*$EC16 CALL $0ECD     ;
  $EC19 POP HL         ;
- $EC1A RET            ;
-
-; Routine at EC1B
-;
-; Used by the routine at #R$E60D.
-c$EC1B EX DE,HL      ;
- $EC1C LD HL,$EB9A   ;
- $EC1F LD (HL),$00   ;
- $EC21 INC HL        ;
- $EC22 LD (HL),$00   ;
- $EC24 LD B,$02      ;
-*$EC26 PUSH BC       ;
- $EC27 LD B,$02      ;
-*$EC29 LD A,(DE)     ;
- $EC2A SUB $30       ;
- $EC2C CP $0A        ;
- $EC2E JR NC,$EC3A   ;
- $EC30 RRD           ;
- $EC32 DEC DE        ;
- $EC33 DJNZ $EC29    ;
- $EC35 DEC HL        ;
- $EC36 POP BC        ;
- $EC37 DJNZ $EC26    ;
- $EC39 RET           ;
-
-; Routine at EC3A
-;
-; Used by the routine at #R$EC1B.
-c$EC3A XOR A         ;
-*$EC3B RRD           ;
- $EC3D DJNZ $EC3B    ;
- $EC3F POP BC        ;
- $EC40 RET           ;
-
-; Routine at EC41
-c$EC41 PUSH DE       ;
- $EC42 LD BC,($EB8E) ;
- $EC46 LD DE,($EB9A) ;
- $EC4A LD A,D        ;
- $EC4B LD D,E        ;
- $EC4C LD E,A        ;
- $EC4D INC BC        ;
-*$EC4E LD A,(BC)     ;
- $EC4F CP $FF        ;
- $EC51 SCF           ;
- $EC52 JR Z,$EC6A    ;
- $EC54 LD H,A        ;
- $EC55 INC BC        ;
- $EC56 LD A,(BC)     ;
- $EC57 LD L,A        ;
- $EC58 AND A         ;
- $EC59 SBC HL,DE     ;
- $EC5B JR NC,$EC69   ;
- $EC5D PUSH BC       ;
- $EC5E POP HL        ;
- $EC5F LD A,$0D      ;
- $EC61 LD B,$FF      ;
- $EC63 CPIR          ;
- $EC65 PUSH HL       ;
- $EC66 POP BC        ;
- $EC67 JR $EC4E      ;
-
-; Routine at EC69
-;
-; Used by the routine at #R$EC41.
-c$EC69 DEC BC        ;
-; This entry point is used by the routine at #R$EC41.
-*$EC6A PUSH BC       ;
- $EC6B POP HL        ;
- $EC6C POP BC        ;
- $EC6D RET           ;
-
-; Routine at EC6E
-c$EC6E PUSH HL       ;
- $EC6F PUSH DE       ;
- $EC70 LD DE,$000D   ;
- $EC73 LD HL,($EBAA) ;
- $EC76 SBC HL,DE     ;
- $EC78 LD DE,($EC0A) ;
- $EC7C SBC HL,DE     ;
- $EC7E POP DE        ;
- $EC7F POP HL        ;
- $EC80 RET NC        ;
- $EC81 CALL $EB81    ;
- $EC84 LD HL,$EC9C   ;
- $EC87 LD DE,$EBB7   ;
- $EC8A LD BC,$000B   ;
- $EC8D LDIR          ;
- $EC8F CALL $FE26    ;
- $EC92 CALL $EB81    ;
- $EC95 LD SP,($EB9C) ;
- $EC99 JP $EE69      ;
-
-; Routine at EC9C
-c$EC9C CALL $CDC5    ;
- $EC9F RST $08       ;
- $ECA0 JP NC,$A0D9   ;
- $ECA3 ADD A,$D5     ;
- $ECA5 CALL Z,$3ECC  ;
- $ECA8 LD ($C0BE),HL ;
- $ECAB PUSH AF       ;
- $ECAC CALL $E6B0    ;
- $ECAF XOR $01       ;
- $ECB1 LD ($5CB0),A  ;
- $ECB4 LD A,$F9      ;
- $ECB6 LD ($EBA3),A  ;
- $ECB9 POP AF        ;
- $ECBA RET           ;
-
-; Routine at ECBB
-c$ECBB PUSH AF        ;
+*$EC1A RET            ;
+ $EC1B EX DE,HL       ;
+*$EC1C LD HL,$EB9A    ;
+ $EC1F LD (HL),$00    ;
+ $EC21 INC HL         ;
+*$EC22 LD (HL),$00    ;
+*$EC24 LD B,$02       ;
+*$EC26 PUSH BC        ;
+ $EC27 LD B,$02       ;
+*$EC29 LD A,(DE)      ;
+ $EC2A SUB $30        ;
+ $EC2C CP $0A         ;
+ $EC2E JR NC,$EC3A    ;
+ $EC30 RRD            ;
+ $EC32 DEC DE         ;
+ $EC33 DJNZ $EC29     ;
+ $EC35 DEC HL         ;
+ $EC36 POP BC         ;
+ $EC37 DJNZ $EC26     ;
+ $EC39 RET            ;
+*$EC3A XOR A          ;
+*$EC3B RRD            ;
+ $EC3D DJNZ $EC3B     ;
+ $EC3F POP BC         ;
+ $EC40 RET            ;
+ $EC41 PUSH DE        ;
+ $EC42 LD BC,($EB8E)  ;
+ $EC46 LD DE,($EB9A)  ;
+ $EC4A LD A,D         ;
+ $EC4B LD D,E         ;
+ $EC4C LD E,A         ;
+ $EC4D INC BC         ;
+*$EC4E LD A,(BC)      ;
+ $EC4F CP $FF         ;
+ $EC51 SCF            ;
+ $EC52 JR Z,$EC6A     ;
+ $EC54 LD H,A         ;
+ $EC55 INC BC         ;
+ $EC56 LD A,(BC)      ;
+ $EC57 LD L,A         ;
+ $EC58 AND A          ;
+ $EC59 SBC HL,DE      ;
+ $EC5B JR NC,$EC69    ;
+ $EC5D PUSH BC        ;
+ $EC5E POP HL         ;
+ $EC5F LD A,$0D       ;
+ $EC61 LD B,$FF       ;
+ $EC63 CPIR           ;
+ $EC65 PUSH HL        ;
+ $EC66 POP BC         ;
+ $EC67 JR $EC4E       ;
+*$EC69 DEC BC         ;
+*$EC6A PUSH BC        ;
+ $EC6B POP HL         ;
+ $EC6C POP BC         ;
+ $EC6D RET            ;
+ $EC6E PUSH HL        ;
+ $EC6F PUSH DE        ;
+ $EC70 LD DE,$000D    ;
+ $EC73 LD HL,($EBAA)  ;
+ $EC76 SBC HL,DE      ;
+ $EC78 LD DE,($EC0A)  ;
+ $EC7C SBC HL,DE      ;
+ $EC7E POP DE         ;
+ $EC7F POP HL         ;
+ $EC80 RET NC         ;
+ $EC81 CALL $EB81     ;
+ $EC84 LD HL,$EC9C    ;
+ $EC87 LD DE,$EBB7    ;
+ $EC8A LD BC,$000B    ;
+ $EC8D LDIR           ;
+ $EC8F CALL $FE26     ;
+ $EC92 CALL $EB81     ;
+ $EC95 LD SP,($EB9C)  ;
+ $EC99 JP $EE69       ;
+ $EC9C CALL $CDC5     ;
+ $EC9F RST $08        ;
+ $ECA0 JP NC,$A0D9    ;
+ $ECA3 ADD A,$D5      ;
+ $ECA5 CALL Z,$3ECC   ;
+ $ECA8 LD ($C0BE),HL  ;
+ $ECAB PUSH AF        ;
+ $ECAC CALL $E6B0     ;
+ $ECAF XOR $01        ;
+ $ECB1 LD ($5CB0),A   ;
+ $ECB4 LD A,$F9       ;
+ $ECB6 LD ($EBA3),A   ;
+ $ECB9 POP AF         ;
+ $ECBA RET            ;
+ $ECBB PUSH AF        ;
  $ECBC PUSH HL        ;
  $ECBD RES 0,(IY+$76) ;
  $ECC1 LD A,$DF       ;
@@ -8743,9 +8748,7 @@ c$ECBB PUSH AF        ;
  $ECCB POP HL         ;
  $ECCC POP AF         ;
  $ECCD RET            ;
-
-; Routine at ECCE
-c$ECCE LD HL,$EBBB    ;
+ $ECCE LD HL,$EBBB    ;
  $ECD1 LD A,$20       ;
  $ECD3 CP (HL)        ;
  $ECD4 JR NZ,$ECFA    ;
@@ -8756,10 +8759,8 @@ c$ECCE LD HL,$EBBB    ;
  $ECDD CP (HL)        ;
  $ECDE JR NZ,$ECFA    ;
  $ECE0 BIT 0,(IY+$76) ;
-; This entry point is used by the routine at #R$ECFE.
 *$ECE4 RET Z          ;
  $ECE5 LD B,$02       ;
-; This entry point is used by the routine at #R$ECFE.
 *$ECE7 LD A,$22       ;
  $ECE9 CP (HL)        ;
  $ECEA INC HL         ;
@@ -8775,117 +8776,86 @@ c$ECCE LD HL,$EBBB    ;
  $ECF8 JR Z,$ECF6     ;
 *$ECFA POP DE         ;
  $ECFB JP $EEA2       ;
-
-; Routine at ECFE
-;
-; Used by the routine at #R$ECCE.
-c$ECFE DJNZ $ECE7    ;
- $ED00 LD A,$20      ;
- $ED02 CP (HL)       ;
- $ED03 JR $ECE4      ;
-
-; Routine at ED05
-c$ED05 CALL $EA80    ;
- $ED08 INC HL        ;
- $ED09 LD A,$20      ;
- $ED0B CP (HL)       ;
- $ED0C LD BC,$06FF   ;
- $ED0F JR Z,$ED17    ;
-*$ED11 DEC B         ;
- $ED12 LDI           ;
- $ED14 CP (HL)       ;
- $ED15 JR NZ,$ED11   ;
-*$ED17 LD (DE),A     ;
- $ED18 INC DE        ;
- $ED19 DJNZ $ED17    ;
- $ED1B LD BC,$05FF   ;
- $ED1E INC HL        ;
- $ED1F CP (HL)       ;
- $ED20 JR Z,$ED28    ;
-*$ED22 DEC B         ;
- $ED23 LDI           ;
- $ED25 CP (HL)       ;
- $ED26 JR NZ,$ED22   ;
-*$ED28 LD (DE),A     ;
- $ED29 INC DE        ;
- $ED2A DJNZ $ED28    ;
- $ED2C INC HL        ;
- $ED2D RET           ;
-
-; Routine at ED2E
-;
-; Used by the routine at #R$ED47.
-c$ED2E LD DE,($EBA6) ;
-*$ED32 LD A,(DE)     ;
- $ED33 XOR (HL)      ;
- $ED34 JR NZ,$ED3A   ;
- $ED36 INC HL        ;
- $ED37 INC DE        ;
- $ED38 JR $ED32      ;
-
-; Routine at ED3A
-;
-; Used by the routine at #R$ED2E.
-c$ED3A RL A          ;
- $ED3C JR NZ,$ED47   ;
- $ED3E INC DE        ;
- $ED3F LD A,(DE)     ;
- $ED40 AND A         ;
- $ED41 CALL $FC99    ;
- $ED44 JR NZ,$ED49   ;
- $ED46 RET           ;
-
-; Routine at ED47
-;
-; Used by the routine at #R$ED3A.
-c$ED47 BIT 7,(HL)    ;
-; This entry point is used by the routine at #R$ED3A.
-*$ED49 INC HL        ;
- $ED4A JR Z,$ED47    ;
- $ED4C INC HL        ;
- $ED4D LD A,(HL)     ;
- $ED4E CP $FF        ;
- $ED50 JR NZ,$ED2E   ;
- $ED52 DEC A         ;
- $ED53 RET           ;
-
-; Routine at ED54
-c$ED54 LD HL,($EBAA) ;
- $ED57 LD ($EBA6),DE ;
-; This entry point is used by the routine at #R$ED81.
-*$ED5B LD BC,$0003   ;
- $ED5E LD DE,($EBA6) ;
-*$ED62 LD A,(DE)     ;
- $ED63 XOR (HL)      ;
- $ED64 JR NZ,$ED6B   ;
- $ED66 INC HL        ;
- $ED67 INC BC        ;
- $ED68 INC DE        ;
- $ED69 JR $ED62      ;
-
-; Routine at ED6B
-;
-; Used by the routine at #R$ED54.
-c$ED6B RL A          ;
- $ED6D JR NZ,$ED81   ;
- $ED6F INC DE        ;
- $ED70 INC BC        ;
- $ED71 LD A,(DE)     ;
- $ED72 CALL $FC99    ;
- $ED75 JR NZ,$ED83   ;
- $ED77 PUSH DE       ;
- $ED78 LD DE,($EBA6) ;
- $ED7C DEC DE        ;
- $ED7D LD A,(DE)     ;
- $ED7E POP DE        ;
- $ED7F SCF           ;
- $ED80 RET           ;
-
-; Routine at ED81
-;
-; Used by the routine at #R$ED6B.
-c$ED81 BIT 7,(HL)     ;
-; This entry point is used by the routine at #R$ED6B.
+*$ECFE DJNZ $ECE7     ;
+ $ED00 LD A,$20       ;
+ $ED02 CP (HL)        ;
+ $ED03 JR $ECE4       ;
+ $ED05 CALL $EA80     ;
+ $ED08 INC HL         ;
+ $ED09 LD A,$20       ;
+ $ED0B CP (HL)        ;
+ $ED0C LD BC,$06FF    ;
+ $ED0F JR Z,$ED17     ;
+*$ED11 DEC B          ;
+ $ED12 LDI            ;
+ $ED14 CP (HL)        ;
+ $ED15 JR NZ,$ED11    ;
+*$ED17 LD (DE),A      ;
+ $ED18 INC DE         ;
+ $ED19 DJNZ $ED17     ;
+ $ED1B LD BC,$05FF    ;
+ $ED1E INC HL         ;
+ $ED1F CP (HL)        ;
+ $ED20 JR Z,$ED28     ;
+*$ED22 DEC B          ;
+ $ED23 LDI            ;
+ $ED25 CP (HL)        ;
+ $ED26 JR NZ,$ED22    ;
+*$ED28 LD (DE),A      ;
+ $ED29 INC DE         ;
+ $ED2A DJNZ $ED28     ;
+ $ED2C INC HL         ;
+ $ED2D RET            ;
+*$ED2E LD DE,($EBA6)  ;
+*$ED32 LD A,(DE)      ;
+ $ED33 XOR (HL)       ;
+ $ED34 JR NZ,$ED3A    ;
+ $ED36 INC HL         ;
+ $ED37 INC DE         ;
+ $ED38 JR $ED32       ;
+*$ED3A RL A           ;
+ $ED3C JR NZ,$ED47    ;
+ $ED3E INC DE         ;
+ $ED3F LD A,(DE)      ;
+ $ED40 AND A          ;
+ $ED41 CALL $FC99     ;
+ $ED44 JR NZ,$ED49    ;
+ $ED46 RET            ;
+*$ED47 BIT 7,(HL)     ;
+*$ED49 INC HL         ;
+ $ED4A JR Z,$ED47     ;
+ $ED4C INC HL         ;
+ $ED4D LD A,(HL)      ;
+ $ED4E CP $FF         ;
+ $ED50 JR NZ,$ED2E    ;
+ $ED52 DEC A          ;
+ $ED53 RET            ;
+ $ED54 LD HL,($EBAA)  ;
+ $ED57 LD ($EBA6),DE  ;
+*$ED5B LD BC,$0003    ;
+ $ED5E LD DE,($EBA6)  ;
+*$ED62 LD A,(DE)      ;
+ $ED63 XOR (HL)       ;
+ $ED64 JR NZ,$ED6B    ;
+ $ED66 INC HL         ;
+ $ED67 INC BC         ;
+ $ED68 INC DE         ;
+ $ED69 JR $ED62       ;
+*$ED6B RL A           ;
+ $ED6D JR NZ,$ED81    ;
+ $ED6F INC DE         ;
+ $ED70 INC BC         ;
+ $ED71 LD A,(DE)      ;
+ $ED72 CALL $FC99     ;
+ $ED75 JR NZ,$ED83    ;
+ $ED77 PUSH DE        ;
+ $ED78 LD DE,($EBA6)  ;
+ $ED7C DEC DE         ;
+ $ED7D LD A,(DE)      ;
+ $ED7E POP DE         ;
+ $ED7F SCF            ;
+ $ED80 RET            ;
+*$ED81 BIT 7,(HL)     ;
 *$ED83 INC HL         ;
  $ED84 JR Z,$ED81     ;
  $ED86 INC HL         ;
@@ -8906,49 +8876,39 @@ c$ED81 BIT 7,(HL)     ;
  $EDA0 JR NZ,$ED9D    ;
  $EDA2 POP DE         ;
  $EDA3 RET            ;
-
-; Routine at EDA4
-;
-; Used by the routine at #R$ED81.
-c$EDA4 POP DE        ;
- $EDA5 JP $F8A4      ;
-
-; Routine at EDA8
-c$EDA8 PUSH DE       ;
- $EDA9 EXX           ;
- $EDAA LD HL,$0000   ;
- $EDAD EXX           ;
- $EDAE LD HL,$EDEA   ;
- $EDB1 LD B,$06      ;
-*$EDB3 PUSH BC       ;
- $EDB4 LD B,(HL)     ;
- $EDB5 INC HL        ;
- $EDB6 LD C,(HL)     ;
- $EDB7 INC HL        ;
- $EDB8 DEC DE        ;
- $EDB9 LD A,(DE)     ;
- $EDBA CP $30        ;
- $EDBC JR C,$EDD5    ;
- $EDBE CP $3A        ;
- $EDC0 JR NC,$EDD5   ;
- $EDC2 SUB $2F       ;
- $EDC4 PUSH BC       ;
- $EDC5 EXX           ;
- $EDC6 POP DE        ;
- $EDC7 LD B,A        ;
- $EDC8 DEC B         ;
- $EDC9 JR Z,$EDCE    ;
-*$EDCB ADD HL,DE     ;
- $EDCC DJNZ $EDCB    ;
-*$EDCE EXX           ;
- $EDCF POP BC        ;
- $EDD0 DJNZ $EDB3    ;
- $EDD2 JP $F8AC      ;
-
-; Routine at EDD5
-;
-; Used by the routine at #R$EDA8.
-c$EDD5 CALL $FC94     ;
+*$EDA4 POP DE         ;
+ $EDA5 JP $F8A4       ;
+ $EDA8 PUSH DE        ;
+ $EDA9 EXX            ;
+ $EDAA LD HL,$0000    ;
+ $EDAD EXX            ;
+ $EDAE LD HL,$EDEA    ;
+ $EDB1 LD B,$06       ;
+*$EDB3 PUSH BC        ;
+ $EDB4 LD B,(HL)      ;
+ $EDB5 INC HL         ;
+ $EDB6 LD C,(HL)      ;
+ $EDB7 INC HL         ;
+ $EDB8 DEC DE         ;
+ $EDB9 LD A,(DE)      ;
+ $EDBA CP $30         ;
+ $EDBC JR C,$EDD5     ;
+ $EDBE CP $3A         ;
+ $EDC0 JR NC,$EDD5    ;
+ $EDC2 SUB $2F        ;
+ $EDC4 PUSH BC        ;
+ $EDC5 EXX            ;
+ $EDC6 POP DE         ;
+ $EDC7 LD B,A         ;
+ $EDC8 DEC B          ;
+ $EDC9 JR Z,$EDCE     ;
+*$EDCB ADD HL,DE      ;
+ $EDCC DJNZ $EDCB     ;
+*$EDCE EXX            ;
+ $EDCF POP BC         ;
+ $EDD0 DJNZ $EDB3     ;
+ $EDD2 JP $F8AC       ;
+*$EDD5 CALL $FC94     ;
  $EDD8 JP NZ,$F8AC    ;
  $EDDB EXX            ;
  $EDDC BIT 2,(IY+$76) ;

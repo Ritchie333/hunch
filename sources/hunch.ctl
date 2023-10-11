@@ -462,8 +462,10 @@ R $9B0C C Graphic ID
 R $9B0C D Y co-ordinate
 R $9B0C E X co-ordinate
 g $9B2B
-c $9B2C
-c $9B43
+u $9B2C Unused
+C $9B2C
+u $9B43 Unused
+C $9B43
 s $9B4A
 
 b $9C40 Title screen
@@ -1010,66 +1012,49 @@ s $D2A4
 u $D5AC
 D $D5AC Disassembly
 T $D5AC
-c $E60D
+u $E60D Unused
+C $E60D
 s $E64F
-c $E650
-c $E653
-c $E676
-c $E67E
-c $E69C
-c $E6A3
+u $E650 Unused
+C $E650
 s $E6AF
-c $E6B0
+u $E6B0 Unused
+C $E6B0
 s $E6C0
-c $E6C1
-c $E6C9
+u $E6C1 Unused
+C $E6C1
+u $E6C9 Unused
+C $E6C9
 b $E6EC
-c $EA1D
-c $EA34
-c $EA3C
-c $EA85
+u $EA1D Unused
+C $EA1D
+u $EAA8 Unused
 b $EAA8
+s $EAAA
+
+b $EAB0
 c $EA60 Update state if Quasimodo is near a rope
 c $EAC4 Flash the wall after dying
 c $EAF1 Fill the wall with an attribute
 R $EAF1 D Value to fill
-c $EB06
-c $EB12
+c $EB06 Check for "left" pressing "4" (?)
+c $EB12 Jump to #R$EB3A
 s $EB14
-c $EB1A
+c $EB1A Jump to #R$EB46
 s $EB1C
-c $EB20
-c $EB2C
-c $EB38
-c $EB3A
-c $EB46
+c $EB20 Check for "right" on Protek Interface
+c $EB2C Check for "left" on Protek Interface
+c $EB38 Jump to #R$EB50
+c $EB3A Check for "left" pressing "1" (?)
+c $EB46 Check for "left" pressing "4" (?)
 
 u $EB50 Unused
 D $EB50 Assembler data
 T $EB50
 
+u $EB81 Unused
 c $EB81
-b $EB8E
-c $EC08
-c $EC1B
-c $EC3A
-c $EC41
-c $EC69
-c $EC6E
-c $EC9C
-c $ECBB
-c $ECCE
-c $ECFE
-c $ED05
-c $ED2E
-c $ED3A
-c $ED47
-c $ED54
-c $ED6B
-c $ED81
-c $EDA4
-c $EDA8
-c $EDD5
+
 u $EDEA Unused
 D $EDEA Assembler data
 T $EDEA
