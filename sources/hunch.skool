@@ -1180,7 +1180,7 @@ g$60A8 DEFB $5D,$5D,$5D,$5D,$5D
 ; Number of bells rung
 g$60AD DEFB $00
 
-; Game status buffer entry at 60AE
+; Time before switching soldier state
 g$60AE DEFB $1E
 
 ; State of rampart soldiers
@@ -1233,10 +1233,10 @@ g$60BD DEFB $90
 ; Chasing knight UDG ID (climbing)
 g$60BE DEFB $94
 
-; Game status buffer entry at 60BF
+; Set to 1 if Quasimodo is on the rope
 g$60BF DEFB $00
 
-; Game status buffer entry at 60C0
+; Set to 1 if Quasimodo died while on the rope
 g$60C0 DEFB $00
 
 ; Game status buffer entry at 60C1
@@ -1251,7 +1251,7 @@ g$60C3 DEFB $05
 ; Set to 1 to put in a row of bells
 g$60C4 DEFB $00
 
-; Game status buffer entry at 60C5
+; Set to 1 if Quasimodo has grabbed a bell on the pit
 g$60C5 DEFB $00
 
 ; Game status buffer entry at 60C6
@@ -1265,7 +1265,7 @@ g$60C7 DEFB $00
 ; Game status buffer entry at 60C8
 g$60C8 DEFB $0A
 
-; Game status buffer entry at 60C9
+; Chasing knight Y co-ordinate
 g$60C9 DEFB $38
 
 ; Chasing knight X co-ordinate
@@ -1274,7 +1274,7 @@ g$60CA DEFB $01
 ; Chasing knight sprite ID (chasing)
 g$60CB DEFB $29
 
-; Time flag (?)
+; Time before chasing knight sprite ID moves forward
 g$60CC DEFB $0F
 
 ; Game status buffer entry at 60CD
@@ -2307,7 +2307,7 @@ c$6820 LD HL,$57DF   ;
  $682F LD A,(HL)     ;
  $6830 RET           ;
 
-; Routine at 6831
+; Throw Quasimodo off the wall as he's died
 ;
 ; Used by the routine at #R$638C.
 c$6831 CALL $647D    ;
@@ -2324,7 +2324,6 @@ c$6831 CALL $647D    ;
  $684A DJNZ $6845    ;
 *$684C LD IX,$BF7C   ;
  $6850 CALL $C15C    ;
-; This entry point is used by the routine at #R$688A.
 *$6853 LD A,($607F)  ;
  $6856 LD D,A        ;
  $6857 LD A,($6081)  ;
@@ -2344,23 +2343,14 @@ c$6831 CALL $647D    ;
  $6875 LD A,($6081)  ;
  $6878 ADD A,$01     ;
  $687A JR $688F      ;
-
-; Routine at 687C
-;
-; Used by the routine at #R$6831.
-c$687C LD A,($60BF)  ;
+*$687C LD A,($60BF)  ;
  $687F CP $00        ;
  $6881 JR Z,$688A    ;
  $6883 LD A,($6081)  ;
  $6886 ADD A,$01     ;
  $6888 JR $688F      ;
-
-; Throw Quasimodo off the wall as he's died
-;
-; Used by the routine at #R$687C.
-c$688A LD A,($6081)  ;
+*$688A LD A,($6081)  ;
  $688D ADD A,$04     ;
-; This entry point is used by the routines at #R$6831 and #R$687C.
 *$688F LD C,A        ;
  $6890 LD A,$04      ;
  $6892 CALL $B798    ;
@@ -2405,7 +2395,7 @@ c$688A LD A,($6081)  ;
 
 ; Reset the level after dying
 ;
-; Used by the routine at #R$688A.
+; Used by the routine at #R$6831.
 c$68E5 CALL $61A6    ;
  $68E8 LD A,($60B0)  ;
  $68EB CP $00        ;
@@ -2457,7 +2447,7 @@ c$68E5 CALL $61A6    ;
  $6957 CALL $707C    ;
  $695A JP $60D2      ;
 
-; Routine at 695D
+; Tidy up after losing a life
 ;
 ; Used by the routine at #R$68E5.
 c$695D CALL $696E    ;
@@ -2554,7 +2544,7 @@ c$696E LD A,$05      ;
  $6A4D LD ($60CB),A  ;
  $6A50 RET           ;
 
-; Level completed (?)
+; Level completed
 ;
 ; Used by the routine at #R$6490.
 c$6A51 LD IX,$BF68   ;
@@ -2652,7 +2642,7 @@ c$6AEB LD A,($60AD)  ;
  $6B05 DJNZ $6AFD    ;
  $6B07 RET           ;
 
-; Routine at 6B08
+; Award the super bonus
 ;
 ; Used by the routine at #R$6A51.
 c$6B08 LD HL,$582A   ;
@@ -2705,7 +2695,7 @@ c$6B08 LD HL,$582A   ;
  $6B73 DEC (HL)      ;
  $6B74 RET           ;
 
-; Routine at 6B75
+; Lower the soldiers' spears
 ;
 ; Used by the routine at #R$6B08.
 c$6B75 LD A,$01      ;
@@ -2718,7 +2708,7 @@ c$6B75 LD A,$01      ;
  $6B8A LD ($60AE),A  ;
  $6B8D RET           ;
 
-; Routine at 6B8E
+; Draw the soldiers attributes (raised)
 ;
 ; Used by the routine at #R$6B08.
 c$6B8E LD HL,$60AE     ;
@@ -2732,7 +2722,7 @@ c$6B8E LD HL,$60AE     ;
  $6BAA LD (IX+$2E),$06 ;
  $6BAE RET             ;
 
-; Routine at 6BAF
+; Draw the soldiers attributes (normal)
 ;
 ; Used by the routine at #R$6B08.
 c$6BAF LD HL,$60AE     ;
@@ -3083,8 +3073,12 @@ c$6DFD LD B,$05      ;
  $6E12 DEC E         ;
  $6E13 POP BC        ;
  $6E14 DJNZ $6E04    ;
-; This entry point is used by the routine at #R$6490.
-*$6E16 LD A,($6080)  ;
+
+; Adjust Quasimodo after grabbing a bell
+;
+; This can be called either during a level with bells, or after completing any
+; level
+c$6E16 LD A,($6080)  ;
  $6E19 CP $0B        ;
  $6E1B JR Z,$6E28    ;
  $6E1D CP $0E        ;
@@ -3131,7 +3125,7 @@ c$6E45 LD A,($607F)  ;
  $6E6D LD ($60C6),A  ;
  $6E70 JP $6465      ;
 
-; Routine at 6E73
+; Draw Quaismodo (alt graphic)
 ;
 ; Used by the routine at #R$638C.
 c$6E73 LD A,($6082)  ;
@@ -3183,7 +3177,7 @@ c$6EA9 CALL $7021    ;
  $6ED3 LD ($60C7),A  ;
  $6ED6 RET           ;
 
-; Routine at 6ED7
+; Draw the chasing knight if it has climbed the wall
 ;
 ; Used by the routines at #R$6127 and #R$6490.
 c$6ED7 LD A,($60CE)  ;
@@ -3211,7 +3205,7 @@ c$6ED7 LD A,($60CE)  ;
  $6F06 LD ($60CE),A  ;
  $6F09 RET           ;
 
-; Routine at 6F0A
+; Draw the chasing knight
 ;
 ; Used by the routine at #R$6ED7.
 c$6F0A LD A,($60C9)  ;
@@ -3281,7 +3275,7 @@ c$6F0A LD A,($60C9)  ;
  $6F88 DJNZ $6F7A    ;
  $6F8A RET           ;
 
-; Routine at 6F8B
+; Move Quasimodo along the rope
 ;
 ; Used by the routine at #R$6490.
 c$6F8B CALL $EA60    ;
@@ -3323,7 +3317,7 @@ c$6F8B CALL $EA60    ;
  $6FE4 CALL $B798    ;
  $6FE7 RET           ;
 
-; Routine at 6FE8
+; Quasimodo has died while on a rope
 ;
 ; Used by the routine at #R$6F8B.
 c$6FE8 LD IX,$607F   ;
@@ -3420,7 +3414,7 @@ c$7095 LD A,(HL)     ;
  $70A0 JR NZ,$7095   ;
  $70A2 RET           ;
 
-; Routine at 70A3
+; See if the room has a pit or rampart, and if so, call the logic for that
 ;
 ; Used by the routine at #R$6490.
 c$70A3 LD A,($60C5)  ;
@@ -3501,7 +3495,7 @@ c$7128 LD A,($6083)  ;
  $712B LD C,A        ;
  $712C RET           ;
 
-; Routine at 712D
+; Display the current level
 ;
 ; Used by the routine at #R$62FD.
 c$712D LD A,($60CF)  ;
@@ -3524,7 +3518,7 @@ c$712D LD A,($60CF)  ;
  $7152 CALL $82DC    ;
  $7155 RET           ;
 
-; Routine at 7156
+; See if Quasimodo has fallen off a ledge
 ;
 ; Used by the routine at #R$70A3.
 c$7156 LD A,($60B1)  ;
@@ -3572,7 +3566,7 @@ c$71A1 LD A,($6081)  ;
  $71A6 JP NZ,$721A   ;
  $71A9 RET           ;
 
-; Routine at 71AA
+; Check the X co-ordinate to see if Quasimodo has fallen
 ;
 ; Used by the routine at #R$7156.
 c$71AA LD A,($6080)  ;
@@ -3608,7 +3602,7 @@ c$71AA LD A,($6080)  ;
  $71F3 JP Z,$721A    ;
  $71F6 RET           ;
 
-; Routine at 71F7
+; Mark Quasimodo as fallen if the sprite ID is 1
 ;
 ; Used by the routine at #R$71AA.
 c$71F7 LD A,($6081)  ;
@@ -3616,7 +3610,7 @@ c$71F7 LD A,($6081)  ;
  $71FC JP Z,$721A    ;
  $71FF RET           ;
 
-; Routine at 7200
+; Mark Quasimodo as fallen if the sprite ID is not 1
 ;
 ; Used by the routine at #R$71AA.
 c$7200 LD A,($6081)  ;
@@ -6633,8 +6627,8 @@ s$B740 DEFS $58
 ; Draw a sprite
 ;
 ; Used by the routines at #R$633B, #R$638C, #R$641D, #R$6490, #R$6715, #R$6831,
-; #R$688A, #R$6BC4, #R$6C3C, #R$6CA1, #R$6E45, #R$6E73, #R$6ED7, #R$6F0A,
-; #R$6F8B and #R$6FE8.
+; #R$6BC4, #R$6C3C, #R$6CA1, #R$6E45, #R$6E73, #R$6ED7, #R$6F0A, #R$6F8B and
+; #R$6FE8.
 ;
 ; A Attribute
 ; C Sprite ID
@@ -7211,7 +7205,7 @@ c$C0C6 CALL $C030    ;
 ; Unused
 s$C0CD DEFS $2B
 
-; Routine at C0F8
+; Beep during the super bonus award
 ;
 ; Used by the routine at #R$6B08.
 c$C0F8 LD A,($C14C)  ;
@@ -7224,12 +7218,7 @@ c$C0F8 LD A,($C14C)  ;
  $C108 JR Z,$C10E    ;
  $C10A LD A,$06      ;
  $C10C JR $C110      ;
-
-; Routine at C10E
-;
-; Used by the routine at #R$C0F8.
-c$C10E LD A,$00      ;
-; This entry point is used by the routine at #R$C0F8.
+*$C10E LD A,$00      ;
 *$C110 LD ($C14D),A  ;
  $C113 LD HL,$580E   ;
  $C116 LD C,$04      ;
@@ -7267,13 +7256,19 @@ c$C12E LD A,$00      ;
  $C148 CALL $C15C    ;
  $C14B RET           ;
 
-; Data block at C14C
-b$C14C DEFB $00,$06,$00,$00,$00,$00,$00,$00
- $C154 DEFB $00,$00,$00,$00,$00,$00,$00,$00
+; Time remaining on the super bonus beep
+g$C14C DEFW $0600
+ $C14E DEFW $0000
+ $C150 DEFW $0000
+ $C152 DEFW $0000
+ $C154 DEFW $0000
+ $C156 DEFW $0000
+ $C158 DEFW $0000
+ $C15A DEFW $0000
 
 ; Play a sound effect
 ;
-; Used by the routines at #R$66C3, #R$6831, #R$6A51, #R$6B08, #R$6DFD, #R$C10E
+; Used by the routines at #R$66C3, #R$6831, #R$6A51, #R$6B08, #R$6E16, #R$C0F8
 ; and #R$C12E.
 ;
 ; IX Pointer to sound data
@@ -8411,8 +8406,11 @@ c$EA3C EX DE,HL      ;
  $EA5C INC HL        ;
  $EA5D LD (HL),$FF   ;
  $EA5F EX DE,HL      ;
-; This entry point is used by the routines at #R$6490 and #R$6F8B.
-*$EA60 LD A,($B9FB)  ;
+
+; Update state if Quasimodo is near a rope
+;
+; Used by the routines at #R$6490 and #R$6F8B.
+c$EA60 LD A,($B9FB)  ;
  $EA63 CP $1C        ;
  $EA65 JR Z,$EA85    ;
  $EA67 LD A,($BA4A)  ;
@@ -8435,7 +8433,7 @@ c$EA3C EX DE,HL      ;
 
 ; Routine at EA85
 ;
-; Used by the routine at #R$EA3C.
+; Used by the routine at #R$EA60.
 c$EA85 LD A,($BA4A)  ;
  $EA88 SUB $01       ;
  $EA8A LD B,A        ;

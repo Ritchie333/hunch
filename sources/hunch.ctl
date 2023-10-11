@@ -59,7 +59,7 @@ g $60A0 Current level
 g $60A1 Score
 g $60A8 Level bonus
 g $60AD Number of bells rung
-g $60AE
+g $60AE Time before switching soldier state
 g $60AF State of rampart soldiers
 D $60AF 0 - none, 1 - spear lowered, 2 - spear raised
 g $60B0 Set to 1 to put soldiers in the ramparts
@@ -78,21 +78,21 @@ g $60BC Score to award (in hundreds)
 g $60BD Chasing knight Y co-ordinate
 D $608D Starts at #N$A0 and decreases to #N$50
 g $60BE Chasing knight UDG ID (climbing)
-g $60BF
-g $60C0
+g $60BF Set to 1 if Quasimodo is on the rope
+g $60C0 Set to 1 if Quasimodo died while on the rope
 g $60C1
 g $60C2 Time before the chasing knight should move
 g $60C3
 g $60C4 Set to 1 to put in a row of bells
-g $60C5
+g $60C5 Set to 1 if Quasimodo has grabbed a bell on the pit
 g $60C6
 g $60C7 Animation state of the "HELP" message on the last level
 D $60C7 Alternates between 0 and 1
 g $60C8
-g $60C9
+g $60C9 Chasing knight Y co-ordinate
 g $60CA Chasing knight X co-ordinate
 g $60CB Chasing knight sprite ID (chasing)
-g $60CC Time flag (?)
+g $60CC Time before chasing knight sprite ID moves forward
 g $60CD
 g $60CE
 g $60CF
@@ -152,22 +152,19 @@ c $6820 Get an attribute from screen
 R $6820 A On exit, holds the chosen attribute
 R $6820 B Y co-ordinate
 R $6820 C X co-ordinate
-c $6831
-c $687C
-
-c $688A Throw Quasimodo off the wall as he's died
+c $6831 Throw Quasimodo off the wall as he's died
 c $68E5 Reset the level after dying
 
-c $695D
+c $695D Tidy up after losing a life
 c $696E Reset all the level flags to default
-c $6A51 Level completed (?)
+c $6A51 Level completed
 c $6AC9 Draw the main paying area
 c $6AD1 Print the score
 c $6AEB Display the score box
-c $6B08
-c $6B75
-c $6B8E
-c $6BAF
+c $6B08 Award the super bonus
+c $6B75 Lower the soldiers' spears
+c $6B8E Draw the soldiers attributes (raised)
+c $6BAF Draw the soldiers attributes (normal)
 c $6BC4 Move fireball or arrow L - R
 c $6C3C Move high fireball or arrow R - L
 c $6CA1 Move high fireball or arrow L - R
@@ -177,30 +174,32 @@ c $6D5B Move the chasing knight
 c $6DBA Move the chasing knight towards Quasimodo
 c $6DDE Adjust level bonus for decimal arithmetic (?)
 c $6DFD Draw the level bonus
+c $6E16 Adjust Quasimodo after grabbing a bell
+D $6E16 This can be called either during a level with bells, or after completing any level
 c $6E45 Draw Quasimodo
-c $6E73
+c $6E73 Draw Quaismodo (alt graphic)
 c $6EA9 Draw the "HELP" message on the last level
-c $6ED7
-c $6F0A
-c $6F8B
-c $6FE8
+c $6ED7 Draw the chasing knight if it has climbed the wall
+c $6F0A Draw the chasing knight
+c $6F8B Move Quasimodo along the rope
+c $6FE8 Quasimodo has died while on a rope
 c $7021 Draw the attributes for the playing area
 c $707C Swap Quasimodo's sprite between the main and working copy
 c $7095 Swap memory
 R $7095 HL Start of first memory
 R $7095 DE Start of second memory
 R $7095 BC Length
-c $70A3
+c $70A3 See if the room has a pit or rampart, and if so, call the logic for that
 c $70CA
 c $7121
 c $7128
-c $712D
-c $7156
+c $712D Display the current level
+c $7156 See if Quasimodo has fallen off a ledge
 c $7174
 c $71A1
-c $71AA 
-c $71F7 
-c $7200 
+c $71AA Check the X co-ordinate to see if Quasimodo has fallen
+c $71F7 Mark Quasimodo as fallen if the sprite ID is 1
+c $7200 Mark Quasimodo as fallen if the sprite ID is not 1
 c $7209 Award an extra life every 10,000 points
 c $721A Mark falling off a ledge
 c $7222 Draw a magenta stripe on the right of the screen
@@ -512,10 +511,10 @@ c $C060
 b $C06B
 c $C0C6
 s $C0CD
-c $C0F8
-c $C10E
+c $C0F8 Beep during the super bonus award
 c $C12E
-b $C14C
+g $C14C Time remaining on the super bonus beep
+W $C14C 
 c $C15C Play a sound effect
 R $C15C IX Pointer to sound data
 c $C182 Play a note in the sound data
@@ -1014,6 +1013,7 @@ c $EA34
 c $EA3C
 c $EA85
 b $EAA8
+c $EA60 Update state if Quasimodo is near a rope
 c $EAC4 Flash the wall after dying
 c $EAF1 Fill the wall with an attribute
 R $EAF1 D Value to fill
