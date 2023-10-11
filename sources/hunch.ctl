@@ -16,6 +16,7 @@ D $4000 #UDGTABLE { #SCR2(loading) } TABLE#
 u $5B00 Unused
 
 c $607C Main entry point 1
+D $607C The game starts here after it has loaded
 
 g $607F Quasimodo Y co-ordinate
 D $607F Values are between #N$38 (floor) and #N$26 (maximum)
@@ -195,12 +196,12 @@ c $712D
 c $7156
 c $7174
 c $71A1
-c $71AA
-c $71F7
-c $7200
+c $71AA 
+c $71F7 
+c $7200 
 c $7209 Award an extra life every 10,000 points
 c $721A Mark falling off a ledge
-c $7222
+c $7222 Draw a magenta stripe on the right of the screen
 c $7231
 u $7238
 D $7238 Disassembly
@@ -418,7 +419,7 @@ D $97F0 #UDGARRAY2,2;#GX$AF;#GX$B0;#GX$B1;#GX$B2(Heart*)#UDGARRAY*(Help;Heart)(H
 
 s $9801
 b $9858 Copy of Quasimodo L
-b $99D8
+s $99D8
 c $9A4C Print the main wall
 R $94AC IX Pointer to graphic buffer
 c $9A73 Convert Y co-ordinate to a screen address
@@ -987,13 +988,10 @@ s $D2A4
 u $D5AC
 D $D5AC Disassembly
 T $D5AC
-c $E5F2
 c $E60D
-c $E647
 s $E64F
 c $E650
 c $E653
-c $E663
 c $E676
 c $E67E
 c $E69C
@@ -1004,41 +1002,6 @@ s $E6C0
 c $E6C1
 c $E6C9
 b $E6EC
-t $E709
-b $E70D
-t $E731
-b $E735
-t $E742
-b $E746
-t $E74A
-b $E74E
-t $E78B
-b $E78F
-t $E849
-b $E84F
-t $E8A2
-b $E8A7
-t $E8C2
-b $E8C6
-t $E8CB
-b $E8CF
-t $E8D9
-b $E8DF
-t $E8EA
-b $E8EE
-t $E8F4
-b $E8F7
-t $E94C
-b $E94F
-t $E9A1
-b $E9A6
-t $E9C3
-b $E9C6
-t $E9DC
-b $E9DF
-t $EA02
-b $EA0B
-t $EA12
 c $EA1D
 c $EA34
 c $EA3C
@@ -1056,22 +1019,11 @@ c $EB2C
 c $EB38
 c $EB3A
 c $EB46
-c $EB50
-t $EB5A
-b $EB5E
-t $EB5F
-b $EB64
-t $EB66
-b $EB6A
-t $EB6B
-b $EB71
-t $EB72
-c $EB79
+u $EB50 Unused
+D $EB50 Assembler data
+T $EB50
+c $EB81
 b $EB8E
-t $EBBD
-b $EBDF
-t $EBE0
-b $EC07
 c $EC08
 c $EC1B
 c $EC3A
@@ -1092,9 +1044,9 @@ c $ED81
 c $EDA4
 c $EDA8
 c $EDD5
-b $EDEA
-t $EE08
-b $EE2D
-t $EE3F
-b $EE44
+u $EDEA Unused
+D $EDEA Assembler data
+T $EDEA
+u $EE45 Unused
+C $EE45
 i $EE48
