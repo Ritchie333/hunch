@@ -100,8 +100,10 @@ g $60D0 Set to 1 if awarding extra life
 g $60D1 Set to 1 if Quasimodo has fallen off a ledge
 
 c $60D2 Main entry point 2
+D $60D2 This entry point is called at the start of each level, or after losing a life
+c $6120 Start the game
 
-c $6127 Start the game
+c $6127 Run the demo
 c $619A Reset to level 1
 c $61A6 Set up the playing field
 c $61C4 Set up level 2
@@ -122,11 +124,11 @@ D $62C8 Draw Esmerelda if it's the final level
 c $62F0 Reset back to level 1 and run it
 c $62FD Draw the game stats
 c $633B Start a game
-c $639F Move fireball or arrow L - R
+c $638C Main loop (1)
 c $641D Redraw Quasimodo while jumping
 c $646A Copy player's co-ordinates to a test buffer
 c $647D Copy player's co-ordinates from a test buffer
-c $6490 Update all the objects on screen
+c $6490 Main loop (2) - Update all objects on screen
 c $65BA Check for moving right
 c $65F1 Move right
 c $6620 Handle state wrap-around moving right
@@ -152,10 +154,10 @@ R $6820 B Y co-ordinate
 R $6820 C X co-ordinate
 c $6831
 c $687C
-c $688A
-c $68C5
-c $68D3
-c $68E5 Initialize the game
+
+c $688A Throw Quasimodo off the wall as he's died
+c $68E5 Reset the level after dying
+
 c $695D
 c $696E Reset all the level flags to default
 c $6A51 Level completed (?)
@@ -175,7 +177,7 @@ c $6D5B Move the chasing knight
 c $6DBA Move the chasing knight towards Quasimodo
 c $6DDE Adjust level bonus for decimal arithmetic (?)
 c $6DFD Draw the level bonus
-c $6E45
+c $6E45 Draw Quasimodo
 c $6E73
 c $6EA9 Draw the "HELP" message on the last level
 c $6ED7
@@ -267,7 +269,7 @@ b $89D8 Rampart with soldiers wall graphics
 B $89D8,$60,$3
 
 s $8A38
-c $8A48
+c $8A48 End the game after all lives have been lost
 c $8A71 Put the score on the high score table if necessary
 c $8B0C
 c $8B25
@@ -275,57 +277,62 @@ g $8B2B
 c $8B2C
 c $8B42
 c $8B4B
-c $8B4F
-c $8B5F
-c $8BA4
-c $8BC4
-c $8BF1
-c $8BFC
-c $8C13
-c $8C38
-c $8C45
-b $8C52
-t $8C54
-b $8C70
-t $8C73
-b $8C7F
-t $8C82
-b $8C8E
-t $8C91
-b $8C9D
-t $8CA0
-b $8CAC
-t $8CAF
-b $8CBB
-t $8CBE
-b $8CC5
-t $8CC8
-b $8CCF
-t $8CD2
-b $8CD9
-t $8CDC
-b $8CE3
-t $8CE6
-b $8CED
-t $8CF0
-b $8CFA
-t $8D11
-b $8D17
-t $8D1A
-b $8D21
-t $8D24
-b $8D2C
-t $8D2F
-b $8D38
-t $8D3B
-b $8D48
-t $8D4B
-b $8D57
-t $8D5A
-c $8D61
+
+c $8B4F Display the high score table
+c $8B5F Input a new entry in the high score table
+C $8BA4 Add the selected character to the new high score name
+
+c $8BC4 Display an entry in the high score table
+R $8BC4 IX Pointer to high score data
+D $8BC4 Used by the routine in #R$8B4F.
+D $8BC4 The data has the format
+. #TABLE()
+. {=h Offset | =h Value }
+. { 0 | Y co-ordinate }
+. { 1 | X co-ordinate }
+. { 2 - | The string to print, ending with #N$FF }
+. TABLE#
+c $8BF1 Display a character in the high score table
+R $8BF1 HL Location on screen to print
+R $8BF1 DE Address in the character set (relative to #N$3D00) to display
+c $8BFC Convert a Y co-ordinate to a screen address
+R $8BFC D Row to Convert
+R $8BFC HL On exit, holds the screen address
+c $8C13 Enter a character for the new high score name
+c $8C38 Move the high score entry cursor right
+c $8C45 Move the high score entry cursor left
+
+t $8C52 High score 00 - text : A-Z
+t $8C71 High score 01 - name 1
+t $8C80 High score 02 - name 2
+t $8C8F High score 03 - name 3
+t $8C9E High score 04 - name 4
+t $8CAD High score 05 - name 5
+t $8CBC High score 06 - value 1
+t $8CC6 High score 07 - value 2
+t $8CD0 High score 08 - value 3
+t $8CDA High score 09 - value 4
+t $8CE4 High score 0A - value 5
+t $8CEE High score 0B - "HIGH SCORE"
+t $8CFB High score 0C - "1"
+t $8CFF High score 0D - "2"
+t $8D03 High score 0E - "3"
+t $8D07 High score 0F - "4"
+t $8D0B High score 10 - "5"
+t $8D0F High score 11 - "Q-LEFT"
+t $8D18 High score 12 - "W-RIGHT"
+t $8D22 High score 13 - "0-DELETE"
+t $8D2D High score 14 - "ENTER-END"
+t $8D39 High score 15 - "S SHIFT-SELCT"
+t $8D49 High score 16 - Numbers
+t $8D58 Unused
+t $8D59 Unused
+t $8D5A Score text
+
+c $8D61 Clear the screen blue (for high score display)
 c $8D78 Clear the screen
 s $8D80
-c $8DCC
+c $8DCC Display the high score table in demo mode
 s $8DED
 
 b $9088 Graphics : Main playing area
@@ -1007,8 +1014,9 @@ c $EA34
 c $EA3C
 c $EA85
 b $EAA8
-c $EAB0
-c $EAF1
+c $EAC4 Flash the wall after dying
+c $EAF1 Fill the wall with an attribute
+R $EAF1 D Value to fill
 c $EB06
 c $EB12
 s $EB14
@@ -1019,9 +1027,11 @@ c $EB2C
 c $EB38
 c $EB3A
 c $EB46
+
 u $EB50 Unused
 D $EB50 Assembler data
 T $EB50
+
 c $EB81
 b $EB8E
 c $EC08

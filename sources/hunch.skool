@@ -1294,7 +1294,7 @@ g$60D1 DEFB $00
 
 ; Main entry point 2
 ;
-; Used by the routines at #R$607C, #R$619A and #R$68E5.
+; This entry point is called at the start of each level, or after losing a life
 c$60D2 LD HL,$9C40   ;
  $60D5 LD DE,$4000   ;
  $60D8 LD BC,$1B00   ;
@@ -1329,12 +1329,15 @@ c$60D2 LD HL,$9C40   ;
 *$611A CP $04        ;
  $611C JR NZ,$60EF   ;
  $611E JR $6127      ;
-; This entry point is used by the routines at #R$695D and #R$6A51.
-*$6120 NOP           ;
+
+; Start the game
+;
+; Used by the routines at #R$60D2, #R$695D and #R$6A51.
+c$6120 NOP           ;
  $6121 CALL $0DAF    ;
  $6124 JP $633B      ;
 
-; Start the game
+; Run the demo
 ;
 ; Used by the routine at #R$60D2.
 c$6127 CALL $8DCC    ;
@@ -1622,7 +1625,7 @@ c$62FD CALL $6AD1    ;
 
 ; Start a game
 ;
-; Used by the routine at #R$60D2.
+; Used by the routine at #R$6120.
 c$633B CALL $61A6    ;
  $633E CALL $62FD    ;
  $6341 LD A,($607F)  ;
@@ -1667,8 +1670,11 @@ c$633B CALL $61A6    ;
  $6388 LD D,A        ;
  $6389 POP BC        ;
  $638A DJNZ $6370    ;
-; This entry point is used by the routine at #R$6490.
-*$638C LD A,($60B1)  ;
+
+; Main loop (1)
+;
+; Used by the routine at #R$6490.
+c$638C LD A,($60B1)  ;
  $638F CP $00        ;
  $6391 JR NZ,$639F   ;
  $6393 LD A,($60C4)  ;
@@ -1676,12 +1682,7 @@ c$633B CALL $61A6    ;
  $6398 JR NZ,$639F   ;
  $639A CALL $677A    ;
  $639D JR $63A2      ;
-
-; Move fireball or arrow L - R
-;
-; Used by the routine at #R$633B.
-c$639F CALL $70CA    ;
-; This entry point is used by the routine at #R$633B.
+*$639F CALL $70CA    ;
 *$63A2 LD A,($609F)  ;
  $63A5 CP $00        ;
  $63A7 JP NZ,$6831   ;
@@ -1738,7 +1739,7 @@ c$639F CALL $70CA    ;
 
 ; Redraw Quasimodo while jumping
 ;
-; Used by the routines at #R$639F, #R$6E73 and #R$6FE8.
+; Used by the routines at #R$638C, #R$6E73 and #R$6FE8.
 c$641D LD A,($6085)  ;
  $6420 CP $02        ;
  $6422 JR NZ,$642E   ;
@@ -1771,7 +1772,7 @@ c$641D LD A,($6085)  ;
  $645F LD C,A        ;
  $6460 LD A,$04      ;
  $6462 CALL $B798    ;
-; This entry point is used by the routines at #R$639F and #R$6E45.
+; This entry point is used by the routines at #R$638C and #R$6E45.
 *$6465 CALL $646A    ;
  $6468 JR $6490      ;
 
@@ -1797,9 +1798,9 @@ c$647D LD A,($6083)  ;
  $648C LD ($6081),A  ;
  $648F RET           ;
 
-; Update all the objects on screen
+; Main loop (2) - Update all objects on screen
 ;
-; Used by the routines at #R$639F and #R$641D.
+; Used by the routines at #R$638C and #R$641D.
 c$6490 LD A,($6080)  ;
  $6493 CP $1A        ;
  $6495 JR NZ,$649F   ;
@@ -2182,7 +2183,7 @@ c$6715 LD A,($609B)  ;
 
 ; Draw a row of bells
 ;
-; Used by the routines at #R$633B and #R$6490.
+; Used by the routines at #R$638C and #R$6490.
 c$677A LD A,($6082)  ;
  $677D LD B,$00      ;
 *$677F SUB $08       ;
@@ -2308,7 +2309,7 @@ c$6820 LD HL,$57DF   ;
 
 ; Routine at 6831
 ;
-; Used by the routine at #R$639F.
+; Used by the routine at #R$638C.
 c$6831 CALL $647D    ;
  $6834 LD A,$00      ;
  $6836 LD ($609F),A  ;
@@ -2323,7 +2324,7 @@ c$6831 CALL $647D    ;
  $684A DJNZ $6845    ;
 *$684C LD IX,$BF7C   ;
  $6850 CALL $C15C    ;
-; This entry point is used by the routine at #R$68D3.
+; This entry point is used by the routine at #R$688A.
 *$6853 LD A,($607F)  ;
  $6856 LD D,A        ;
  $6857 LD A,($6081)  ;
@@ -2354,7 +2355,7 @@ c$687C LD A,($60BF)  ;
  $6886 ADD A,$01     ;
  $6888 JR $688F      ;
 
-; Routine at 688A
+; Throw Quasimodo off the wall as he's died
 ;
 ; Used by the routine at #R$687C.
 c$688A LD A,($6081)  ;
@@ -2387,23 +2388,14 @@ c$688A LD A,($6081)  ;
  $68BE LD A,($6081)  ;
  $68C1 ADD A,$01     ;
  $68C3 JR $68D8      ;
-
-; Routine at 68C5
-;
-; Used by the routine at #R$688A.
-c$68C5 LD A,($60BF)  ;
+*$68C5 LD A,($60BF)  ;
  $68C8 CP $00        ;
  $68CA JR Z,$68D3    ;
  $68CC LD A,($6081)  ;
  $68CF ADD A,$01     ;
  $68D1 JR $68D8      ;
-
-; Routine at 68D3
-;
-; Used by the routine at #R$68C5.
-c$68D3 LD A,($6081)  ;
+*$68D3 LD A,($6081)  ;
  $68D6 ADD A,$04     ;
-; This entry point is used by the routines at #R$688A and #R$68C5.
 *$68D8 LD C,A        ;
  $68D9 LD A,($6080)  ;
  $68DC LD E,A        ;
@@ -2411,7 +2403,7 @@ c$68D3 LD A,($6081)  ;
  $68DF CALL $B798    ;
  $68E2 JP $6853      ;
 
-; Initialize the game
+; Reset the level after dying
 ;
 ; Used by the routine at #R$688A.
 c$68E5 CALL $61A6    ;
@@ -3114,9 +3106,9 @@ c$6DFD LD B,$05      ;
  $6E41 CALL $C15C    ;
  $6E44 RET           ;
 
-; Routine at 6E45
+; Draw Quasimodo
 ;
-; Used by the routine at #R$639F.
+; Used by the routine at #R$638C.
 c$6E45 LD A,($607F)  ;
  $6E48 LD D,A        ;
  $6E49 LD A,($6080)  ;
@@ -3141,7 +3133,7 @@ c$6E45 LD A,($607F)  ;
 
 ; Routine at 6E73
 ;
-; Used by the routine at #R$639F.
+; Used by the routine at #R$638C.
 c$6E73 LD A,($6082)  ;
  $6E76 LD D,A        ;
  $6E77 LD A,($6084)  ;
@@ -3453,7 +3445,7 @@ c$70A3 LD A,($60C5)  ;
 
 ; Routine at 70CA
 ;
-; Used by the routine at #R$639F.
+; Used by the routine at #R$638C.
 c$70CA LD A,($6082)  ;
  $70CD CP $2D        ;
  $70CF JR NC,$70D4   ;
@@ -4388,7 +4380,7 @@ b$89D8 DEFB $0A,$58,$00
 ; Unused
 s$8A38 DEFS $10
 
-; Routine at 8A48
+; End the game after all lives have been lost
 ;
 ; Used by the routine at #R$68E5.
 c$8A48 CALL $8D61    ;
@@ -4565,7 +4557,7 @@ c$8B4B LD A,$00      ;
  $8B4D POP BC        ;
  $8B4E RET           ;
 
-; Routine at 8B4F
+; Display the high score table
 ;
 ; Used by the routine at #R$8A71.
 c$8B4F LD IX,$8C52   ;
@@ -4577,7 +4569,7 @@ c$8B4F LD IX,$8C52   ;
  $8B5C DJNZ $8B55    ;
  $8B5E RET           ;
 
-; Routine at 8B5F
+; Input a new entry in the high score table
 ;
 ; Used by the routine at #R$8A71.
 c$8B5F LD HL,$8D49   ;
@@ -4591,7 +4583,6 @@ c$8B5F LD HL,$8D49   ;
  $8B6F CALL $8BC4    ;
  $8B72 LD DE,$8D4B   ;
  $8B75 LD HL,$5A22   ;
-; This entry point is used by the routine at #R$8BA4.
 *$8B78 PUSH DE       ;
  $8B79 PUSH HL       ;
 *$8B7A CALL $028E    ;
@@ -4618,11 +4609,7 @@ c$8B5F LD HL,$8D49   ;
  $8BA0 POP HL        ;
  $8BA1 POP DE        ;
  $8BA2 JR $8B78      ;
-
-; Routine at 8BA4
-;
-; Used by the routine at #R$8B5F.
-c$8BA4 PUSH HL       ;
+*$8BA4 PUSH HL       ; {Add the selected character to the new high score name
  $8BA5 PUSH DE       ;
  $8BA6 LD DE,$5A22   ;
  $8BA9 SBC HL,DE     ;
@@ -4641,11 +4628,21 @@ c$8BA4 PUSH HL       ;
  $8BBE LD A,E        ;
  $8BBF CP $57        ;
  $8BC1 RET Z         ;
- $8BC2 JR $8B78      ;
+ $8BC2 JR $8B78      ; }
 
-; Routine at 8BC4
+; Display an entry in the high score table
 ;
-; Used by the routines at #R$8B4F, #R$8B5F, #R$8BA4 and #R$8DCC.
+; Used by the routine in #R$8B4F.
+; .
+; The data has the format
+; #TABLE()
+; {=h Offset | =h Value }
+; { 0 | Y co-ordinate }
+; { 1 | X co-ordinate }
+; { 2 - | The string to print, ending with #N$FF }
+; TABLE#
+;
+; IX Pointer to high score data
 c$8BC4 LD D,(IX+$00) ;
  $8BC7 CALL $8BFC    ;
  $8BCA LD E,(IX+$01) ;
@@ -4673,9 +4670,12 @@ c$8BC4 LD D,(IX+$00) ;
  $8BEE INC HL        ;
  $8BEF JR $8BD4      ;
 
-; Routine at 8BF1
+; Display a character in the high score table
 ;
 ; Used by the routine at #R$8BC4.
+;
+; HL Location on screen to print
+; DE Address in the character set (relative to #N$3D00) to display
 c$8BF1 PUSH HL       ;
  $8BF2 LD B,$08      ;
 *$8BF4 LD A,(DE)     ;
@@ -4686,9 +4686,12 @@ c$8BF1 PUSH HL       ;
  $8BFA POP HL        ;
  $8BFB RET           ;
 
-; Routine at 8BFC
+; Convert a Y co-ordinate to a screen address
 ;
 ; Used by the routine at #R$8BC4.
+;
+; D Row to Convert
+; HL On exit, holds the screen address
 c$8BFC LD A,D        ;
  $8BFD AND $18       ;
  $8BFF LD H,A        ;
@@ -4704,7 +4707,7 @@ c$8BFC LD A,D        ;
  $8C11 ADD HL,DE     ;
  $8C12 RET           ;
 
-; Routine at 8C13
+; Enter a character for the new high score name
 ;
 ; Used by the routines at #R$8B5F, #R$8C38 and #R$8C45.
 c$8C13 LD (HL),$39   ;
@@ -4730,7 +4733,7 @@ c$8C13 LD (HL),$39   ;
  $8C35 RET Z         ;
  $8C36 JR $8C13      ;
 
-; Routine at 8C38
+; Move the high score entry cursor right
 ;
 ; Used by the routine at #R$8C13.
 c$8C38 LD A,L        ;
@@ -4741,7 +4744,7 @@ c$8C38 LD A,L        ;
 *$8C42 INC L         ;
  $8C43 JR $8C13      ;
 
-; Routine at 8C45
+; Move the high score entry cursor left
 ;
 ; Used by the routine at #R$8C13.
 c$8C45 LD A,L        ;
@@ -4752,123 +4755,85 @@ c$8C45 LD A,L        ;
 *$8C4F DEC L         ;
  $8C50 JR $8C13      ;
 
-; Data block at 8C52
-b$8C52 DEFB $11,$02
+; High score 00 - text : A-Z
+t$8C52 DEFM $11,$02,"ABCDEFGHIJKLMNOPQRSTUVWXYZ .",$FF
 
-; Message at 8C54
-t$8C54 DEFM "ABCDEFGHIJKLMNOPQRSTUVWXYZ ."
+; High score 01 - name 1
+t$8C71 DEFM $04,$04,"Paul Owens  ",$FF
 
-; Data block at 8C70
-b$8C70 DEFB $FF,$04,$04
+; High score 02 - name 2
+t$8C80 DEFM $06,$04,"Mandy !     ",$FF
 
-; Message at 8C73
-t$8C73 DEFM "Paul Owens  "
+; High score 03 - name 3
+t$8C8F DEFM $08,$04,"Pam         ",$FF
 
-; Data block at 8C7F
-b$8C7F DEFB $FF,$06,$04
+; High score 04 - name 4
+t$8C9E DEFM $0A,$04,"Richard Kay ",$FF
 
-; Message at 8C82
-t$8C82 DEFM "Mandy !     "
+; High score 05 - name 5
+t$8CAD DEFM $0C,$04,"Arthur      ",$FF
 
-; Data block at 8C8E
-b$8C8E DEFB $FF,$08,$04
+; High score 06 - value 1
+t$8CBC DEFM $04,$12,"0006000",$FF
 
-; Message at 8C91
-t$8C91 DEFM "Pam         "
+; High score 07 - value 2
+t$8CC6 DEFM $06,$12,"0006000",$FF
 
-; Data block at 8C9D
-b$8C9D DEFB $FF,$0A,$04
+; High score 08 - value 3
+t$8CD0 DEFM $08,$12,"0006000",$FF
 
-; Message at 8CA0
-t$8CA0 DEFM "Richard Kay "
+; High score 09 - value 4
+t$8CDA DEFM $0A,$12,"0006000",$FF
 
-; Data block at 8CAC
-b$8CAC DEFB $FF,$0C,$04
+; High score 0A - value 5
+t$8CE4 DEFM $0C,$12,"0006000",$FF
 
-; Message at 8CAF
-t$8CAF DEFM "Arthur      "
+; High score 0B - "HIGH SCORE"
+t$8CEE DEFM $01,$0B,"HIGH SCORE",$FF
 
-; Data block at 8CBB
-b$8CBB DEFB $FF,$04,$12
+; High score 0C - "1"
+t$8CFB DEFM $04,$01,"1",$FF
 
-; Message at 8CBE
-t$8CBE DEFM "0006000"
+; High score 0D - "2"
+t$8CFF DEFM $06,$01,"2",$FF
 
-; Data block at 8CC5
-b$8CC5 DEFB $FF,$06,$12
+; High score 0E - "3"
+t$8D03 DEFM $08,$01,"3",$FF
 
-; Message at 8CC8
-t$8CC8 DEFM "0006000"
+; High score 0F - "4"
+t$8D07 DEFM $0A,$01,"4",$FF
 
-; Data block at 8CCF
-b$8CCF DEFB $FF,$08,$12
+; High score 10 - "5"
+t$8D0B DEFM $0C,$01,"5",$FF
 
-; Message at 8CD2
-t$8CD2 DEFM "0006000"
+; High score 11 - "Q-LEFT"
+t$8D0F DEFM $15,$02,"Q-LEFT",$FF
 
-; Data block at 8CD9
-b$8CD9 DEFB $FF,$0A,$12
+; High score 12 - "W-RIGHT"
+t$8D18 DEFM $16,$02,"W-RIGHT",$FF
 
-; Message at 8CDC
-t$8CDC DEFM "0006000"
+; High score 13 - "0-DELETE"
+t$8D22 DEFM $17,$02,"0-DELETE",$FF
 
-; Data block at 8CE3
-b$8CE3 DEFB $FF,$0C,$12
+; High score 14 - "ENTER-END"
+t$8D2D DEFM $16,$10,"ENTER-END",$FF
 
-; Message at 8CE6
-t$8CE6 DEFM "0006000"
+; High score 15 - "S SHIFT-SELCT"
+t$8D39 DEFM $17,$10,"S SHIFT-SELCT",$FF
 
-; Data block at 8CED
-b$8CED DEFB $FF,$01,$0B
+; High score 16 - Numbers
+t$8D49 DEFM $0F,$0A,"123456789022",$FF
 
-; Message at 8CF0
-t$8CF0 DEFM "HIGH SCORE"
+; Unused
+t$8D58 DEFM $FF
 
-; Data block at 8CFA
-b$8CFA DEFB $FF,$04,$01,$31,$FF,$06,$01,$32
- $8D02 DEFB $FF,$08,$01,$33,$FF,$0A,$01,$34
- $8D0A DEFB $FF,$0C,$01,$35,$FF,$15,$02
+; Unused
+t$8D59 DEFM $FF
 
-; Message at 8D11
-t$8D11 DEFM "Q-LEFT"
-
-; Data block at 8D17
-b$8D17 DEFB $FF,$16,$02
-
-; Message at 8D1A
-t$8D1A DEFM "W-RIGHT"
-
-; Data block at 8D21
-b$8D21 DEFB $FF,$17,$02
-
-; Message at 8D24
-t$8D24 DEFM "0-DELETE"
-
-; Data block at 8D2C
-b$8D2C DEFB $FF,$16,$10
-
-; Message at 8D2F
-t$8D2F DEFM "ENTER-END"
-
-; Data block at 8D38
-b$8D38 DEFB $FF,$17,$10
-
-; Message at 8D3B
-t$8D3B DEFM "S SHIFT-SELCT"
-
-; Data block at 8D48
-b$8D48 DEFB $FF,$0F,$0A
-
-; Message at 8D4B
-t$8D4B DEFM "123456789022"
-
-; Data block at 8D57
-b$8D57 DEFB $FF,$FF,$FF
-
-; Message at 8D5A
+; Score text
 t$8D5A DEFM "0000000"
 
-; Routine at 8D61
+; Clear the screen blue (for high score display)
 ;
 ; Used by the routines at #R$8A48 and #R$8DCC.
 c$8D61 LD A,$01      ;
@@ -4895,7 +4860,7 @@ c$8D78 LD A,$00      ;
 ; Unused
 s$8D80 DEFS $4C
 
-; Routine at 8DCC
+; Display the high score table in demo mode
 ;
 ; Used by the routine at #R$6127.
 c$8DCC CALL $0DAF    ;
@@ -6667,9 +6632,9 @@ s$B740 DEFS $58
 
 ; Draw a sprite
 ;
-; Used by the routines at #R$633B, #R$639F, #R$641D, #R$6490, #R$6715, #R$6831,
-; #R$688A, #R$68D3, #R$6BC4, #R$6C3C, #R$6CA1, #R$6E45, #R$6E73, #R$6ED7,
-; #R$6F0A, #R$6F8B and #R$6FE8.
+; Used by the routines at #R$633B, #R$638C, #R$641D, #R$6490, #R$6715, #R$6831,
+; #R$688A, #R$6BC4, #R$6C3C, #R$6CA1, #R$6E45, #R$6E73, #R$6ED7, #R$6F0A,
+; #R$6F8B and #R$6FE8.
 ;
 ; A Attribute
 ; C Sprite ID
@@ -8493,22 +8458,14 @@ c$EA85 LD A,($BA4A)  ;
 
 ; Data block at EAA8
 b$EAA8 DEFB $EA,$C9,$00,$00,$00,$00,$00,$00
+ $EAB0 DEFB $21,$0F,$23,$0F,$04,$5C,$FE,$FF
+ $EAB8 DEFB $28,$F9,$F5,$F3,$06,$30,$3E,$01
+ $EAC0 DEFB $C5,$EE,$10,$D3
 
-; Routine at EAB0
-c$EAB0 LD HL,$230F   ;
-*$EAB3 RRCA          ;
- $EAB4 INC B         ;
- $EAB5 LD E,H        ;
- $EAB6 CP $FF        ;
- $EAB8 JR Z,$EAB3    ;
- $EABA PUSH AF       ;
- $EABB DI            ;
- $EABC LD B,$30      ;
- $EABE LD A,$01      ;
- $EAC0 PUSH BC       ;
- $EAC1 XOR $10       ;
- $EAC3 OUT ($16),A   ;
- $EAC5 ADD HL,SP     ;
+; Flash the wall after dying
+;
+; Used by the routine at #R$68E5.
+c$EAC4 LD D,$39      ;
  $EAC6 CALL $EAF1    ;
  $EAC9 LD E,$05      ;
 *$EACB HALT          ;
@@ -8534,9 +8491,11 @@ c$EAB0 LD HL,$230F   ;
  $EAEE JR NZ,$EAEC   ;
  $EAF0 RET           ;
 
-; Routine at EAF1
+; Fill the wall with an attribute
 ;
-; Used by the routine at #R$EAB0.
+; Used by the routine at #R$EAC4.
+;
+; D Value to fill
 c$EAF1 LD HL,$5960   ;
  $EAF4 LD BC,$0140   ;
 *$EAF7 LD A,(HL)     ;
