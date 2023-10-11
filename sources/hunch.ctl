@@ -209,7 +209,7 @@ C $7231
 u $7238
 D $7238 Disassembly
 T $7238
-b $7882
+s $7884
 u $789C
 D $789C Disassembly
 T $789C
@@ -220,7 +220,11 @@ D $7A8E Disassembly
 T $7A8E
 
 c $80E8 Play the tune
-b $8112
+
+u $8112 Unused
+B $8112
+s $8124
+
 c $814C Play a note in the tune
 R $814C BC Frequency
 R $814C HL Length
@@ -500,12 +504,14 @@ g $BA04 Rope angle (?)
 c $BA05 Draw the rope
 b $BA33 Rope graphics buffer
 D $BA33 The buffer holds the appropriate bit to draw at this position
-b $BA3B
 s $BB0E
 b $BF68 Number of notes in the level completed tune
 b $BF69 Level completed note data
 W $BF69,$08,$04
-b $BF71
+u $BF71
+b $BF72 Number of notes ??
+b $BF73 Note data
+W $BF73,$04,$04
 b $BF77 Number of notes in the jump tune
 b $BF78 Jump tune note data
 W $BF78,$04,$04
@@ -1025,14 +1031,16 @@ u $E6C1 Unused
 C $E6C1
 u $E6C9 Unused
 C $E6C9
-b $E6EC
+u $E6EC Unused
+B $E6EC
 u $EA1D Unused
 C $EA1D
 u $EAA8 Unused
-b $EAA8
+B $EAA8
 s $EAAA
 
-b $EAB0
+u $EAB0
+C $EAB0
 c $EA60 Update state if Quasimodo is near a rope
 c $EAC4 Flash the wall after dying
 c $EAF1 Fill the wall with an attribute

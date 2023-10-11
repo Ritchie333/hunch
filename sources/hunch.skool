@@ -3687,13 +3687,10 @@ u$7238 DEFM "64,27,121,7,64,28,112",$0D,"DB 7,80,4,96,7,80,5,111",$0D,"DB 7,80,7
  $778D DEFM "1",$0D,"DB 6,40,25,164,6,40,26,163",$0D,"DB 6,48,25,166,6,48,26,165",$0D,"DB 2,56,2"
  $77CE DEFM "5,168,2,56,26,167",$0D,"DB 2,64,25,170,2,64,26,169",$0D,"HHEL",$05,$05,$05,"DB 4",$0D,"DB 2,32,"
  $780F DEFM "20,171,2,32,21,1",$05,$05,$05,"DB 2,40,20,173,2,40,21,174",$0D,"HEART:",$0D,"DB 4",$0D,"DB 2,32"
- $7850 DEFM ",20,175,2,32,21,176",$0D,"DB 2,40,20,177,2,40,21,178",$0D,"END"
+ $7850 DEFM ",20,175,2,32,21,176",$0D,"DB 2,40,20,177,2,40,21,178",$0D,"END",$0D,","
 
-; Data block at 7882
-b$7882 DEFB $0D,$2C,$00,$00,$00,$00,$00,$00
- $788A DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $7892 DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $789A DEFB $00,$00
+; Unused
+s$7884 DEFS $18
 
 ; Unused
 ;
@@ -3802,15 +3799,13 @@ c$80E8 LD A,$00      ;
  $810F DJNZ $80F6    ;
  $8111 RET           ;
 
-; Data block at 8112
-b$8112 DEFB $02,$53,$00,$90,$01,$2A,$00,$20
+; Unused
+u$8112 DEFB $02,$53,$00,$90,$01,$2A,$00,$20
  $811A DEFB $03,$FA,$00,$64,$00,$C8,$00,$96
- $8122 DEFB $00,$96,$00,$00,$00,$00,$00,$00
- $812A DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $8132 DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $813A DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $8142 DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $814A DEFB $00,$00
+ $8122 DEFB $00,$96
+
+; Unused
+s$8124 DEFS $28
 
 ; Play a note in the tune
 ;
@@ -7060,9 +7055,7 @@ c$BA05 PUSH DE       ;
 ;
 ; The buffer holds the appropriate bit to draw at this position
 b$BA33 DEFB $80,$40,$20,$10,$08,$04,$02,$01
-
-; Data block at BA3B
-b$BA3B DEFB $00,$07,$06,$03,$02,$01,$01,$01
+ $BA3B DEFB $00,$07,$06,$03,$02,$01,$01,$01
  $BA43 DEFB $01,$02,$03,$06,$07,$54,$BA,$7F
  $BA4B DEFB $50,$50,$80,$28,$50,$80,$1A,$50
  $BA53 DEFB $7F,$14,$50,$7E,$10,$50,$7D,$0D
@@ -7100,8 +7093,14 @@ b$BF68 DEFB $02
 b$BF69 DEFW $002A,$00D2
  $BF6D DEFW $0032,$00B0
 
-; Data block at BF71
-b$BF71 DEFB $00,$01,$32,$00,$61,$01
+; Unused
+u$BF71 DEFB $00
+
+; Number of notes ??
+b$BF72 DEFB $01
+
+; Note data
+b$BF73 DEFW $0032,$0161
 
 ; Number of notes in the jump tune
 b$BF77 DEFB $01
@@ -8227,8 +8226,8 @@ u$E6C9 LD HL,($5C53)
  $E6E6 LD ($5C65),HL
  $E6E9 JP $EE2D
 
-; Data block at E6EC
-b$E6EC DEFB $00,$00,$00,$00,$00,$00,$00,$00
+; Unused
+u$E6EC DEFB $00,$00,$00,$00,$00,$00,$00,$00
  $E6F4 DEFB $00,$00,$00,$00,$00,$00,$00,$00
  $E6FC DEFB $00,$00,$00,$00,$00,$00,$00,$00
  $E704 DEFB $00,$00,$00,$00,$00,$20,$20,$20
@@ -8420,16 +8419,26 @@ c$EA60 LD A,($B9FB)  ;
  $EAA4 LD ($EAB0),A  ;
  $EAA7 RET           ;
 
-; Data block at EAA8
-b$EAA8 DEFB $EA,$C9
+; Unused
+u$EAA8 DEFB $EA,$C9
 
 ; Unused
 s$EAAA DEFS $06
 
-; Data block at EAB0
-b$EAB0 DEFB $21,$0F,$23,$0F,$04,$5C,$FE,$FF
- $EAB8 DEFB $28,$F9,$F5,$F3,$06,$30,$3E,$01
- $EAC0 DEFB $C5,$EE,$10,$D3
+; Unused
+u$EAB0 LD HL,$230F
+*$EAB3 RRCA
+ $EAB4 INC B
+ $EAB5 LD E,H
+ $EAB6 CP $FF
+ $EAB8 JR Z,$EAB3
+ $EABA PUSH AF
+ $EABB DI
+ $EABC LD B,$30
+ $EABE LD A,$01
+ $EAC0 PUSH BC
+ $EAC1 XOR $10
+ $EAC3 OUT ($16),A
 
 ; Flash the wall after dying
 ;
