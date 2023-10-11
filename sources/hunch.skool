@@ -1069,7 +1069,7 @@ g$607F DEFB $38
 ; Values are between #N00 (far left) and #N$1A (far right)
 g$6080 DEFB $05
 
-; Quasimodo sprite ID
+; Quasimodo sub-frame
 g$6081 DEFB $01
 
 ; Y co-ordinate of current fireball / arrow / chasing knight
@@ -1078,7 +1078,7 @@ g$6082 DEFB $38
 ; X co-ordinate of current fireball / arrow / chasing knight
 g$6083 DEFB $05
 
-; Sprite ID to test (?)
+; Sub-frame of current fireball / arrow / chasing knight
 g$6084 DEFB $01
 
 ; Jump flag
@@ -3437,7 +3437,7 @@ c$70A3 LD A,($60C5)  ;
  $70C6 RET Z         ;
  $70C7 JP $7156      ;
 
-; Routine at 70CA
+; Check for collision on a room with bells
 ;
 ; Used by the routine at #R$638C.
 c$70CA LD A,($6082)  ;
@@ -3480,7 +3480,7 @@ c$70CA LD A,($6082)  ;
  $711D JP Z,$681A    ;
  $7120 RET           ;
 
-; Routine at 7121
+; Update sub-frame of current object
 ;
 ; Used by the routine at #R$70CA.
 c$7121 LD A,($6083)  ;
@@ -3488,9 +3488,11 @@ c$7121 LD A,($6083)  ;
  $7126 LD C,A        ;
  $7127 RET           ;
 
-; Routine at 7128
+; Get the current's object sub-frame
 ;
 ; Used by the routine at #R$70CA.
+;
+; C On exit, holds the sub-frame
 c$7128 LD A,($6083)  ;
  $712B LD C,A        ;
  $712C RET           ;
@@ -3535,7 +3537,7 @@ c$7156 LD A,($60B1)  ;
  $7170 JP NZ,$721A   ;
  $7173 RET           ;
 
-; Routine at 7174
+; See if Quasimodo has fallen off a rampart
 ;
 ; Used by the routine at #R$7156.
 c$7174 LD A,($6080)  ;
@@ -3558,7 +3560,7 @@ c$7174 LD A,($6080)  ;
  $719E JR Z,$71A1    ;
  $71A0 RET           ;
 
-; Routine at 71A1
+; Mark Quasimodo as fallen if the sub-frame is not 1
 ;
 ; Used by the routine at #R$7174.
 c$71A1 LD A,($6081)  ;
@@ -3602,7 +3604,7 @@ c$71AA LD A,($6080)  ;
  $71F3 JP Z,$721A    ;
  $71F6 RET           ;
 
-; Mark Quasimodo as fallen if the sprite ID is 1
+; Mark Quasimodo as fallen if the sub-frame is 1
 ;
 ; Used by the routine at #R$71AA.
 c$71F7 LD A,($6081)  ;
@@ -3610,7 +3612,7 @@ c$71F7 LD A,($6081)  ;
  $71FC JP Z,$721A    ;
  $71FF RET           ;
 
-; Mark Quasimodo as fallen if the sprite ID is not 1
+; Mark Quasimodo as fallen if the sub-frame is not 1
 ;
 ; Used by the routine at #R$71AA.
 c$7200 LD A,($6081)  ;
@@ -3651,12 +3653,12 @@ c$7222 LD HL,$585F   ;
  $722E DJNZ $722C    ;
  $7230 RET           ;
 
-; Routine at 7231
-c$7231 LD B,$08      ;
-*$7233 LD (HL),A     ;
- $7234 ADD HL,DE     ;
- $7235 DJNZ $7233    ;
- $7237 RET           ;
+; Unused (?)
+u$7231 LD B,$08
+*$7233 LD (HL),A
+ $7234 ADD HL,DE
+ $7235 DJNZ $7233
+ $7237 RET
 
 ; Unused
 ;
@@ -3848,11 +3850,7 @@ c$814C DI            ;
  $817B OR L          ;
  $817C JR Z,$8180    ;
  $817E JR $815D      ;
-
-; Routine at 8180
-;
-; Used by the routine at #R$814C.
-c$8180 EI            ;
+*$8180 EI            ;
  $8181 RET           ;
 
 ; Unused
@@ -3892,9 +3890,12 @@ u$8214 DEFM ",2,86,150,88,3,86",$0D,"DB 150,88,4,86,150,88,5,86",$0D,"DB 150,88,
  $8296 DEFM ",150,96,6,89",$0D,"DB 150,104,0,88,7,104,1,82",$0D,"DB 7,104,2,82,7,104,3,82",$0D
  $82D7 DEFM "DB 7,"
 
-; Routine at 82DC
+; Print the current level as a dot on screen
 ;
 ; Used by the routine at #R$712D.
+;
+; D Y co-ordinate
+; E X co-ordinate
 c$82DC PUSH DE       ;
  $82DD LD A,D        ;
  $82DE AND $C0       ;
@@ -3926,9 +3927,13 @@ c$82DC PUSH DE       ;
  $8307 LD (HL),A     ;
  $8308 RET           ;
 
-; Data block at 8309
+; Current level graphic data
+;
+; Each entry contains the appropriate bit that should be set
 b$8309 DEFB $80,$40,$20,$10,$08,$04,$02,$01
- $8311 DEFB $00,$00,$00,$00,$00,$00,$00
+
+; Unused
+s$8311 DEFS $07
 
 ; Unused
 ;
@@ -3939,7 +3944,7 @@ u$8318 DEFM "1,91",$0D,"DB 150,112,2,91,150,112,3,91",$0D,"DB 150,112,4,91,150,1
 ; Unused
 s$836C DEFS $0358
 
-; See if Quasimodo has collied with something
+; See if Quasimodo has collided with something
 ;
 ; Used by the routines at #R$67DE and #R$67FA.
 c$86C4 LD B,$03      ;
@@ -4082,7 +4087,7 @@ c$86C4 LD B,$03      ;
  $8793 DJNZ $8777    ;
  $8795 RET           ;
 
-; Routine at 8796
+; Check if Quasimodo is close enough to have collided
 ;
 ; Used by the routine at #R$86C4.
 c$8796 POP DE        ;
@@ -4222,14 +4227,14 @@ c$8826 LD E,$08      ;
 ; Unused
 s$8852 DEFS $02
 
-; Routine at 8854
+; Set the flag that Quasimodo collided with an object
 ;
 ; Used by the routines at #R$86C4 and #R$8796.
 c$8854 LD A,$01      ;
  $8856 LD ($885A),A  ;
  $8859 RET           ;
 
-; Game status buffer entry at 885A
+; Set to 1 if Quasimodo collided with an object
 g$885A DEFB $01
 
 ; Unused
@@ -4488,7 +4493,7 @@ c$8A71 LD HL,$8D60   ;
  $8B08 CALL $8B4F    ;
  $8B0B RET           ;
 
-; Routine at 8B0C
+; Find the right slot for the high score
 ;
 ; Used by the routine at #R$8A71.
 c$8B0C LD HL,$8CE6   ;
@@ -4503,21 +4508,21 @@ c$8B0C LD HL,$8CE6   ;
  $8B20 POP HL        ;
  $8B21 SBC HL,DE     ;
  $8B23 JR $8B11      ;
-
-; Routine at 8B25
-;
-; Used by the routine at #R$8B0C.
-c$8B25 LD A,C        ;
+*$8B25 LD A,C        ;
  $8B26 LD ($8B2B),A  ;
  $8B29 POP HL        ;
  $8B2A RET           ;
 
-; Game status buffer entry at 8B2B
+; Holds the slot the new score should be put in on the table
 g$8B2B DEFB $01
 
-; Routine at 8B2C
+; Compare the current score with an existing one
 ;
 ; Used by the routine at #R$8B0C.
+;
+; HL Existing score
+; DE Current score
+; C On exit, holds the slot the score should go
 c$8B2C LD B,$00      ;
  $8B2E INC C         ;
  $8B2F PUSH BC       ;
@@ -4533,21 +4538,13 @@ c$8B2C LD B,$00      ;
  $8B3E INC HL        ;
  $8B3F INC DE        ;
  $8B40 JR $8B30      ;
-
-; Routine at 8B42
-;
-; Used by the routine at #R$8B2C.
-c$8B42 LD A,$01      ;
+*$8B42 LD A,$01      ;
  $8B44 POP BC        ;
  $8B45 POP HL        ;
  $8B46 LD HL,$8B25   ;
  $8B49 PUSH HL       ;
  $8B4A RET           ;
-
-; Routine at 8B4B
-;
-; Used by the routine at #R$8B2C.
-c$8B4B LD A,$00      ;
+*$8B4B LD A,$00      ;
  $8B4D POP BC        ;
  $8B4E RET           ;
 
@@ -6781,11 +6778,7 @@ c$B798 LD B,$03      ;
  $B86E POP AF        ;
  $B86F DJNZ $B851    ;
  $B871 RET           ;
-
-; Routine at B872
-;
-; Used by the routine at #R$B798.
-c$B872 POP DE        ;
+*$B872 POP DE        ;
  $B873 LD A,E        ;
  $B874 ADD A,L       ;
  $B875 LD L,A        ;
@@ -6868,7 +6861,7 @@ c$B872 POP DE        ;
 
 ; Get a buffer to a sprite given its ID
 ;
-; Used by the routines at #R$B798 and #R$B872.
+; Used by the routine at #R$B798.
 ;
 ; C Sprite ID
 ; DE On exit, holds the buffer address
@@ -6877,18 +6870,17 @@ c$B8EA LD HL,$C320   ;
 *$B8F0 ADD HL,DE     ;
  $B8F1 DEC C         ;
  $B8F2 JR NZ,$B8F0   ;
-; This entry point is used by the routine at #R$B8F6.
-*$B8F4 EX DE,HL      ;
+ $B8F4 EX DE,HL      ;
  $B8F5 RET           ;
 
-; Routine at B8F6
-c$B8F6 JR NZ,$B8F4   ;
- $B8F8 EX DE,HL      ;
- $B8F9 RET           ;
+; Unused
+u$B8F6 JR NZ,$B8F4
+ $B8F8 EX DE,HL
+ $B8F9 RET
 
 ; Convert a Y co-ordinate to a screen address
 ;
-; Used by the routines at #R$B798 and #R$B872.
+; Used by the routine at #R$B798.
 ;
 ; D Y co-ordinate
 ; HL On exit, holds screen address
@@ -6926,7 +6918,7 @@ s$B926 DEFS $02
 
 ; Convert a screen address into an attribute
 ;
-; Used by the routines at #R$B798 and #R$B872.
+; Used by the routine at #R$B798.
 ;
 ; HL Screen address
 c$B928 PUSH DE       ;
@@ -6942,13 +6934,13 @@ c$B928 PUSH DE       ;
  $B937 POP DE        ;
  $B938 RET           ;
 
-; Routine at B939
-c$B939 RET           ;
+; Unused
+u$B939 RET
 
 ; Unused
 s$B93A DEFS $52
 
-; Routine at B98C
+; Update the rope
 ;
 ; Used by the routines at #R$6127 and #R$6490.
 c$B98C CALL $C0C6    ;
@@ -6973,14 +6965,9 @@ c$B98C CALL $C0C6    ;
  $B9B2 LD ($B9FB),A  ;
  $B9B5 LD ($BA01),A  ;
  $B9B8 JR $B9C2      ;
-
-; Routine at B9BA
-;
-; Used by the routine at #R$B98C.
-c$B9BA LD A,$1D      ;
+*$B9BA LD A,$1D      ;
  $B9BC LD ($B9FB),A  ;
  $B9BF LD ($BA01),A  ;
-; This entry point is used by the routine at #R$B98C.
 *$B9C2 LD A,(HL)     ;
  $B9C3 LD ($BA4A),A  ;
  $B9C6 INC HL        ;
@@ -6988,9 +6975,9 @@ c$B9BA LD A,$1D      ;
  $B9CA CALL $B9CE    ;
  $B9CD RET           ;
 
-; Draw the fiery pit
+; Update the rope and redraw it
 ;
-; Used by the routines at #R$62FD, #R$B9BA and #R$C0C6.
+; Used by the routines at #R$62FD, #R$B98C and #R$C0C6.
 c$B9CE LD A,$25      ;
  $B9D0 LD ($B9EB),A  ;
  $B9D3 LD HL,$B9F7   ;
@@ -7014,7 +7001,7 @@ c$B9CE LD A,$25      ;
  $B9F4 DJNZ $B9E2    ;
  $B9F6 RET           ;
 
-; Routine at B9F7
+; Update the rope angle (?)
 ;
 ; Used by the routine at #R$B9CE.
 c$B9F7 LD A,($BA04)  ;
@@ -7022,7 +7009,7 @@ c$B9F7 LD A,($BA04)  ;
  $B9FB DEC E         ;
  $B9FC RET           ;
 
-; Routine at B9FD
+; Update the rope position
 ;
 ; Used by the routine at #R$B9CE.
 c$B9FD LD A,($BA03)  ;
@@ -7030,11 +7017,16 @@ c$B9FD LD A,($BA03)  ;
  $BA01 DEC E         ;
  $BA02 RET           ;
 
-; Routine at BA03
-c$BA03 LD A,(DE)     ;
- $BA04 LD D,B        ;
-; This entry point is used by the routine at #R$B9CE.
-*$BA05 PUSH DE       ;
+; Rope X position
+g$BA03 DEFB $1A
+
+; Rope angle (?)
+g$BA04 DEFB $50
+
+; Draw the rope
+;
+; Used by the routine at #R$B9CE.
+c$BA05 PUSH DE       ;
  $BA06 LD A,D        ;
  $BA07 AND $C0       ;
  $BA09 SRL A         ;
@@ -7066,9 +7058,13 @@ c$BA03 LD A,(DE)     ;
  $BA31 LD (HL),A     ;
  $BA32 RET           ;
 
-; Data block at BA33
+; Rope graphics buffer
+;
+; The buffer holds the appropriate bit to draw at this position
 b$BA33 DEFB $80,$40,$20,$10,$08,$04,$02,$01
- $BA3B DEFB $00,$07,$06,$03,$02,$01,$01,$01
+
+; Data block at BA3B
+b$BA3B DEFB $00,$07,$06,$03,$02,$01,$01,$01
  $BA43 DEFB $01,$02,$03,$06,$07,$54,$BA,$7F
  $BA4B DEFB $50,$50,$80,$28,$50,$80,$1A,$50
  $BA53 DEFB $7F,$14,$50,$7E,$10,$50,$7D,$0D
@@ -7138,7 +7134,7 @@ b$BFA5 DEFW $002C,$0014
 ; Unused
 s$BFA9 DEFS $87
 
-; Routine at C030
+; Animate the fiery pit
 ;
 ; Used by the routine at #R$C0C6.
 c$C030 CALL $C060    ;
@@ -7171,7 +7167,7 @@ c$C030 CALL $C060    ;
  $C05D JR NZ,$C04F   ;
  $C05F RET           ;
 
-; Routine at C060
+; Set the attributes for the fiery pit
 ;
 ; Used by the routine at #R$C030.
 c$C060 LD HL,$5A6A   ;
@@ -7181,21 +7177,29 @@ c$C060 LD HL,$5A6A   ;
  $C068 DJNZ $C065    ;
  $C06A RET           ;
 
-; Data block at C06B
-b$C06B DEFB $00,$10,$10,$10,$38,$28,$28,$44
- $C073 DEFB $C7,$00,$00,$08,$14,$2A,$29,$D5
- $C07B DEFB $45,$04,$06,$05,$0D,$8A,$8A,$92
- $C083 DEFB $F7,$08,$0C,$0A,$1A,$15,$15,$25
- $C08B DEFB $EF,$10,$30,$50,$58,$A8,$A8,$A4
- $C093 DEFB $F7,$20,$60,$A0,$B0,$51,$51,$49
- $C09B DEFB $EF,$08,$14,$2A,$29,$D5,$45,$00
- $C0A3 DEFB $FF,$00,$10,$28,$54,$54,$00,$00
- $C0AB DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $C0B3 DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $C0BB DEFB $00,$00,$00,$00,$00,$00,$00,$00
- $C0C3 DEFB $00,$00,$00
+; Current frame for the fiery pit flames
+g$C06B DEFB $00
 
-; Routine at C0C6
+; Fiery pit graphics
+;
+; #UDG$C06C,2(fire_1*)#UDG$C074,2(fire_2*)#UDG$C07C,2(fire_3*)#UDG$C084,2(fire_4*)
+; .
+; #UDG$C08C,2(fire_5*)#UDG$C094,2(fire_6*)#UDG$C09C,2(fire_7*)#UDG$C0A4,2(fire_8*)
+; .
+; #UDGARRAY*(fire_1;fire_2;fire_3;fire_4;fire_5;fire_6;fire_7;fire_8)(fire)
+b$C06C DEFB $10,$10,$10,$38,$28,$28,$44,$C7
+ $C074 DEFB $00,$00,$08,$14,$2A,$29,$D5,$45
+ $C07C DEFB $04,$06,$05,$0D,$8A,$8A,$92,$F7
+ $C084 DEFB $08,$0C,$0A,$1A,$15,$15,$25,$EF
+ $C08C DEFB $10,$30,$50,$58,$A8,$A8,$A4,$F7
+ $C094 DEFB $20,$60,$A0,$B0,$51,$51,$49,$EF
+ $C09C DEFB $08,$14,$2A,$29,$D5,$45,$00,$FF
+ $C0A4 DEFB $00,$10,$28,$54,$54,$00,$00,$00
+
+; Unused
+s$C0AC DEFS $1A
+
+; Refresh the rope and pit
 ;
 ; Used by the routine at #R$B98C.
 c$C0C6 CALL $C030    ;
@@ -7236,7 +7240,7 @@ c$C0F8 LD A,($C14C)  ;
  $C12A CALL $C15C    ;
  $C12D RET           ;
 
-; Routine at C12E
+; Flash the bells in the super bonus award
 ;
 ; Used by the routine at #R$C0F8.
 c$C12E LD A,$00      ;
@@ -7325,11 +7329,7 @@ c$C182 DI            ;
  $C1B1 OR L          ;
  $C1B2 JR Z,$C1B6    ;
  $C1B4 JR $C193      ;
-
-; Routine at C1B6
-;
-; Used by the routine at #R$C182.
-c$C1B6 EI            ;
+*$C1B6 EI            ;
  $C1B7 RET           ;
 
 ; Unused

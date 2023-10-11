@@ -22,10 +22,10 @@ g $607F Quasimodo Y co-ordinate
 D $607F Values are between #N$38 (floor) and #N$26 (maximum)
 g $6080 Quasimodo X co-ordinate
 D $6080 Values are between #N00 (far left) and #N$1A (far right)
-g $6081 Quasimodo sprite ID
+g $6081 Quasimodo sub-frame
 g $6082 Y co-ordinate of current fireball / arrow / chasing knight
 g $6083 X co-ordinate of current fireball / arrow / chasing knight
-g $6084 Sprite ID to test (?)
+g $6084 Sub-frame of current fireball / arrow / chasing knight
 g $6085 Jump flag
 D $6085 0 - static, 1 - rising, 2 - falling
 g $6086 Direction
@@ -190,20 +190,22 @@ R $7095 HL Start of first memory
 R $7095 DE Start of second memory
 R $7095 BC Length
 c $70A3 See if the room has a pit or rampart, and if so, call the logic for that
-c $70CA
-c $7121
-c $7128
+c $70CA Check for collision on a room with bells
+c $7121 Update sub-frame of current object
+c $7128 Get the current's object sub-frame
+R $7128 C On exit, holds the sub-frame
 c $712D Display the current level
 c $7156 See if Quasimodo has fallen off a ledge
-c $7174
-c $71A1
+c $7174 See if Quasimodo has fallen off a rampart
+c $71A1 Mark Quasimodo as fallen if the sub-frame is not 1
 c $71AA Check the X co-ordinate to see if Quasimodo has fallen
-c $71F7 Mark Quasimodo as fallen if the sprite ID is 1
-c $7200 Mark Quasimodo as fallen if the sprite ID is not 1
+c $71F7 Mark Quasimodo as fallen if the sub-frame is 1
+c $7200 Mark Quasimodo as fallen if the sub-frame is not 1
 c $7209 Award an extra life every 10,000 points
 c $721A Mark falling off a ledge
 c $7222 Draw a magenta stripe on the right of the screen
-c $7231
+u $7231 Unused (?)
+C $7231
 u $7238
 D $7238 Disassembly
 T $7238
@@ -222,7 +224,6 @@ b $8112
 c $814C Play a note in the tune
 R $814C BC Frequency
 R $814C HL Length
-c $8180
 s $8182
 b $81B0 Number of notes in the tune
 b $81B1 Tune data
@@ -234,15 +235,19 @@ s $81F1
 u $8214
 D $8214 Disassembly
 T $8214
-c $82DC
-b $8309
+c $82DC Print the current level as a dot on screen
+R $82DC D Y co-ordinate
+R $82DC E X co-ordinate
+b $8309 Current level graphic data
+D $8309 Each entry contains the appropriate bit that should be set
+s $8311
 u $8318
 D $8318 Disassembly
 T $8318
 s $836C
 
-c $86C4 See if Quasimodo has collied with something
-c $8796
+c $86C4 See if Quasimodo has collided with something
+c $8796 Check if Quasimodo is close enough to have collided
 s $8807
 c $8816 Collision : Get a buffer to a sprite given its index
 R $8816 C Index
@@ -254,8 +259,8 @@ R $8826 D Y co-ordinate
 R $8826 E X co-ordinate
 R $8826 HL On exit, holds the screen address
 s $8852
-c $8854
-g $885A
+c $8854 Set the flag that Quasimodo collided with an object
+g $885A Set to 1 if Quasimodo collided with an object
 s $885B
 
 b $88B8 Full wall graphics
@@ -270,12 +275,12 @@ B $89D8,$60,$3
 s $8A38
 c $8A48 End the game after all lives have been lost
 c $8A71 Put the score on the high score table if necessary
-c $8B0C
-c $8B25
-g $8B2B
-c $8B2C
-c $8B42
-c $8B4B
+c $8B0C Find the right slot for the high score
+g $8B2B Holds the slot the new score should be put in on the table
+c $8B2C Compare the current score with an existing one
+R $8B2C HL Existing score
+R $8B2C DE Current score
+R $8B2C C On exit, holds the slot the score should go
 
 c $8B4F Display the high score table
 c $8B5F Input a new entry in the high score table
@@ -470,26 +475,30 @@ R $B798 A Attribute
 R $B798 C Sprite ID
 R $B798 D Y co-ordinate
 R $B798 E X co-ordinate
-c $B872
 c $B8EA Get a buffer to a sprite given its ID
 R $B8EA C Sprite ID
 R $B8EA DE On exit, holds the buffer address
-c $B8F6
+u $B8F6 Unused
+C $B8F6
 c $B8FA Convert a Y co-ordinate to a screen address
 R $B8FA D Y co-ordinate
 R $B8FA HL On exit, holds screen address
 s $B926
 c $B928 Convert a screen address into an attribute
 R $B928 HL Screen address
-c $B939
+u $B939 Unused
+C $B939
 s $B93A
-c $B98C
-c $B9BA
-c $B9CE Draw the fiery pit
-c $B9F7
-c $B9FD
-c $BA03
-b $BA33
+c $B98C Update the rope
+c $B9CE Update the rope and redraw it
+c $B9F7 Update the rope angle (?)
+c $B9FD Update the rope position
+g $BA03 Rope X position
+g $BA04 Rope angle (?)
+c $BA05 Draw the rope
+b $BA33 Rope graphics buffer
+D $BA33 The buffer holds the appropriate bit to draw at this position
+b $BA3B
 s $BB0E
 b $BF68 Number of notes in the level completed tune
 b $BF69 Level completed note data
@@ -506,19 +515,26 @@ b $BFA4 Number of notes in the ???
 b $BFA5 Note data
 W $BFA5,$04,$04
 s $BFA9
-c $C030
-c $C060
-b $C06B
-c $C0C6
+
+c $C030 Animate the fiery pit
+c $C060 Set the attributes for the fiery pit
+g $C06B Current frame for the fiery pit flames
+
+b $C06C Fiery pit graphics
+D $C06C #UDG$C06C,2(fire_1*)#UDG$C074,2(fire_2*)#UDG$C07C,2(fire_3*)#UDG$C084,2(fire_4*)
+D $C06C #UDG$C08C,2(fire_5*)#UDG$C094,2(fire_6*)#UDG$C09C,2(fire_7*)#UDG$C0A4,2(fire_8*)
+D $C06C #UDGARRAY*(fire_1;fire_2;fire_3;fire_4;fire_5;fire_6;fire_7;fire_8)(fire)
+
+s $C0AC
+c $C0C6 Refresh the rope and pit
 s $C0CD
 c $C0F8 Beep during the super bonus award
-c $C12E
+c $C12E Flash the bells in the super bonus award
 g $C14C Time remaining on the super bonus beep
 W $C14C 
 c $C15C Play a sound effect
 R $C15C IX Pointer to sound data
 c $C182 Play a note in the sound data
-c $C1B6
 s $C1B8
 
 b $C350 Sprite 00 - 07 : Quasimodo right
