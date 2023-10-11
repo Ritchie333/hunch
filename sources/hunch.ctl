@@ -8,7 +8,7 @@
 @ $4000 replace=/#SPRITE3/#UDGARRAY3,3;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
 @ $4000 replace=/#SPRITE14/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
 
-@ $4000 replace=/#GFX\i/\1*8+$CD0C/
+@ $4000 replace=/#GFX\i/(\1*8+$CD0C)/
 
 b $4000 Loading screen
 D $4000 #UDGTABLE { #SCR2(loading) } TABLE#
@@ -342,6 +342,7 @@ B $92D5,$50,$4
 b $927E Graphics : Pit left edge
 D $927E Used by the routine at #R$9ACA
 B $927F,$24,$4
+D $927E #UDGARRAY1,7;#GFX$24;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25;#GFX$25(Pit_left)
 
 b $92A3 Graphics : Ramparts (long) left edge
 D $92A3 Used by the routine at #R$9ACA
@@ -378,12 +379,12 @@ B $948C,$224,$4
 b $96B0 Graphics : SCORE
 D $96B0 Used by the routine at #R$9ACA
 B $96B1,$14,$4
-D $96B0 #UDGARRAY5,7;(#GFX$67);(#GFX$79);(#GFX$68);(#GFX$6D);(#GFX$6E)(Score)
+D $96B0 #UDGARRAY5,7;#GFX$67;#GFX$79;#GFX$68;#GFX$6D;#GFX$6E(Score)
 
 b $96C5 Graphics : Row of bells
 D $96C5 Used by the routine at #R$9ACA
 B $96C6,$90,$4
-D $96C5 #UDGARRAY11,6;(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29)(Bells)
+D $96C5 #UDGARRAY11,6;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX0;#GFX$26;#GFX$27;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29;#GFX0;#GFX$28;#GFX$29(Bells)
 
 b $9756 Graphics : Esmerelda
 D $9756 Used by the routine at #R$9ACA
@@ -392,12 +393,12 @@ B $9757,$88,$4
 b $97DF Graphics : HELP
 D $97DF Used by the routine at #R$9ACA
 B $97E0,$10,$4
-D $97E0 #UDGARRAY2,2;(#GFX$AB);(#GFX$AC);(#GFX$AD);(#GFX$AE)(Help)
+D $97DF #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help)
 
 b $97F0 Graphics : Heart
 D $97F0 Used by the routine at #R$9ACA
 B $97F1,$10,$4
-D $97F1 #UDGARRAY2,2;(#GFX$AF);(#GFX$B0);(#GFX$B1);(#GFX$B2)(Heart)
+D $97F0 #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart)
 
 s $9801
 b $9858 Copy of Quasimodo L
@@ -501,116 +502,118 @@ b $C350 Sprite 00 - 07 : Quasimodo right
 D $C350 This is a double-height sprite
 
 @ $C350 label=Sprite_00-04
-  $C350 #SPRITE4(Sprite_00-04)
+  $C350 #SPRITE4(Sprite_00-04*)
 
 @ $C380 label=Sprite_01-05
-  $C380 #SPRITE4(Sprite_01-05)
+  $C380 #SPRITE4(Sprite_01-05*)
 
 @ $C3B0 label=Sprite_02-06
-  $C3B0 #SPRITE4(Sprite_02-06)
+  $C3B0 #SPRITE4(Sprite_02-06*)
 
 @ $C3E0 label=Sprite_03-07
-  $C3E0 #SPRITE4(Sprite_03-07)
+  $C3E0 #SPRITE4(Sprite_03-07*)
+
+  $C400 #UDGARRAY*(Sprite_00-04;Sprite_01-05;Sprite_02-06;Sprite_03-07)(Sprite_00-07)
 
 b $C4D0 Sprite 08 - 0F : Quasimodo left
 D $C4D0 This is a double-height sprite
 B $C4D0,$180,$8
 
 @ $C4D0 label=Sprite_08-0C
-  $C4D0 #SPRITE4(Sprite_08-0C)
+  $C4D0 #SPRITE4(Sprite_08-0C*)
 
 @ $C500 label=Sprite_09-0D
-  $C500 #SPRITE4(Sprite_09-0D)
+  $C500 #SPRITE4(Sprite_09-0D*)
 
 @ $C530 label=Sprite_0A-0E
-  $C530 #SPRITE4(Sprite_0A-0E)
+  $C530 #SPRITE4(Sprite_0A-0E*)
 
 @ $C560 label=Sprite_0B-0F
-  $C560 #SPRITE4(Sprite_0B-0F)
+  $C560 #SPRITE4(Sprite_0B-0F*)
 
 b $C650 Sprite 10 - 13 : Arrow left
 B $C650,$C0,$8
 
 @ $C650 label=Sprite_10
-  $C650 #SPRITE2(Sprite_10)
+  $C650 #SPRITE2(Sprite_10*)
 
 @ $C680 label=Sprite_11
-  $C680 #SPRITE2(Sprite_11)
+  $C680 #SPRITE2(Sprite_11*)
 
 @ $C6B0 label=Sprite_12
-  $C6B0 #SPRITE2(Sprite_12)
+  $C6B0 #SPRITE2(Sprite_12*)
 
 @ $C6E0 label=Sprite_13
-  $C6E0 #SPRITE2(Sprite_13)
+  $C6E0 #SPRITE2(Sprite_13*)
 
 b $C710 Sprite 14 - 17 : Fireball left
 B $C710,$C0,$8
 
 @ $C710 label=Sprite_14
-  $C710 #SPRITE3(Sprite_14)
+  $C710 #SPRITE3(Sprite_14*)
 
 @ $C740 label=Sprite_15
-  $C740 #SPRITE3(Sprite_15)
+  $C740 #SPRITE3(Sprite_15*)
 
 @ $C770 label=Sprite_16
-  $C770 #SPRITE3(Sprite_16)
+  $C770 #SPRITE3(Sprite_16*)
 
 @ $C7A0 label=Sprite_17
-  $C7A0 #SPRITE3(Sprite_17)
+  $C7A0 #SPRITE3(Sprite_17*)
 
 b $C7D0 Sprite 18 - 1B : Arrow right
 B $C7D0,$C0,$8
 
 @ $C7D0 label=Sprite_18
-  $C7D0 #SPRITE2(Sprite_18)
+  $C7D0 #SPRITE2(Sprite_18*)
 
 @ $C800 label=Sprite_19
-  $C800 #SPRITE2(Sprite_19)
+  $C800 #SPRITE2(Sprite_19*)
 
 @ $C830 label=Sprite_1A
-  $C830 #SPRITE2(Sprite_1A)
+  $C830 #SPRITE2(Sprite_1A*)
 
 @ $C860 label=Sprite_1B
-  $C860 #SPRITE2(Sprite_1B)
+  $C860 #SPRITE2(Sprite_1B*)
 
 b $C890 Sprite 1C - 1F : Fireball right
 B $C890,$C0,$8
 
 @ $C890 label=Sprite_1C
-  $C890 #SPRITE3(Sprite_1C)
+  $C890 #SPRITE3(Sprite_1C*)
 
 @ $C8C0 label=Sprite_1D
-  $C8C0 #SPRITE3(Sprite_1D)
+  $C8C0 #SPRITE3(Sprite_1D*)
 
 @ $C8F0 label=Sprite_1E
-  $C8F0 #SPRITE3(Sprite_1E)
+  $C8F0 #SPRITE3(Sprite_1E*)
 
 @ $C920 label=Sprite_1F
-  $C920 #SPRITE3(Sprite_1F)
+  $C920 #SPRITE3(Sprite_1F*)
 
 b $C950 Sprite 20 - 27 : Quasimodo on rope
 B $C950,$180,$8
 
 @ $C950 label=Sprite_20-21
-  $C950 #SPRITE14(Sprite_20-21)
+  $C950 #SPRITE14(Sprite_20-21*)
 
 @ $C9B0 label=Sprite_22-23
-  $C9B0 #SPRITE14(Sprite_22-23)
+  $C9B0 #SPRITE14(Sprite_22-23*)
 
 @ $CA10 label=Sprite_24-25
-  $CA10 #SPRITE14(Sprite_24-25)
+  $CA10 #SPRITE14(Sprite_24-25*)
 
 @ $CA70 label=Sprite_26-27
-  $CA70 #SPRITE14(Sprite_26-27)
+  $CA70 #SPRITE14(Sprite_26-27*)
 
 b $CAD0 Sprite 28 - 2B : Chasing knight
 B $CAD0,$C0,$8 
 
 @ $CAD0 label=Sprite_28-29
-  $CAD0 #SPRITE5(Sprite_28-29)
+  $CAD0 #SPRITE5(Sprite_28-29*)
 
 @ $CB30 label=Sprite_2A-2B
-  $CB30 #SPRITE5(Sprite_2A-2B)
+  $CB30 #SPRITE5(Sprite_2A-2B*)
 
 s $CB90
 
