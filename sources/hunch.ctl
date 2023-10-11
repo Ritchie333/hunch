@@ -8,6 +8,8 @@
 @ $4000 replace=/#SPRITE3/#UDGARRAY3,3;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
 @ $4000 replace=/#SPRITE14/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
 
+@ $4000 replace=/#GFX\i/\1*8+$CD0C/
+
 b $4000 Loading screen
 D $4000 #UDGTABLE { #SCR2(loading) } TABLE#
 
@@ -326,39 +328,76 @@ c $8DCC
 s $8DED
 
 b $9088 Graphics : Main playing area
+D $9088 Used by the routine at #R$9ACA
 B $9089,$1D0,$4
+
 b $9259 Graphics : Ramparts (short) left edge
+D $9259 Used by the routine at #R$9ACA
 B $925A,$24,$4
+
 b $92D4 Graphics : Blank bell area
+D $92D4 Used by the routine at #R$9ACA
 B $92D5,$50,$4
+
 b $927E Graphics : Pit left edge
+D $927E Used by the routine at #R$9ACA
 B $927F,$24,$4
+
 b $92A3 Graphics : Ramparts (long) left edge
+D $92A3 Used by the routine at #R$9ACA
 B $92A4,$30,$4
+
 b $9325 Graphics : Rampart soldiers
+D $9325 Used by the routine at #R$9ACA
 B $9326,$78,$4
+
 b $939E Graphics : Rampart soldiers raised spears
+D $939E Used by the routine at #R$9ACA
 B $939F,$24,$4
+
 b $93C3 Graphics : Rampart soldiers raised foot
+D $93C3 Used by the routine at #R$9ACA
 B $93C4,$18,$4
+
 b $93DC Graphics : Rampart soldiers lowered spears
+D $93DC Used by the routine at #R$9ACA
 B $93DD,$24,$4
+
 b $9401 Graphics : Rampart soldiers lowered foot
+D $9401 Used by the routine at #R$9ACA
 B $9402,$18,$4
+
 b $941A Graphics : End of level score box
+D $941A Used by the routine at #R$9ACA
 B $941B,$70,$4
+
 b $948B Graphics : Start of game options
+D $948B Used by the routine at #R$9ACA
 B $948C,$224,$4
+
 b $96B0 Graphics : SCORE
+D $96B0 Used by the routine at #R$9ACA
 B $96B1,$14,$4
+D $96B0 #UDGARRAY5,7;(#GFX$67);(#GFX$79);(#GFX$68);(#GFX$6D);(#GFX$6E)(Score)
+
 b $96C5 Graphics : Row of bells
+D $96C5 Used by the routine at #R$9ACA
 B $96C6,$90,$4
+D $96C5 #UDGARRAY11,6;(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX0);(#GFX$26);(#GFX$27);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29);(#GFX0);(#GFX$28);(#GFX$29)(Bells)
+
 b $9756 Graphics : Esmerelda
+D $9756 Used by the routine at #R$9ACA
 B $9757,$88,$4
+
 b $97DF Graphics : HELP
+D $97DF Used by the routine at #R$9ACA
 B $97E0,$10,$4
+D $97E0 #UDGARRAY2,2;(#GFX$AB);(#GFX$AC);(#GFX$AD);(#GFX$AE)(Help)
+
 b $97F0 Graphics : Heart
+D $97F0 Used by the routine at #R$9ACA
 B $97F1,$10,$4
+D $97F1 #UDGARRAY2,2;(#GFX$AF);(#GFX$B0);(#GFX$B1);(#GFX$B2)(Heart)
 
 s $9801
 b $9858 Copy of Quasimodo L
@@ -378,9 +417,11 @@ R $9AAE C Graphic ID
 R $9AAE DE On return, holds a memory address
 c $9ABA Convert a screen address to attribute
 R $9ABA HL Screen address
+
 c $9ACA Print a group of graphics
-D $9ACA The buffer contains the number of entries, 
-. followed by the attribute, graphic ID, Y and X co-ordinates for each cell
+D $9ACA The buffer contains the number of entries in the first byte, plus that number of the following:
+. #TABLE(){ =h Offset | =h Field } { 0 | Attribute } { 1 | Y co-ordinate } { 2 | X co-ordinate } { 3 | UDG ID (offset from #R$CD0C) }TABLE#
+
 R $9ACA IX Pointer to graphic buffer
 c $9AEB Erase a group of graphics
 D $9AEB The buffer contains the number of entries, 
@@ -573,375 +614,378 @@ B $CAD0,$C0,$8
 
 s $CB90
 
-b $CD14 UDGs
-B $CD14,$590,$8
+b $CD0C UDGs
+B $CD0C,$598,$8
 
-@ $CD14 label=UDG_00
+@ $CD0C label=UDG_00
+  $CD0C #CHARSET
+
+@ $CD14 label=UDG_01
   $CD14 #CHARSET
-@ $CD1C label=UDG_01
+@ $CD1C label=UDG_02
   $CD1C #CHARSET
-@ $CD24 label=UDG_02
+@ $CD24 label=UDG_03
   $CD24 #CHARSET
-@ $CD2C label=UDG_03
+@ $CD2C label=UDG_04
   $CD2C #CHARSET
-@ $CD34 label=UDG_04
+@ $CD34 label=UDG_05
   $CD34 #CHARSET
-@ $CD3C label=UDG_05
+@ $CD3C label=UDG_06
   $CD3C #CHARSET
-@ $CD44 label=UDG_06
+@ $CD44 label=UDG_07
   $CD44 #CHARSET
-@ $CD4C label=UDG_07
+@ $CD4C label=UDG_08
   $CD4C #CHARSET
-@ $CD54 label=UDG_08
+@ $CD54 label=UDG_09
   $CD54 #CHARSET
-@ $CD5C label=UDG_09
+@ $CD5C label=UDG_0A
   $CD5C #CHARSET
-@ $CD64 label=UDG_0A
+@ $CD64 label=UDG_0B
   $CD64 #CHARSET
-@ $CD6C label=UDG_0B
+@ $CD6C label=UDG_0C
   $CD6C #CHARSET
-@ $CD74 label=UDG_0C
+@ $CD74 label=UDG_0D
   $CD74 #CHARSET
-@ $CD7C label=UDG_0D
+@ $CD7C label=UDG_0E
   $CD7C #CHARSET
-@ $CD84 label=UDG_0E
+@ $CD84 label=UDG_0F
   $CD84 #CHARSET
-@ $CD8C label=UDG_0F
+@ $CD8C label=UDG_10
   $CD8C #CHARSET
 
-@ $CD94 label=UDG_10
+@ $CD94 label=UDG_11
   $CD94 #CHARSET
-@ $CD9C label=UDG_11
+@ $CD9C label=UDG_12
   $CD9C #CHARSET
-@ $CDA4 label=UDG_12
+@ $CDA4 label=UDG_13
   $CDA4 #CHARSET
-@ $CDAC label=UDG_13
+@ $CDAC label=UDG_14
   $CDAC #CHARSET
-@ $CDB4 label=UDG_14
+@ $CDB4 label=UDG_15
   $CDB4 #CHARSET
-@ $CDBC label=UDG_15
+@ $CDBC label=UDG_16
   $CDBC #CHARSET
-@ $CDC4 label=UDG_16
+@ $CDC4 label=UDG_17
   $CDC4 #CHARSET
-@ $CDCC label=UDG_17
+@ $CDCC label=UDG_18
   $CDCC #CHARSET
-@ $CDD4 label=UDG_18
+@ $CDD4 label=UDG_19
   $CDD4 #CHARSET
-@ $CDDC label=UDG_19
+@ $CDDC label=UDG_1A
   $CDDC #CHARSET
-@ $CDE4 label=UDG_1A
+@ $CDE4 label=UDG_1B
   $CDE4 #CHARSET
-@ $CDEC label=UDG_1B
+@ $CDEC label=UDG_1C
   $CDEC #CHARSET
-@ $CDF4 label=UDG_1C
+@ $CDF4 label=UDG_1D
   $CDF4 #CHARSET
-@ $CDFC label=UDG_1D
+@ $CDFC label=UDG_1E
   $CDFC #CHARSET
-@ $CE04 label=UDG_1E
+@ $CE04 label=UDG_1F
   $CE04 #CHARSET
-@ $CE0C label=UDG_1F
+@ $CE0C label=UDG_20
   $CE0C #CHARSET
 
-@ $CE14 label=UDG_20
+@ $CE14 label=UDG_21
   $CE14 #CHARSET
-@ $CE1C label=UDG_21
+@ $CE1C label=UDG_22
   $CE1C #CHARSET
-@ $CE24 label=UDG_22
+@ $CE24 label=UDG_23
   $CE24 #CHARSET
-@ $CE2C label=UDG_23
+@ $CE2C label=UDG_24
   $CE2C #CHARSET
-@ $CE34 label=UDG_24
+@ $CE34 label=UDG_25
   $CE34 #CHARSET
-@ $CE3C label=UDG_25
+@ $CE3C label=UDG_26
   $CE3C #CHARSET
-@ $CE44 label=UDG_26
+@ $CE44 label=UDG_27
   $CE44 #CHARSET
-@ $CE4C label=UDG_27
+@ $CE4C label=UDG_28
   $CE4C #CHARSET
-@ $CE54 label=UDG_28
+@ $CE54 label=UDG_29
   $CE54 #CHARSET
-@ $CE5C label=UDG_29
+@ $CE5C label=UDG_2A
   $CE5C #CHARSET
-@ $CE64 label=UDG_2A
+@ $CE64 label=UDG_2B
   $CE64 #CHARSET
-@ $CE6C label=UDG_2B
+@ $CE6C label=UDG_2C
   $CE6C #CHARSET
-@ $CE74 label=UDG_2C
+@ $CE74 label=UDG_2D
   $CE74 #CHARSET
-@ $CE7C label=UDG_2D
+@ $CE7C label=UDG_2E
   $CE7C #CHARSET
-@ $CE84 label=UDG_2E
+@ $CE84 label=UDG_2F
   $CE84 #CHARSET
-@ $CE8C label=UDG_2F
+@ $CE8C label=UDG_30
   $CE8C #CHARSET
 
-@ $CE94 label=UDG_30
+@ $CE94 label=UDG_31
   $CE94 #CHARSET
-@ $CE9C label=UDG_31
+@ $CE9C label=UDG_32
   $CE9C #CHARSET
-@ $CEA4 label=UDG_32
+@ $CEA4 label=UDG_33
   $CEA4 #CHARSET
-@ $CEAC label=UDG_33
+@ $CEAC label=UDG_34
   $CEAC #CHARSET
-@ $CEB4 label=UDG_34
+@ $CEB4 label=UDG_35
   $CEB4 #CHARSET
-@ $CEBC label=UDG_35
+@ $CEBC label=UDG_36
   $CEBC #CHARSET
-@ $CEC4 label=UDG_36
+@ $CEC4 label=UDG_37
   $CEC4 #CHARSET
-@ $CECC label=UDG_37
+@ $CECC label=UDG_38
   $CECC #CHARSET
-@ $CED4 label=UDG_38
+@ $CED4 label=UDG_39
   $CED4 #CHARSET
-@ $CEDC label=UDG_39
+@ $CEDC label=UDG_3A
   $CEDC #CHARSET
-@ $CEE4 label=UDG_3A
+@ $CEE4 label=UDG_3B
   $CEE4 #CHARSET
-@ $CEEC label=UDG_3B
+@ $CEEC label=UDG_3C
   $CEEC #CHARSET
-@ $CEF4 label=UDG_3C
+@ $CEF4 label=UDG_3D
   $CEF4 #CHARSET
-@ $CEFC label=UDG_3D
+@ $CEFC label=UDG_3E
   $CEFC #CHARSET
-@ $CF04 label=UDG_3E
+@ $CF04 label=UDG_3F
   $CF04 #CHARSET
-@ $CF0C label=UDG_3F
+@ $CF0C label=UDG_40
   $CF0C #CHARSET
 
-@ $CF14 label=UDG_40
+@ $CF14 label=UDG_41
   $CF14 #CHARSET
-@ $CF1C label=UDG_41
+@ $CF1C label=UDG_42
   $CF1C #CHARSET
-@ $CF24 label=UDG_42
+@ $CF24 label=UDG_43
   $CF24 #CHARSET
-@ $CF2C label=UDG_43
+@ $CF2C label=UDG_44
   $CF2C #CHARSET
-@ $CF34 label=UDG_44
+@ $CF34 label=UDG_45
   $CF34 #CHARSET
-@ $CF3C label=UDG_45
+@ $CF3C label=UDG_46
   $CF3C #CHARSET
-@ $CF44 label=UDG_46
+@ $CF44 label=UDG_47
   $CF44 #CHARSET
-@ $CF4C label=UDG_47
+@ $CF4C label=UDG_48
   $CF4C #CHARSET
-@ $CF54 label=UDG_48
+@ $CF54 label=UDG_49
   $CF54 #CHARSET
-@ $CF5C label=UDG_49
+@ $CF5C label=UDG_4A
   $CF5C #CHARSET
-@ $CF64 label=UDG_4A
+@ $CF64 label=UDG_4B
   $CF64 #CHARSET
-@ $CF6C label=UDG_4B
+@ $CF6C label=UDG_4C
   $CF6C #CHARSET
-@ $CF74 label=UDG_4C
+@ $CF74 label=UDG_4D
   $CF74 #CHARSET
-@ $CF7C label=UDG_4D
+@ $CF7C label=UDG_4E
   $CF7C #CHARSET
-@ $CF84 label=UDG_4E
+@ $CF84 label=UDG_4F
   $CF84 #CHARSET
-@ $CF8C label=UDG_4F
+@ $CF8C label=UDG_50
   $CF8C #CHARSET
 
-@ $CF94 label=UDG_50
+@ $CF94 label=UDG_51
   $CF94 #CHARSET
-@ $CF9C label=UDG_51
+@ $CF9C label=UDG_52
   $CF9C #CHARSET
-@ $CFA4 label=UDG_52
+@ $CFA4 label=UDG_53
   $CFA4 #CHARSET
-@ $CFAC label=UDG_53
+@ $CFAC label=UDG_54
   $CFAC #CHARSET
-@ $CFB4 label=UDG_54
+@ $CFB4 label=UDG_55
   $CFB4 #CHARSET
-@ $CFBC label=UDG_55
+@ $CFBC label=UDG_56
   $CFBC #CHARSET
-@ $CFC4 label=UDG_56
+@ $CFC4 label=UDG_57
   $CFC4 #CHARSET
-@ $CFCC label=UDG_57
+@ $CFCC label=UDG_58
   $CFCC #CHARSET
-@ $CFD4 label=UDG_58
+@ $CFD4 label=UDG_59
   $CFD4 #CHARSET
-@ $CFDC label=UDG_59
+@ $CFDC label=UDG_5A
   $CFDC #CHARSET
-@ $CFE4 label=UDG_5A
+@ $CFE4 label=UDG_5B
   $CFE4 #CHARSET
-@ $CFEC label=UDG_5B
+@ $CFEC label=UDG_5C
   $CFEC #CHARSET
-@ $CFF4 label=UDG_5C
+@ $CFF4 label=UDG_5D
   $CFF4 #CHARSET
-@ $CFFC label=UDG_5D
+@ $CFFC label=UDG_5E
   $CFFC #CHARSET
-@ $D004 label=UDG_5E
+@ $D004 label=UDG_5F
   $D004 #CHARSET
-@ $D00C label=UDG_5F
+@ $D00C label=UDG_60
   $D00C #CHARSET
 
-@ $D014 label=UDG_60
+@ $D014 label=UDG_61
   $D014 #CHARSET
-@ $D01C label=UDG_61
+@ $D01C label=UDG_62
   $D01C #CHARSET
-@ $D024 label=UDG_62
+@ $D024 label=UDG_63
   $D024 #CHARSET
-@ $D02C label=UDG_63
+@ $D02C label=UDG_64
   $D02C #CHARSET
-@ $D034 label=UDG_64
+@ $D034 label=UDG_65
   $D034 #CHARSET
-@ $D03C label=UDG_65
+@ $D03C label=UDG_66
   $D03C #CHARSET
-@ $D044 label=UDG_66
+@ $D044 label=UDG_67
   $D044 #CHARSET
-@ $D04C label=UDG_67
+@ $D04C label=UDG_68
   $D04C #CHARSET
-@ $D054 label=UDG_68
+@ $D054 label=UDG_69
   $D054 #CHARSET
-@ $D05C label=UDG_69
+@ $D05C label=UDG_6A
   $D05C #CHARSET
-@ $D064 label=UDG_6A
+@ $D064 label=UDG_6B
   $D064 #CHARSET
-@ $D06C label=UDG_6B
+@ $D06C label=UDG_6C
   $D06C #CHARSET
-@ $D074 label=UDG_6C
+@ $D074 label=UDG_6D
   $D074 #CHARSET
-@ $D07C label=UDG_6D
+@ $D07C label=UDG_6E
   $D07C #CHARSET
-@ $D084 label=UDG_6E
+@ $D084 label=UDG_6F
   $D084 #CHARSET
-@ $D08C label=UDG_6F
+@ $D08C label=UDG_70
   $D08C #CHARSET
 
-@ $D094 label=UDG_70
+@ $D094 label=UDG_71
   $D094 #CHARSET
-@ $D09C label=UDG_71
+@ $D09C label=UDG_72
   $D09C #CHARSET
-@ $D0A4 label=UDG_72
+@ $D0A4 label=UDG_73
   $D0A4 #CHARSET
-@ $D0AC label=UDG_73
+@ $D0AC label=UDG_74
   $D0AC #CHARSET
-@ $D0B4 label=UDG_74
+@ $D0B4 label=UDG_75
   $D0B4 #CHARSET
-@ $D0BC label=UDG_75
+@ $D0BC label=UDG_76
   $D0BC #CHARSET
-@ $D0C4 label=UDG_76
+@ $D0C4 label=UDG_77
   $D0C4 #CHARSET
-@ $D0CC label=UDG_77
+@ $D0CC label=UDG_78
   $D0CC #CHARSET
-@ $D0D4 label=UDG_78
+@ $D0D4 label=UDG_79
   $D0D4 #CHARSET
-@ $D0DC label=UDG_79
+@ $D0DC label=UDG_7A
   $D0DC #CHARSET
-@ $D0E4 label=UDG_7A
+@ $D0E4 label=UDG_7B
   $D0E4 #CHARSET
-@ $D0EC label=UDG_7B
+@ $D0EC label=UDG_7C
   $D0EC #CHARSET
-@ $D0F4 label=UDG_7C
+@ $D0F4 label=UDG_7D
   $D0F4 #CHARSET
-@ $D0FC label=UDG_7D
+@ $D0FC label=UDG_7E
   $D0FC #CHARSET
-@ $D104 label=UDG_7E
+@ $D104 label=UDG_7F
   $D104 #CHARSET
-@ $D10C label=UDG_7F
+@ $D10C label=UDG_80
   $D10C #CHARSET
 
-@ $D114 label=UDG_80
+@ $D114 label=UDG_81
   $D114 #CHARSET
-@ $D11C label=UDG_81
+@ $D11C label=UDG_82
   $D11C #CHARSET
-@ $D124 label=UDG_82
+@ $D124 label=UDG_83
   $D124 #CHARSET
-@ $D12C label=UDG_83
+@ $D12C label=UDG_84
   $D12C #CHARSET
-@ $D134 label=UDG_84
+@ $D134 label=UDG_85
   $D134 #CHARSET
-@ $D13C label=UDG_85
+@ $D13C label=UDG_86
   $D13C #CHARSET
-@ $D144 label=UDG_86
+@ $D144 label=UDG_87
   $D144 #CHARSET
-@ $D14C label=UDG_87
+@ $D14C label=UDG_88
   $D14C #CHARSET
-@ $D154 label=UDG_88
+@ $D154 label=UDG_89
   $D154 #CHARSET
-@ $D15C label=UDG_89
+@ $D15C label=UDG_8A
   $D15C #CHARSET
-@ $D164 label=UDG_8A
+@ $D164 label=UDG_8B
   $D164 #CHARSET
-@ $D16C label=UDG_8B
+@ $D16C label=UDG_8C
   $D16C #CHARSET
-@ $D174 label=UDG_8C
+@ $D174 label=UDG_8D
   $D174 #CHARSET
-@ $D17C label=UDG_8D
+@ $D17C label=UDG_8E
   $D17C #CHARSET
-@ $D184 label=UDG_8E
+@ $D184 label=UDG_8F
   $D184 #CHARSET
-@ $D18C label=UDG_8F
+@ $D18C label=UDG_90
   $D18C #CHARSET
 
-@ $D194 label=UDG_90
+@ $D194 label=UDG_91
   $D194 #CHARSET
-@ $D19C label=UDG_91
+@ $D19C label=UDG_92
   $D19C #CHARSET
-@ $D1A4 label=UDG_92
+@ $D1A4 label=UDG_93
   $D1A4 #CHARSET
-@ $D1AC label=UDG_93
+@ $D1AC label=UDG_94
   $D1AC #CHARSET
-@ $D1B4 label=UDG_94
+@ $D1B4 label=UDG_95
   $D1B4 #CHARSET
-@ $D1BC label=UDG_95
+@ $D1BC label=UDG_96
   $D1BC #CHARSET
-@ $D1C4 label=UDG_96
+@ $D1C4 label=UDG_97
   $D1C4 #CHARSET
-@ $D1CC label=UDG_97
+@ $D1CC label=UDG_98
   $D1CC #CHARSET
-@ $D1D4 label=UDG_98
+@ $D1D4 label=UDG_99
   $D1D4 #CHARSET
-@ $D1DC label=UDG_99
+@ $D1DC label=UDG_9A
   $D1DC #CHARSET
-@ $D1E4 label=UDG_9A
+@ $D1E4 label=UDG_9B
   $D1E4 #CHARSET
-@ $D1EC label=UDG_9B
+@ $D1EC label=UDG_9C
   $D1EC #CHARSET
-@ $D1F4 label=UDG_9C
+@ $D1F4 label=UDG_9D
   $D1F4 #CHARSET
-@ $D1FC label=UDG_9D
+@ $D1FC label=UDG_9E
   $D1FC #CHARSET
-@ $D204 label=UDG_9E
+@ $D204 label=UDG_9F
   $D204 #CHARSET
-@ $D20C label=UDG_9F
+@ $D20C label=UDG_A0
   $D20C #CHARSET
 
-@ $D214 label=UDG_A0
+@ $D214 label=UDG_A1
   $D214 #CHARSET
-@ $D21C label=UDG_A1
+@ $D21C label=UDG_A2
   $D21C #CHARSET
-@ $D224 label=UDG_A2
+@ $D224 label=UDG_A3
   $D224 #CHARSET
-@ $D22C label=UDG_A3
+@ $D22C label=UDG_A4
   $D22C #CHARSET
-@ $D234 label=UDG_A4
+@ $D234 label=UDG_A5
   $D234 #CHARSET
-@ $D23C label=UDG_A5
+@ $D23C label=UDG_A6
   $D23C #CHARSET
-@ $D244 label=UDG_A6
+@ $D244 label=UDG_A7
   $D244 #CHARSET
-@ $D24C label=UDG_A7
+@ $D24C label=UDG_A8
   $D24C #CHARSET
-@ $D254 label=UDG_A8
+@ $D254 label=UDG_A9
   $D254 #CHARSET
-@ $D25C label=UDG_A9
+@ $D25C label=UDG_AA
   $D25C #CHARSET
-@ $D264 label=UDG_AA
+@ $D264 label=UDG_AB
   $D264 #CHARSET
-@ $D26C label=UDG_AB
+@ $D26C label=UDG_AC
   $D26C #CHARSET
-@ $D274 label=UDG_AC
+@ $D274 label=UDG_AD
   $D274 #CHARSET
-@ $D27C label=UDG_AD
+@ $D27C label=UDG_AE
   $D27C #CHARSET
-@ $D284 label=UDG_AE
+@ $D284 label=UDG_AF
   $D284 #CHARSET
-@ $D28C label=UDG_AF
+@ $D28C label=UDG_B0
   $D28C #CHARSET
 
-@ $D294 label=UDG_B0
+@ $D294 label=UDG_B1
   $D294 #CHARSET
-@ $D29C label=UDG_B1
+@ $D29C label=UDG_B2
   $D29C #CHARSET
 
 s $D2A4
