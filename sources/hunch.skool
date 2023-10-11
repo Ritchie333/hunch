@@ -8191,8 +8191,6 @@ u$E650 JP $EE69
 s$E6AF DEFS $01
 
 ; Unused
-;
-; Used by the routine at #R$EB81.
 u$E6B0 PUSH HL
  $E6B1 LD HL,$EBDF
  $E6B4 LD A,(HL)
@@ -8399,8 +8397,7 @@ c$EA60 LD A,($B9FB)  ;
  $EA79 SLA A         ;
  $EA7B ADD A,$21     ;
  $EA7D LD ($EAB0),A  ;
-; This entry point is used by the routine at #R$EB81.
-*$EA80 LD A,E        ;
+ $EA80 LD A,E        ;
  $EA81 LD ($EAB1),A  ;
  $EA84 RET           ;
 *$EA85 LD A,($BA4A)  ;
@@ -8520,8 +8517,7 @@ c$EB20 LD A,$EF      ;
 ;
 ; Used by the routine at #R$662B.
 c$EB2C LD A,$F7      ;
-; This entry point is used by the routine at #R$EB81.
-*$EB2E IN A,($FE)    ;
+ $EB2E IN A,($FE)    ;
  $EB30 BIT 4,A       ;
  $EB32 JP NZ,$6691   ;
  $EB35 JP $6652      ;
@@ -8554,371 +8550,371 @@ c$EB46 LD A,$F7      ;
 ; Assembler data
 u$EB50 DEFM ">",$EF,$DB,$FE,$CB,"G",$C0,$C3,$C3,"fAUTO",$A0,"RENUM",$A0,$A0,"LOAD",$A0,"VERIFY",$A0,"MONITOR",$A0,$D2,$C5,$D4,$D5,$D2,$CE,$A0
 
-; Routine at EB81
-c$EB81 BIT 6,(IY+$76) ;
- $EB85 RET NZ         ;
- $EB86 EXX            ;
- $EB87 EX AF,AF'      ;
- $EB88 CALL $0DFE     ;
- $EB8B EX AF,AF'      ;
- $EB8C EXX            ;
- $EB8D RET            ;
- $EB8E OR H           ;
- $EB8F LD (HL),A      ;
- $EB90 JR NZ,$EB2E    ;
- $EB92 RST $38        ;
- $EB93 PUSH HL        ;
- $EB94 LD E,H         ;
- $EB95 CALL P,$000F   ;
- $EB98 LD D,L         ;
- $EB99 XOR L          ;
- $EB9A INC H          ;
- $EB9B NOP            ;
- $EB9C LD B,B         ;
- $EB9D RST $38        ;
- $EB9E LD (BC),A      ;
- $EB9F OR A           ;
- $EBA0 CP H           ;
- $EBA1 JP NZ,$DFC7    ;
- $EBA4 RST $08        ;
- $EBA5 RST $38        ;
- $EBA6 RLCA           ;
- $EBA7 CALL PE,$E5F5  ;
- $EBAA LD C,H         ;
- $EBAB LD (HL),B      ;
- $EBAC ADD HL,HL      ;
- $EBAD LD (HL),D      ;
- $EBAE LD A,H         ;
- $EBAF LD H,B         ;
- $EBB0 EX AF,AF'      ;
- $EBB1 LD E,(HL)      ;
- $EBB2 NOP            ;
- $EBB3 NOP            ;
- $EBB4 DJNZ $EBB6     ;
-*$EBB6 DEC C          ;
- $EBB7 JP NC,$D4C5    ;
- $EBBA PUSH DE        ;
- $EBBB JP NC,$20CE    ;
- $EBBE JR NZ,$EBE0    ;
- $EBC0 JR NZ,$EBE2    ;
- $EBC2 JR NZ,$EBE4    ;
- $EBC4 JR NZ,$EBE6    ;
- $EBC6 JR NZ,$EBE8    ;
- $EBC8 JR NZ,$EBEA    ;
- $EBCA JR NZ,$EBEC    ;
- $EBCC JR NZ,$EBEE    ;
- $EBCE JR NZ,$EBF0    ;
- $EBD0 JR NZ,$EBF2    ;
- $EBD2 JR NZ,$EBF4    ;
- $EBD4 JR NZ,$EBF6    ;
- $EBD6 JR NZ,$EBF8    ;
- $EBD8 JR NZ,$EBFA    ;
- $EBDA JR NZ,$EBFC    ;
- $EBDC JR NZ,$EBFE    ;
- $EBDE JR NZ,$EBED    ;
-*$EBE0 JR NZ,$EC02    ;
-*$EBE2 JR NZ,$EC04    ;
-*$EBE4 JR NZ,$EC06    ;
-*$EBE6 JR NZ,$EC08    ;
-*$EBE8 JR NZ,$EC0A    ;
-*$EBEA JR NZ,$EC0C    ;
-*$EBEC JR NZ,$EC0E    ;
-*$EBEE JR NZ,$EC10    ;
-*$EBF0 JR NZ,$EC12    ;
-*$EBF2 JR NZ,$EC14    ;
-*$EBF4 JR NZ,$EC16    ;
-*$EBF6 JR NZ,$EC18    ;
-*$EBF8 JR NZ,$EC1A    ;
-*$EBFA JR NZ,$EC1C    ;
-*$EBFC JR NZ,$EC1E    ;
-*$EBFE JR NZ,$EC20    ;
- $EC00 JR NZ,$EC22    ;
-*$EC02 JR NZ,$EC24    ;
-*$EC04 JR NZ,$EC26    ;
-*$EC06 JR NZ,$EC15    ;
-*$EC08 XOR A          ;
- $EC09 LD (HL),A      ;
-*$EC0A OR L           ;
- $EC0B LD L,A         ;
-*$EC0C AND B          ;
- $EC0D LD D,B         ;
-*$EC0E RST $38        ;
- $EC0F NOP            ;
-*$EC10 BIT 6,(IY+$76) ;
-*$EC14 RET Z          ;
-*$EC15 PUSH HL        ;
-*$EC16 CALL $0ECD     ;
- $EC19 POP HL         ;
-*$EC1A RET            ;
- $EC1B EX DE,HL       ;
-*$EC1C LD HL,$EB9A    ;
- $EC1F LD (HL),$00    ;
- $EC21 INC HL         ;
-*$EC22 LD (HL),$00    ;
-*$EC24 LD B,$02       ;
-*$EC26 PUSH BC        ;
- $EC27 LD B,$02       ;
-*$EC29 LD A,(DE)      ;
- $EC2A SUB $30        ;
- $EC2C CP $0A         ;
- $EC2E JR NC,$EC3A    ;
- $EC30 RRD            ;
- $EC32 DEC DE         ;
- $EC33 DJNZ $EC29     ;
- $EC35 DEC HL         ;
- $EC36 POP BC         ;
- $EC37 DJNZ $EC26     ;
- $EC39 RET            ;
-*$EC3A XOR A          ;
-*$EC3B RRD            ;
- $EC3D DJNZ $EC3B     ;
- $EC3F POP BC         ;
- $EC40 RET            ;
- $EC41 PUSH DE        ;
- $EC42 LD BC,($EB8E)  ;
- $EC46 LD DE,($EB9A)  ;
- $EC4A LD A,D         ;
- $EC4B LD D,E         ;
- $EC4C LD E,A         ;
- $EC4D INC BC         ;
-*$EC4E LD A,(BC)      ;
- $EC4F CP $FF         ;
- $EC51 SCF            ;
- $EC52 JR Z,$EC6A     ;
- $EC54 LD H,A         ;
- $EC55 INC BC         ;
- $EC56 LD A,(BC)      ;
- $EC57 LD L,A         ;
- $EC58 AND A          ;
- $EC59 SBC HL,DE      ;
- $EC5B JR NC,$EC69    ;
- $EC5D PUSH BC        ;
- $EC5E POP HL         ;
- $EC5F LD A,$0D       ;
- $EC61 LD B,$FF       ;
- $EC63 CPIR           ;
- $EC65 PUSH HL        ;
- $EC66 POP BC         ;
- $EC67 JR $EC4E       ;
-*$EC69 DEC BC         ;
-*$EC6A PUSH BC        ;
- $EC6B POP HL         ;
- $EC6C POP BC         ;
- $EC6D RET            ;
- $EC6E PUSH HL        ;
- $EC6F PUSH DE        ;
- $EC70 LD DE,$000D    ;
- $EC73 LD HL,($EBAA)  ;
- $EC76 SBC HL,DE      ;
- $EC78 LD DE,($EC0A)  ;
- $EC7C SBC HL,DE      ;
- $EC7E POP DE         ;
- $EC7F POP HL         ;
- $EC80 RET NC         ;
- $EC81 CALL $EB81     ;
- $EC84 LD HL,$EC9C    ;
- $EC87 LD DE,$EBB7    ;
- $EC8A LD BC,$000B    ;
- $EC8D LDIR           ;
- $EC8F CALL $FE26     ;
- $EC92 CALL $EB81     ;
- $EC95 LD SP,($EB9C)  ;
- $EC99 JP $EE69       ;
- $EC9C CALL $CDC5     ;
- $EC9F RST $08        ;
- $ECA0 JP NC,$A0D9    ;
- $ECA3 ADD A,$D5      ;
- $ECA5 CALL Z,$3ECC   ;
- $ECA8 LD ($C0BE),HL  ;
- $ECAB PUSH AF        ;
- $ECAC CALL $E6B0     ;
- $ECAF XOR $01        ;
- $ECB1 LD ($5CB0),A   ;
- $ECB4 LD A,$F9       ;
- $ECB6 LD ($EBA3),A   ;
- $ECB9 POP AF         ;
- $ECBA RET            ;
- $ECBB PUSH AF        ;
- $ECBC PUSH HL        ;
- $ECBD RES 0,(IY+$76) ;
- $ECC1 LD A,$DF       ;
- $ECC3 LD ($EBA3),A   ;
- $ECC6 LD HL,$EBDF    ;
- $ECC9 LD (HL),$0D    ;
- $ECCB POP HL         ;
- $ECCC POP AF         ;
- $ECCD RET            ;
- $ECCE LD HL,$EBBB    ;
- $ECD1 LD A,$20       ;
- $ECD3 CP (HL)        ;
- $ECD4 JR NZ,$ECFA    ;
- $ECD6 LD L,$C1       ;
- $ECD8 CP (HL)        ;
- $ECD9 JR NZ,$ECFA    ;
- $ECDB LD L,$C6       ;
- $ECDD CP (HL)        ;
- $ECDE JR NZ,$ECFA    ;
- $ECE0 BIT 0,(IY+$76) ;
-*$ECE4 RET Z          ;
- $ECE5 LD B,$02       ;
-*$ECE7 LD A,$22       ;
- $ECE9 CP (HL)        ;
- $ECEA INC HL         ;
- $ECEB JR Z,$ECFE     ;
- $ECED LD A,$0D       ;
- $ECEF CP (HL)        ;
- $ECF0 JR NZ,$ECE7    ;
- $ECF2 DEC B          ;
- $ECF3 RET NZ         ;
- $ECF4 LD A,$20       ;
-*$ECF6 DEC HL         ;
- $ECF7 CP (HL)        ;
- $ECF8 JR Z,$ECF6     ;
-*$ECFA POP DE         ;
- $ECFB JP $EEA2       ;
-*$ECFE DJNZ $ECE7     ;
- $ED00 LD A,$20       ;
- $ED02 CP (HL)        ;
- $ED03 JR $ECE4       ;
- $ED05 CALL $EA80     ;
- $ED08 INC HL         ;
- $ED09 LD A,$20       ;
- $ED0B CP (HL)        ;
- $ED0C LD BC,$06FF    ;
- $ED0F JR Z,$ED17     ;
-*$ED11 DEC B          ;
- $ED12 LDI            ;
- $ED14 CP (HL)        ;
- $ED15 JR NZ,$ED11    ;
-*$ED17 LD (DE),A      ;
- $ED18 INC DE         ;
- $ED19 DJNZ $ED17     ;
- $ED1B LD BC,$05FF    ;
- $ED1E INC HL         ;
- $ED1F CP (HL)        ;
- $ED20 JR Z,$ED28     ;
-*$ED22 DEC B          ;
- $ED23 LDI            ;
- $ED25 CP (HL)        ;
- $ED26 JR NZ,$ED22    ;
-*$ED28 LD (DE),A      ;
- $ED29 INC DE         ;
- $ED2A DJNZ $ED28     ;
- $ED2C INC HL         ;
- $ED2D RET            ;
-*$ED2E LD DE,($EBA6)  ;
-*$ED32 LD A,(DE)      ;
- $ED33 XOR (HL)       ;
- $ED34 JR NZ,$ED3A    ;
- $ED36 INC HL         ;
- $ED37 INC DE         ;
- $ED38 JR $ED32       ;
-*$ED3A RL A           ;
- $ED3C JR NZ,$ED47    ;
- $ED3E INC DE         ;
- $ED3F LD A,(DE)      ;
- $ED40 AND A          ;
- $ED41 CALL $FC99     ;
- $ED44 JR NZ,$ED49    ;
- $ED46 RET            ;
-*$ED47 BIT 7,(HL)     ;
-*$ED49 INC HL         ;
- $ED4A JR Z,$ED47     ;
- $ED4C INC HL         ;
- $ED4D LD A,(HL)      ;
- $ED4E CP $FF         ;
- $ED50 JR NZ,$ED2E    ;
- $ED52 DEC A          ;
- $ED53 RET            ;
- $ED54 LD HL,($EBAA)  ;
- $ED57 LD ($EBA6),DE  ;
-*$ED5B LD BC,$0003    ;
- $ED5E LD DE,($EBA6)  ;
-*$ED62 LD A,(DE)      ;
- $ED63 XOR (HL)       ;
- $ED64 JR NZ,$ED6B    ;
- $ED66 INC HL         ;
- $ED67 INC BC         ;
- $ED68 INC DE         ;
- $ED69 JR $ED62       ;
-*$ED6B RL A           ;
- $ED6D JR NZ,$ED81    ;
- $ED6F INC DE         ;
- $ED70 INC BC         ;
- $ED71 LD A,(DE)      ;
- $ED72 CALL $FC99     ;
- $ED75 JR NZ,$ED83    ;
- $ED77 PUSH DE        ;
- $ED78 LD DE,($EBA6)  ;
- $ED7C DEC DE         ;
- $ED7D LD A,(DE)      ;
- $ED7E POP DE         ;
- $ED7F SCF            ;
- $ED80 RET            ;
-*$ED81 BIT 7,(HL)     ;
-*$ED83 INC HL         ;
- $ED84 JR Z,$ED81     ;
- $ED86 INC HL         ;
- $ED87 INC HL         ;
- $ED88 INC HL         ;
- $ED89 LD A,(HL)      ;
- $ED8A CP $FF         ;
- $ED8C JR NZ,$ED5B    ;
- $ED8E BIT 4,(IY+$76) ;
- $ED92 JR NZ,$EDA4    ;
- $ED94 LD HL,($EBA6)  ;
- $ED97 LD BC,$0002    ;
- $ED9A PUSH HL        ;
- $ED9B LD A,$20       ;
-*$ED9D CP (HL)        ;
- $ED9E INC BC         ;
- $ED9F INC HL         ;
- $EDA0 JR NZ,$ED9D    ;
- $EDA2 POP DE         ;
- $EDA3 RET            ;
-*$EDA4 POP DE         ;
- $EDA5 JP $F8A4       ;
- $EDA8 PUSH DE        ;
- $EDA9 EXX            ;
- $EDAA LD HL,$0000    ;
- $EDAD EXX            ;
- $EDAE LD HL,$EDEA    ;
- $EDB1 LD B,$06       ;
-*$EDB3 PUSH BC        ;
- $EDB4 LD B,(HL)      ;
- $EDB5 INC HL         ;
- $EDB6 LD C,(HL)      ;
- $EDB7 INC HL         ;
- $EDB8 DEC DE         ;
- $EDB9 LD A,(DE)      ;
- $EDBA CP $30         ;
- $EDBC JR C,$EDD5     ;
- $EDBE CP $3A         ;
- $EDC0 JR NC,$EDD5    ;
- $EDC2 SUB $2F        ;
- $EDC4 PUSH BC        ;
- $EDC5 EXX            ;
- $EDC6 POP DE         ;
- $EDC7 LD B,A         ;
- $EDC8 DEC B          ;
- $EDC9 JR Z,$EDCE     ;
-*$EDCB ADD HL,DE      ;
- $EDCC DJNZ $EDCB     ;
-*$EDCE EXX            ;
- $EDCF POP BC         ;
- $EDD0 DJNZ $EDB3     ;
- $EDD2 JP $F8AC       ;
-*$EDD5 CALL $FC94     ;
- $EDD8 JP NZ,$F8AC    ;
- $EDDB EXX            ;
- $EDDC BIT 2,(IY+$76) ;
- $EDE0 JR NZ,$EDE6    ;
- $EDE2 EX DE,HL       ;
- $EDE3 CALL $FC80     ;
-*$EDE6 EXX            ;
- $EDE7 POP BC         ;
- $EDE8 POP DE         ;
- $EDE9 RET            ;
+; Unused
+u$EB81 BIT 6,(IY+$76)
+ $EB85 RET NZ
+ $EB86 EXX
+ $EB87 EX AF,AF'
+ $EB88 CALL $0DFE
+ $EB8B EX AF,AF'
+ $EB8C EXX
+ $EB8D RET
+ $EB8E OR H
+ $EB8F LD (HL),A
+ $EB90 JR NZ,$EB2E
+ $EB92 RST $38
+ $EB93 PUSH HL
+ $EB94 LD E,H
+ $EB95 CALL P,$000F
+ $EB98 LD D,L
+ $EB99 XOR L
+ $EB9A INC H
+ $EB9B NOP
+ $EB9C LD B,B
+ $EB9D RST $38
+ $EB9E LD (BC),A
+ $EB9F OR A
+ $EBA0 CP H
+ $EBA1 JP NZ,$DFC7
+ $EBA4 RST $08
+ $EBA5 RST $38
+ $EBA6 RLCA
+ $EBA7 CALL PE,$E5F5
+ $EBAA LD C,H
+ $EBAB LD (HL),B
+ $EBAC ADD HL,HL
+ $EBAD LD (HL),D
+ $EBAE LD A,H
+ $EBAF LD H,B
+ $EBB0 EX AF,AF'
+ $EBB1 LD E,(HL)
+ $EBB2 NOP
+ $EBB3 NOP
+ $EBB4 DJNZ $EBB6
+*$EBB6 DEC C
+ $EBB7 JP NC,$D4C5
+ $EBBA PUSH DE
+ $EBBB JP NC,$20CE
+ $EBBE JR NZ,$EBE0
+ $EBC0 JR NZ,$EBE2
+ $EBC2 JR NZ,$EBE4
+ $EBC4 JR NZ,$EBE6
+ $EBC6 JR NZ,$EBE8
+ $EBC8 JR NZ,$EBEA
+ $EBCA JR NZ,$EBEC
+ $EBCC JR NZ,$EBEE
+ $EBCE JR NZ,$EBF0
+ $EBD0 JR NZ,$EBF2
+ $EBD2 JR NZ,$EBF4
+ $EBD4 JR NZ,$EBF6
+ $EBD6 JR NZ,$EBF8
+ $EBD8 JR NZ,$EBFA
+ $EBDA JR NZ,$EBFC
+ $EBDC JR NZ,$EBFE
+ $EBDE JR NZ,$EBED
+*$EBE0 JR NZ,$EC02
+*$EBE2 JR NZ,$EC04
+*$EBE4 JR NZ,$EC06
+*$EBE6 JR NZ,$EC08
+*$EBE8 JR NZ,$EC0A
+*$EBEA JR NZ,$EC0C
+*$EBEC JR NZ,$EC0E
+*$EBEE JR NZ,$EC10
+*$EBF0 JR NZ,$EC12
+*$EBF2 JR NZ,$EC14
+*$EBF4 JR NZ,$EC16
+*$EBF6 JR NZ,$EC18
+*$EBF8 JR NZ,$EC1A
+*$EBFA JR NZ,$EC1C
+*$EBFC JR NZ,$EC1E
+*$EBFE JR NZ,$EC20
+ $EC00 JR NZ,$EC22
+*$EC02 JR NZ,$EC24
+*$EC04 JR NZ,$EC26
+*$EC06 JR NZ,$EC15
+*$EC08 XOR A
+ $EC09 LD (HL),A
+*$EC0A OR L
+ $EC0B LD L,A
+*$EC0C AND B
+ $EC0D LD D,B
+*$EC0E RST $38
+ $EC0F NOP
+*$EC10 BIT 6,(IY+$76)
+*$EC14 RET Z
+*$EC15 PUSH HL
+*$EC16 CALL $0ECD
+ $EC19 POP HL
+*$EC1A RET
+ $EC1B EX DE,HL
+*$EC1C LD HL,$EB9A
+ $EC1F LD (HL),$00
+ $EC21 INC HL
+*$EC22 LD (HL),$00
+*$EC24 LD B,$02
+*$EC26 PUSH BC
+ $EC27 LD B,$02
+*$EC29 LD A,(DE)
+ $EC2A SUB $30
+ $EC2C CP $0A
+ $EC2E JR NC,$EC3A
+ $EC30 RRD
+ $EC32 DEC DE
+ $EC33 DJNZ $EC29
+ $EC35 DEC HL
+ $EC36 POP BC
+ $EC37 DJNZ $EC26
+ $EC39 RET
+*$EC3A XOR A
+*$EC3B RRD
+ $EC3D DJNZ $EC3B
+ $EC3F POP BC
+ $EC40 RET
+ $EC41 PUSH DE
+ $EC42 LD BC,($EB8E)
+ $EC46 LD DE,($EB9A)
+ $EC4A LD A,D
+ $EC4B LD D,E
+ $EC4C LD E,A
+ $EC4D INC BC
+*$EC4E LD A,(BC)
+ $EC4F CP $FF
+ $EC51 SCF
+ $EC52 JR Z,$EC6A
+ $EC54 LD H,A
+ $EC55 INC BC
+ $EC56 LD A,(BC)
+ $EC57 LD L,A
+ $EC58 AND A
+ $EC59 SBC HL,DE
+ $EC5B JR NC,$EC69
+ $EC5D PUSH BC
+ $EC5E POP HL
+ $EC5F LD A,$0D
+ $EC61 LD B,$FF
+ $EC63 CPIR
+ $EC65 PUSH HL
+ $EC66 POP BC
+ $EC67 JR $EC4E
+*$EC69 DEC BC
+*$EC6A PUSH BC
+ $EC6B POP HL
+ $EC6C POP BC
+ $EC6D RET
+ $EC6E PUSH HL
+ $EC6F PUSH DE
+ $EC70 LD DE,$000D
+ $EC73 LD HL,($EBAA)
+ $EC76 SBC HL,DE
+ $EC78 LD DE,($EC0A)
+ $EC7C SBC HL,DE
+ $EC7E POP DE
+ $EC7F POP HL
+ $EC80 RET NC
+ $EC81 CALL $EB81
+ $EC84 LD HL,$EC9C
+ $EC87 LD DE,$EBB7
+ $EC8A LD BC,$000B
+ $EC8D LDIR
+ $EC8F CALL $FE26
+ $EC92 CALL $EB81
+ $EC95 LD SP,($EB9C)
+ $EC99 JP $EE69
+ $EC9C CALL $CDC5
+ $EC9F RST $08
+ $ECA0 JP NC,$A0D9
+ $ECA3 ADD A,$D5
+ $ECA5 CALL Z,$3ECC
+ $ECA8 LD ($C0BE),HL
+ $ECAB PUSH AF
+ $ECAC CALL $E6B0
+ $ECAF XOR $01
+ $ECB1 LD ($5CB0),A
+ $ECB4 LD A,$F9
+ $ECB6 LD ($EBA3),A
+ $ECB9 POP AF
+ $ECBA RET
+ $ECBB PUSH AF
+ $ECBC PUSH HL
+ $ECBD RES 0,(IY+$76)
+ $ECC1 LD A,$DF
+ $ECC3 LD ($EBA3),A
+ $ECC6 LD HL,$EBDF
+ $ECC9 LD (HL),$0D
+ $ECCB POP HL
+ $ECCC POP AF
+ $ECCD RET
+ $ECCE LD HL,$EBBB
+ $ECD1 LD A,$20
+ $ECD3 CP (HL)
+ $ECD4 JR NZ,$ECFA
+ $ECD6 LD L,$C1
+ $ECD8 CP (HL)
+ $ECD9 JR NZ,$ECFA
+ $ECDB LD L,$C6
+ $ECDD CP (HL)
+ $ECDE JR NZ,$ECFA
+ $ECE0 BIT 0,(IY+$76)
+*$ECE4 RET Z
+ $ECE5 LD B,$02
+*$ECE7 LD A,$22
+ $ECE9 CP (HL)
+ $ECEA INC HL
+ $ECEB JR Z,$ECFE
+ $ECED LD A,$0D
+ $ECEF CP (HL)
+ $ECF0 JR NZ,$ECE7
+ $ECF2 DEC B
+ $ECF3 RET NZ
+ $ECF4 LD A,$20
+*$ECF6 DEC HL
+ $ECF7 CP (HL)
+ $ECF8 JR Z,$ECF6
+*$ECFA POP DE
+ $ECFB JP $EEA2
+*$ECFE DJNZ $ECE7
+ $ED00 LD A,$20
+ $ED02 CP (HL)
+ $ED03 JR $ECE4
+ $ED05 CALL $EA80
+ $ED08 INC HL
+ $ED09 LD A,$20
+ $ED0B CP (HL)
+ $ED0C LD BC,$06FF
+ $ED0F JR Z,$ED17
+*$ED11 DEC B
+ $ED12 LDI
+ $ED14 CP (HL)
+ $ED15 JR NZ,$ED11
+*$ED17 LD (DE),A
+ $ED18 INC DE
+ $ED19 DJNZ $ED17
+ $ED1B LD BC,$05FF
+ $ED1E INC HL
+ $ED1F CP (HL)
+ $ED20 JR Z,$ED28
+*$ED22 DEC B
+ $ED23 LDI
+ $ED25 CP (HL)
+ $ED26 JR NZ,$ED22
+*$ED28 LD (DE),A
+ $ED29 INC DE
+ $ED2A DJNZ $ED28
+ $ED2C INC HL
+ $ED2D RET
+*$ED2E LD DE,($EBA6)
+*$ED32 LD A,(DE)
+ $ED33 XOR (HL)
+ $ED34 JR NZ,$ED3A
+ $ED36 INC HL
+ $ED37 INC DE
+ $ED38 JR $ED32
+*$ED3A RL A
+ $ED3C JR NZ,$ED47
+ $ED3E INC DE
+ $ED3F LD A,(DE)
+ $ED40 AND A
+ $ED41 CALL $FC99
+ $ED44 JR NZ,$ED49
+ $ED46 RET
+*$ED47 BIT 7,(HL)
+*$ED49 INC HL
+ $ED4A JR Z,$ED47
+ $ED4C INC HL
+ $ED4D LD A,(HL)
+ $ED4E CP $FF
+ $ED50 JR NZ,$ED2E
+ $ED52 DEC A
+ $ED53 RET
+ $ED54 LD HL,($EBAA)
+ $ED57 LD ($EBA6),DE
+*$ED5B LD BC,$0003
+ $ED5E LD DE,($EBA6)
+*$ED62 LD A,(DE)
+ $ED63 XOR (HL)
+ $ED64 JR NZ,$ED6B
+ $ED66 INC HL
+ $ED67 INC BC
+ $ED68 INC DE
+ $ED69 JR $ED62
+*$ED6B RL A
+ $ED6D JR NZ,$ED81
+ $ED6F INC DE
+ $ED70 INC BC
+ $ED71 LD A,(DE)
+ $ED72 CALL $FC99
+ $ED75 JR NZ,$ED83
+ $ED77 PUSH DE
+ $ED78 LD DE,($EBA6)
+ $ED7C DEC DE
+ $ED7D LD A,(DE)
+ $ED7E POP DE
+ $ED7F SCF
+ $ED80 RET
+*$ED81 BIT 7,(HL)
+*$ED83 INC HL
+ $ED84 JR Z,$ED81
+ $ED86 INC HL
+ $ED87 INC HL
+ $ED88 INC HL
+ $ED89 LD A,(HL)
+ $ED8A CP $FF
+ $ED8C JR NZ,$ED5B
+ $ED8E BIT 4,(IY+$76)
+ $ED92 JR NZ,$EDA4
+ $ED94 LD HL,($EBA6)
+ $ED97 LD BC,$0002
+ $ED9A PUSH HL
+ $ED9B LD A,$20
+*$ED9D CP (HL)
+ $ED9E INC BC
+ $ED9F INC HL
+ $EDA0 JR NZ,$ED9D
+ $EDA2 POP DE
+ $EDA3 RET
+*$EDA4 POP DE
+ $EDA5 JP $F8A4
+ $EDA8 PUSH DE
+ $EDA9 EXX
+ $EDAA LD HL,$0000
+ $EDAD EXX
+ $EDAE LD HL,$EDEA
+ $EDB1 LD B,$06
+*$EDB3 PUSH BC
+ $EDB4 LD B,(HL)
+ $EDB5 INC HL
+ $EDB6 LD C,(HL)
+ $EDB7 INC HL
+ $EDB8 DEC DE
+ $EDB9 LD A,(DE)
+ $EDBA CP $30
+ $EDBC JR C,$EDD5
+ $EDBE CP $3A
+ $EDC0 JR NC,$EDD5
+ $EDC2 SUB $2F
+ $EDC4 PUSH BC
+ $EDC5 EXX
+ $EDC6 POP DE
+ $EDC7 LD B,A
+ $EDC8 DEC B
+ $EDC9 JR Z,$EDCE
+*$EDCB ADD HL,DE
+ $EDCC DJNZ $EDCB
+*$EDCE EXX
+ $EDCF POP BC
+ $EDD0 DJNZ $EDB3
+ $EDD2 JP $F8AC
+*$EDD5 CALL $FC94
+ $EDD8 JP NZ,$F8AC
+ $EDDB EXX
+ $EDDC BIT 2,(IY+$76)
+ $EDE0 JR NZ,$EDE6
+ $EDE2 EX DE,HL
+ $EDE3 CALL $FC80
+*$EDE6 EXX
+ $EDE7 POP BC
+ $EDE8 POP DE
+ $EDE9 RET
 
 ; Unused
 ;

@@ -1053,7 +1053,7 @@ D $EB50 Assembler data
 T $EB50
 
 u $EB81 Unused
-c $EB81
+C $EB81
 
 u $EDEA Unused
 D $EDEA Assembler data
