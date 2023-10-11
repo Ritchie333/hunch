@@ -8,11 +8,17 @@ DataTables
 Reference
 
 [Links]
+UDGs=[UDGs]
 Sprites=[Sprites]
+Screens=[Screens]
 
 [Index:Graphics:Graphics]
+UDGs
 Sprites
 Screens
+
+[Page:UDGs]
+SectionPrefix=UDGs
 
 [Page:Sprites]
 SectionPrefix=Sprites
@@ -126,4 +132,20 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_28-2B.png"/></td>
   </tr>
 </table>
+)
+
+[UDGs:SCORE]
+#HTML(<img src="./images/udgs/score.png"/>)
+
+[UDGs:HELP]
+#HTML(
+  <table>
+  <tr>
+  <th>#R$97DF</th><th>#R$97F0</th><th></th>
+  </tr>
+  <td><img src="./images/udgs/Help.png"/></td>
+  <td><img src="./images/udgs/Heart.png"/></td>
+  <td><img src="./images/udgs/HelpHeart.png"/></td>
+  </tr>
+  </table>
 )

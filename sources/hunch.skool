@@ -5466,7 +5466,7 @@ b$9756 DEFB $22
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help)
+; #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help*)
 b$97DF DEFB $04
  $97E0 DEFB $02,$20,$15,$AB
  $97E4 DEFB $02,$20,$16,$AC
@@ -5477,7 +5477,7 @@ b$97DF DEFB $04
 ;
 ; Used by the routine at #R$9ACA
 ; .
-; #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart)
+; #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
 b$97F0 DEFB $04
  $97F1 DEFB $02,$20,$15,$AF
  $97F5 DEFB $02,$20,$16,$B0

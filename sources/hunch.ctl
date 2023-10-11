@@ -393,12 +393,12 @@ B $9757,$88,$4
 b $97DF Graphics : HELP
 D $97DF Used by the routine at #R$9ACA
 B $97E0,$10,$4
-D $97DF #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help)
+D $97DF #UDGARRAY2,2;#GFX$AB;#GFX$AC;#GFX$AD;#GFX$AE(Help*)
 
 b $97F0 Graphics : Heart
 D $97F0 Used by the routine at #R$9ACA
 B $97F1,$10,$4
-D $97F0 #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart)
+D $97F0 #UDGARRAY2,2;#GFX$AF;#GFX$B0;#GFX$B1;#GFX$B2(Heart*)#UDGARRAY*(Help;Heart)(HelpHeart)
 
 s $9801
 b $9858 Copy of Quasimodo L
