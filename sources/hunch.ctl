@@ -2,11 +2,11 @@
 @ $4000 org
 
 @ $4000 replace=/#CHARSET/#UDG(#PC)/
-@ $4000 replace=/#SPRITE4/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$C0);(#PC+$D0);(#PC+$E0);(#PC+$C8);(#PC+$D8);(#PC+$E8)
-@ $4000 replace=/#SPRITE5/#UDGARRAY3,5;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
-@ $4000 replace=/#SPRITE2/#UDGARRAY3,6;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
-@ $4000 replace=/#SPRITE3/#UDGARRAY3,3;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28)
-@ $4000 replace=/#SPRITE14/#UDGARRAY3,4;(#PC);(#PC+$10);(#PC+$20);(#PC+$08);(#PC+$18);(#PC+$28);(#PC+$30);(#PC+$40);(#PC+$50);(#PC+$38);(#PC+$48);(#PC+$58)
+
+@ $4000 replace=/#SPRITE2,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28)
+@ $4000 replace=/#SPRITE4,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$C0);(\2+$D0);(\2+$E0);(\2+$C8);(\2+$D8);(\2+$E8)
+@ $4000 replace=/#SPRITE5,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
+@ $4000 replace=/#SPRITE14,\i,\i/#UDGARRAY3,\1;(\2);(\2+$10);(\2+$20);(\2+$08);(\2+$18);(\2+$28);(\2+$30);(\2+$40);(\2+$50);(\2+$38);(\2+$48);(\2+$58)
 
 @ $4000 replace=/#GFX\i/(\1*8+$CD0C)/
 
@@ -500,120 +500,96 @@ s $C1B8
 
 b $C350 Sprite 00 - 07 : Quasimodo right
 D $C350 This is a double-height sprite
+D $C350 #SPRITE4,4,$C350(Sprite_00-04*)#SPRITE4,4,$C380(Sprite_01-05*)#SPRITE4,4,$C3B0(Sprite_02-06*)#SPRITE4,4,$C3E0(Sprite_03-07*);#UDGARRAY*(Sprite_00-04;Sprite_01-05;Sprite_02-06;Sprite_03-07)(Sprite_00-07)
 
 @ $C350 label=Sprite_00-04
-  $C350 #SPRITE4(Sprite_00-04*)
 
 @ $C380 label=Sprite_01-05
-  $C380 #SPRITE4(Sprite_01-05*)
 
 @ $C3B0 label=Sprite_02-06
-  $C3B0 #SPRITE4(Sprite_02-06*)
 
 @ $C3E0 label=Sprite_03-07
-  $C3E0 #SPRITE4(Sprite_03-07*)
-
-  $C400 #UDGARRAY*(Sprite_00-04;Sprite_01-05;Sprite_02-06;Sprite_03-07)(Sprite_00-07)
 
 b $C4D0 Sprite 08 - 0F : Quasimodo left
 D $C4D0 This is a double-height sprite
 B $C4D0,$180,$8
+D $C4D0 #SPRITE4,4,$C4D0(Sprite_08-0C*)#SPRITE4,4,$C500(Sprite_09-0D*)#SPRITE4,4,$C530(Sprite_0A-0E*)#SPRITE4,4,$C560(Sprite_0B-0F*);#UDGARRAY*(Sprite_08-0C;Sprite_09-0D;Sprite_0A-0E;Sprite_0B-0F)(Sprite_08-0F)
 
 @ $C4D0 label=Sprite_08-0C
-  $C4D0 #SPRITE4(Sprite_08-0C*)
-
+ 
 @ $C500 label=Sprite_09-0D
-  $C500 #SPRITE4(Sprite_09-0D*)
 
 @ $C530 label=Sprite_0A-0E
-  $C530 #SPRITE4(Sprite_0A-0E*)
 
 @ $C560 label=Sprite_0B-0F
-  $C560 #SPRITE4(Sprite_0B-0F*)
 
 b $C650 Sprite 10 - 13 : Arrow left
 B $C650,$C0,$8
 
 @ $C650 label=Sprite_10
-  $C650 #SPRITE2(Sprite_10*)
+D $C650 #SPRITE2,6,$C650(Sprite_10*)#SPRITE2,6,$C680(Sprite_11*)#SPRITE2,6,$C6B0(Sprite_12*)#SPRITE2,6,$C6E0(Sprite_13*)#UDGARRAY*(Sprite_10;Sprite_11;Sprite_12;Sprite_13)(Sprite_10-13)
 
 @ $C680 label=Sprite_11
-  $C680 #SPRITE2(Sprite_11*)
 
 @ $C6B0 label=Sprite_12
-  $C6B0 #SPRITE2(Sprite_12*)
 
 @ $C6E0 label=Sprite_13
-  $C6E0 #SPRITE2(Sprite_13*)
 
 b $C710 Sprite 14 - 17 : Fireball left
 B $C710,$C0,$8
+D $C710 #SPRITE2,3,$C710(Sprite_14*)#SPRITE2,3,$C740(Sprite_15*)#SPRITE2,3,$C770(Sprite_16*)#SPRITE2,3,$C7A0(Sprite_17*)#UDGARRAY*(Sprite_14;Sprite_15;Sprite_16;Sprite_17)(Sprite_14-17)
 
 @ $C710 label=Sprite_14
-  $C710 #SPRITE3(Sprite_14*)
-
+ 
 @ $C740 label=Sprite_15
-  $C740 #SPRITE3(Sprite_15*)
 
 @ $C770 label=Sprite_16
-  $C770 #SPRITE3(Sprite_16*)
 
 @ $C7A0 label=Sprite_17
-  $C7A0 #SPRITE3(Sprite_17*)
 
 b $C7D0 Sprite 18 - 1B : Arrow right
 B $C7D0,$C0,$8
+D $C7D0 #SPRITE2,6,$C7D0(Sprite_18*)#SPRITE2,6,$C800(Sprite_19*)#SPRITE2,6,$C830(Sprite_1A*)#SPRITE2,6,$C860(Sprite_1B*)#UDGARRAY*(Sprite_18;Sprite_19;Sprite_1A;Sprite_1B)(Sprite_18-1B)
 
 @ $C7D0 label=Sprite_18
-  $C7D0 #SPRITE2(Sprite_18*)
 
 @ $C800 label=Sprite_19
-  $C800 #SPRITE2(Sprite_19*)
 
 @ $C830 label=Sprite_1A
-  $C830 #SPRITE2(Sprite_1A*)
 
 @ $C860 label=Sprite_1B
-  $C860 #SPRITE2(Sprite_1B*)
 
 b $C890 Sprite 1C - 1F : Fireball right
 B $C890,$C0,$8
+D $C890 #SPRITE2,3,$C890(Sprite_1C*)#SPRITE2,3,$C8C0(Sprite_1D*)#SPRITE2,3,$C8F0(Sprite_1E*)#SPRITE2,3,$C920(Sprite_1F*)#UDGARRAY*(Sprite_1C;Sprite_1D;Sprite_1E;Sprite_1F)(Sprite_1C-1F)
 
 @ $C890 label=Sprite_1C
-  $C890 #SPRITE3(Sprite_1C*)
 
 @ $C8C0 label=Sprite_1D
-  $C8C0 #SPRITE3(Sprite_1D*)
 
 @ $C8F0 label=Sprite_1E
-  $C8F0 #SPRITE3(Sprite_1E*)
 
 @ $C920 label=Sprite_1F
-  $C920 #SPRITE3(Sprite_1F*)
 
 b $C950 Sprite 20 - 27 : Quasimodo on rope
 B $C950,$180,$8
+D $C950 #SPRITE14,4,$C950(Sprite_20-21*)#SPRITE14,4,$C9B0(Sprite_22-23*)#SPRITE14,4,$CA10(Sprite_24-25*)#SPRITE14,4,$CA70(Sprite_26-27*)#UDGARRAY*(Sprite_20-21;Sprite_22-23;Sprite_24-25;Sprite_26-27)(Sprite_20-27)
 
 @ $C950 label=Sprite_20-21
-  $C950 #SPRITE14(Sprite_20-21*)
 
 @ $C9B0 label=Sprite_22-23
-  $C9B0 #SPRITE14(Sprite_22-23*)
 
 @ $CA10 label=Sprite_24-25
-  $CA10 #SPRITE14(Sprite_24-25*)
 
 @ $CA70 label=Sprite_26-27
-  $CA70 #SPRITE14(Sprite_26-27*)
 
 b $CAD0 Sprite 28 - 2B : Chasing knight
 B $CAD0,$C0,$8 
+D $CAD0 #SPRITE5,5,$CAD0(Sprite_28-29*)#SPRITE5,5,$CB30(Sprite_2A-2B*)#UDGARRAY*(Sprite_28-29;Sprite_2A-2B)(Sprite_28-2B)
 
 @ $CAD0 label=Sprite_28-29
-  $CAD0 #SPRITE5(Sprite_28-29*)
 
 @ $CB30 label=Sprite_2A-2B
-  $CB30 #SPRITE5(Sprite_2A-2B*)
 
 s $CB90
 

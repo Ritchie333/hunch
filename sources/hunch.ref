@@ -34,6 +34,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_01-05.png"/></td>
     <td><img src="./images/udgs/Sprite_02-06.png"/></td>
     <td><img src="./images/udgs/Sprite_03-07.png"/></td>
+    <td><img src="./images/udgs/Sprite_00-07.png"/></td>
   </tr>
 </table>
 )
@@ -46,6 +47,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_09-0D.png"/></td>
     <td><img src="./images/udgs/Sprite_0A-0E.png"/></td>
     <td><img src="./images/udgs/Sprite_0B-0F.png"/></td>
+    <td><img src="./images/udgs/Sprite_08-0F.png"/></td>
   </tr>
 </table>
 )
@@ -58,6 +60,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_11.png"/></td>
     <td><img src="./images/udgs/Sprite_12.png"/></td>
     <td><img src="./images/udgs/Sprite_13.png"/></td>
+    <td><img src="./images/udgs/Sprite_10-13.png"/></td>
   </tr>
 </table>
 )
@@ -70,6 +73,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_15.png"/></td>
     <td><img src="./images/udgs/Sprite_16.png"/></td>
     <td><img src="./images/udgs/Sprite_17.png"/></td>
+    <td><img src="./images/udgs/Sprite_14-17.png"/></td>
   </tr>
 </table>
 )
@@ -82,6 +86,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_19.png"/></td>
     <td><img src="./images/udgs/Sprite_1A.png"/></td>
     <td><img src="./images/udgs/Sprite_1B.png"/></td>
+    <td><img src="./images/udgs/Sprite_18-1B.png"/></td>
   </tr>
 </table>
 )
@@ -94,6 +99,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_1D.png"/></td>
     <td><img src="./images/udgs/Sprite_1E.png"/></td>
     <td><img src="./images/udgs/Sprite_1F.png"/></td>
+    <td><img src="./images/udgs/Sprite_1C-1F.png"/></td>
   </tr>
 </table>
 )
@@ -106,6 +112,7 @@ SectionPrefix=Screens
     <td><img src="./images/udgs/Sprite_22-23.png"/></td>
     <td><img src="./images/udgs/Sprite_24-25.png"/></td>
     <td><img src="./images/udgs/Sprite_26-27.png"/></td>
+    <td><img src="./images/udgs/Sprite_20-27.png"/></td>
   </tr>
 </table>
 )
@@ -116,6 +123,7 @@ SectionPrefix=Screens
   <tr>
     <td><img src="./images/udgs/Sprite_28-29.png"/></td>
     <td><img src="./images/udgs/Sprite_2A-2B.png"/></td>
+    <td><img src="./images/udgs/Sprite_28-2B.png"/></td>
   </tr>
 </table>
 )
