@@ -71,9 +71,9 @@ g $60B5
 g $60B6 Next sprite ID to use for L - R static objects
 g $60B7 Next sprite ID to use for "high" static objects
 g $60B8 Number of lives
-g $60B9 Set to 1 if a Kempston joystick is installed (?)
-g $60BA
-g $60BB
+g $60B9 Set to 1 if a Kempston joystick is installed
+g $60BA Set to 1 if an Interface 2 is installed
+g $60BB Set to 1 if a Protek joystick is installed
 g $60BC Score to award (in hundreds)
 g $60BD Chasing knight Y co-ordinate
 D $608D Starts at #N$A0 and decreases to #N$50
@@ -85,7 +85,7 @@ g $60C2 Time before the chasing knight should move
 g $60C3
 g $60C4 Set to 1 to put in a row of bells
 g $60C5 Set to 1 if Quasimodo has grabbed a bell on the pit
-g $60C6
+g $60C6 Set to 1 if all objects should be updated
 g $60C7 Animation state of the "HELP" message on the last level
 D $60C7 Alternates between 0 and 1
 g $60C8
@@ -93,9 +93,9 @@ g $60C9 Chasing knight Y co-ordinate
 g $60CA Chasing knight X co-ordinate
 g $60CB Chasing knight sprite ID (chasing)
 g $60CC Time before chasing knight sprite ID moves forward
-g $60CD
+g $60CD Set to 1 if the chasing knight has climbed the wall
 g $60CE
-g $60CF
+g $60CF Position on the level display
 g $60D0 Set to 1 if awarding extra life
 g $60D1 Set to 1 if Quasimodo has fallen off a ledge
 
@@ -160,7 +160,7 @@ c $696E Reset all the level flags to default
 c $6A51 Level completed
 c $6AC9 Draw the main paying area
 c $6AD1 Print the score
-c $6AEB Display the score box
+c $6AEB Display the bonus bells
 c $6B08 Award the super bonus
 c $6B75 Lower the soldiers' spears
 c $6B8E Draw the soldiers attributes (raised)
@@ -1045,7 +1045,7 @@ c $EA60 Update state if Quasimodo is near a rope
 c $EAC4 Flash the wall after dying
 c $EAF1 Fill the wall with an attribute
 R $EAF1 D Value to fill
-c $EB06 Check for "left" pressing "4" (?)
+c $EB06 Check for "right" on Interface 2
 c $EB12 Jump to #R$EB3A
 s $EB14
 c $EB1A Jump to #R$EB46
@@ -1053,13 +1053,12 @@ s $EB1C
 c $EB20 Check for "right" on Protek Interface
 c $EB2C Check for "left" on Protek Interface
 c $EB38 Jump to #R$EB50
-c $EB3A Check for "left" pressing "1" (?)
-c $EB46 Check for "left" pressing "4" (?)
+c $EB3A Check for "left" on Interface 2
+c $EB46 Check for "jump" on Interface 2
+c $EB50 Check for "jump" on Protek Interface
 
-u $EB50 Unused
-D $EB50 Assembler data
-T $EB50
-
+u $EB5A
+B $EB5A
 u $EB81 Unused
 C $EB81
 

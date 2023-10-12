@@ -1057,7 +1057,7 @@ u$5B00 DEFB $00,$00,$00,$00,$00,$00,$00,$00
 ; Main entry point 1
 ;
 ; The game starts here after it has loaded
-c$607C JP $60D2      ;
+c$607C JP $60D2      ; Jump to Main entry point 2
 
 ; Quasimodo Y co-ordinate
 ;
@@ -1215,13 +1215,13 @@ g$60B7 DEFB $14
 ; Number of lives
 g$60B8 DEFB $03
 
-; Set to 1 if a Kempston joystick is installed (?)
+; Set to 1 if a Kempston joystick is installed 
 g$60B9 DEFB $00
 
-; Game status buffer entry at 60BA
+; Set to 1 if Interface 2 is installed
 g$60BA DEFB $00
 
-; Game status buffer entry at 60BB
+; Set to 1 if Protek joystick is installed
 g$60BB DEFB $00
 
 ; Score to award (in hundreds)
@@ -1254,7 +1254,7 @@ g$60C4 DEFB $00
 ; Set to 1 if Quasimodo has grabbed a bell on the pit
 g$60C5 DEFB $00
 
-; Game status buffer entry at 60C6
+; Set to 1 if all objects should be updated
 g$60C6 DEFB $00
 
 ; Animation state of the "HELP" message on the last level
@@ -1277,13 +1277,13 @@ g$60CB DEFB $29
 ; Time before chasing knight sprite ID moves forward
 g$60CC DEFB $0F
 
-; Game status buffer entry at 60CD
+; Set to 1 if the chasking knight has climbed the wall
 g$60CD DEFB $00
 
 ; Game status buffer entry at 60CE
 g$60CE DEFB $00
 
-; Game status buffer entry at 60CF
+; Position on the level display
 g$60CF DEFB $0D
 
 ; Set to 1 if awarding extra life
@@ -1295,60 +1295,60 @@ g$60D1 DEFB $00
 ; Main entry point 2
 ;
 ; This entry point is called at the start of each level, or after losing a life
-c$60D2 LD HL,$9C40   ;
+c$60D2 LD HL,$9C40   ; { Copy the title screen at #R$9C40 to the main screen memory.
  $60D5 LD DE,$4000   ;
  $60D8 LD BC,$1B00   ;
- $60DB LDIR          ;
-*$60DD CALL $028E    ;
- $60E0 LD A,E        ;
- $60E1 CP $FF        ;
- $60E3 JR Z,$60DD    ;
- $60E5 CALL $0DAF    ;
- $60E8 LD IX,$948B   ;
- $60EC CALL $9ACA    ;
-*$60EF CALL $028E    ;
- $60F2 LD A,E        ;
- $60F3 CP $24        ;
- $60F5 JR NZ,$60F9   ;
- $60F7 JR $6120      ;
-*$60F9 CP $1C        ;
- $60FB JR NZ,$6104   ;
- $60FD LD A,$01      ;
+ $60DB LDIR          ; }
+*$60DD CALL $028E    ; Get a keypress using the #HTML(<a href="https://skoolkid.github.io/rom/asm/028E.html">ROM keyboard scanning routine</a>).
+ $60E0 LD A,E        ; Put the keypress in A.
+ $60E1 CP $FF        ; Was a key pressed?
+ $60E3 JR Z,$60DD    ; Loop back if not.
+ $60E5 CALL $0DAF    ; Clear the screen (#HTML(<a href="https://skoolkid.github.io/rom/asm/0DAF.html">ROM routine</a>)).
+ $60E8 LD IX,$948B   ; #R$948B - game options UDG data
+ $60EC CALL $9ACA    ; Display it.
+*$60EF CALL $028E    ; {Get a keypress in A.
+ $60F2 LD A,E        ; }
+ $60F3 CP $24        ; Was "1" pressed?
+ $60F5 JR NZ,$60F9   ; Jump forward if not.
+ $60F7 JR $6120      ; Otherwise start the game.
+*$60F9 CP $1C        ; Was "2" pressed?
+ $60FB JR NZ,$6104   ; Jump forward if not.
+ $60FD LD A,$01      ; {Otherwise set the Kempston flag (#R$60B9) and start the game.
  $60FF LD ($60B9),A  ;
- $6102 JR $6120      ;
-*$6104 CP $14        ;
- $6106 JR NZ,$610F   ;
- $6108 LD A,$01      ;
+ $6102 JR $6120      ; }
+*$6104 CP $14        ; Was "3" pressed?
+ $6106 JR NZ,$610F   ; Jump forward if not.
+ $6108 LD A,$01      ; {Otherwise set the Protek flag (#R$60BB) and start the game.
  $610A LD ($60BB),A  ;
- $610D JR $6120      ;
-*$610F CP $0C        ;
- $6111 JR NZ,$611A   ;
- $6113 LD A,$01      ;
+ $610D JR $6120      ; }
+*$610F CP $0C        ; Was "4" pressed?
+ $6111 JR NZ,$611A   ; Jump forward if not.
+ $6113 LD A,$01      ; {Otherwise set the Interface 2 flag (#R$60BA) and start the game.
  $6115 LD ($60BA),A  ;
- $6118 JR $6120      ;
-*$611A CP $04        ;
- $611C JR NZ,$60EF   ;
- $611E JR $6127      ;
+ $6118 JR $6120      ; }
+*$611A CP $04        ; Was "5" pressed?
+ $611C JR NZ,$60EF   ; Jump back to find another keypress if not.
+ $611E JR $6127      ; Otherwise run the demo.
 
 ; Start the game
 ;
 ; Used by the routines at #R$60D2, #R$695D and #R$6A51.
-c$6120 NOP           ;
- $6121 CALL $0DAF    ;
- $6124 JP $633B      ;
+c$6120 NOP           ; { Clear the screen.
+ $6121 CALL $0DAF    ; }
+ $6124 JP $633B      ; Jump forward to the main loop.
 
 ; Run the demo
 ;
 ; Used by the routine at #R$60D2.
-c$6127 CALL $8DCC    ;
-*$612A LD HL,$1770   ;
- $612D LD ($670D),HL ;
- $6130 CALL $0DAF    ;
- $6133 CALL $61A6    ;
- $6136 CALL $62FD    ;
- $6139 LD B,$96      ;
-*$613B PUSH BC       ;
- $613C CALL $6715    ;
+c$6127 CALL $8DCC    ; Show the high score table.
+*$612A LD HL,$1770   ; {Change the pause time at #R$670C(#N$670D) to be longer.
+ $612D LD ($670D),HL ; }
+ $6130 CALL $0DAF    ; Clear the screen.
+ $6133 CALL $61A6    ; Set up the level data.
+ $6136 CALL $62FD    ; Start the level.
+ $6139 LD B,$96      ; Loop #N$96 times.
+*$613B PUSH BC       ; Remember BC.
+ $613C CALL $6715    ; { Move objects across the screen.
  $613F CALL $6715    ;
  $6142 CALL $6715    ;
  $6145 CALL $6BC4    ;
@@ -1358,173 +1358,173 @@ c$6127 CALL $8DCC    ;
  $6151 CALL $6C3C    ;
  $6154 CALL $6CA1    ;
  $6157 CALL $6CA1    ;
- $615A CALL $7222    ;
- $615D LD A,($60B1)  ;
- $6160 CP $00        ;
- $6162 JR Z,$6167    ;
- $6164 CALL $B98C    ;
-*$6167 LD A,($60B0)  ;
- $616A CP $00        ;
- $616C CALL NZ,$6B47 ;
- $616F CALL $670C    ;
- $6172 CALL $028E    ;
- $6175 LD A,E        ;
- $6176 CP $FF        ;
- $6178 JP NZ,$619A   ;
- $617B CALL $6D5B    ;
- $617E LD A,($60CD)  ;
- $6181 CP $01        ;
- $6183 CALL Z,$6ED7  ;
- $6186 LD A,($60A0)  ;
- $6189 CP $0F        ;
- $618B CALL Z,$6EA9  ;
- $618E POP BC        ;
- $618F DJNZ $613B    ;
- $6191 LD HL,$60A0   ;
- $6194 INC (HL)      ;
- $6195 CALL $696E    ;
- $6198 JR $612A      ;
+ $615A CALL $7222    ; }
+ $615D LD A,($60B1)  ; Does this room have a pit?
+ $6160 CP $00        ; { Jump forward if not. 
+ $6162 JR Z,$6167    ; }
+ $6164 CALL $B98C    ; Otherwise update the rope / pit.
+*$6167 LD A,($60B0)  ; Does this room have soldiers?
+ $616A CP $00        ; { Update them if so.
+ $616C CALL NZ,$6B47 ; }
+ $616F CALL $670C    ; Pause.
+ $6172 CALL $028E    ; { Get a keypress in A. 
+ $6175 LD A,E        ; }
+ $6176 CP $FF        ; Was any key pressed?
+ $6178 JP NZ,$619A   ; Loop back round if not.
+ $617B CALL $6D5B    ; Update the knight.
+ $617E LD A,($60CD)  ; { Should the knight be updated?
+ $6181 CP $01        ; }
+ $6183 CALL Z,$6ED7  ; Do the update if so?
+ $6186 LD A,($60A0)  ; { Is this the last level?
+ $6189 CP $0F        ; }
+ $618B CALL Z,$6EA9  ; Draw Esmerelda if it is.
+ $618E POP BC        ; Restore BC.
+ $618F DJNZ $613B    ; Loop back if there's more on this level to show.
+ $6191 LD HL,$60A0   ; { Move forward a level.
+ $6194 INC (HL)      ; }
+ $6195 CALL $696E    ; Reset all the flags for a new level.
+ $6198 JR $612A      ; Loop back to demo a new level.
 
 ; Reset to level 1
 ;
 ; Used by the routine at #R$6127.
-c$619A POP BC        ;
- $619B LD A,$01      ;
- $619D LD ($60A0),A  ;
- $61A0 CALL $696E    ;
- $61A3 JP $60D2      ;
+c$619A POP BC        ; Restore BC
+ $619B LD A,$01      ; { Set the current level (#R$60A0) to 1.
+ $619D LD ($60A0),A  ; }
+ $61A0 CALL $696E    ; Reset all level flags.
+ $61A3 JP $60D2      ; Start a new game.
 
 ; Set up the playing field
 ;
 ; Used by the routines at #R$6127, #R$62F0, #R$633B and #R$68E5.
-c$61A6 LD A,($60A0)  ;
- $61A9 CP $01        ;
- $61AB JR NZ,$61C4   ;
- $61AD LD IX,$88B8   ;
- $61B1 CALL $9A4C    ;
- $61B4 LD A,$01      ;
- $61B6 LD ($609B),A  ;
+c$61A6 LD A,($60A0)  ; Get the current level (#R$60A0). 
+ $61A9 CP $01        ; Is it 1?
+ $61AB JR NZ,$61C4   ; Move forward if not.
+ $61AD LD IX,$88B8   ; { Display a complete wall.
+ $61B1 CALL $9A4C    ; }
+ $61B4 LD A,$01      ; { Set R - L fireballs.
+ $61B6 LD ($609B),A  ; 
  $61B9 LD HL,$608A   ;
  $61BC LD (HL),$15   ;
  $61BE LD HL,$6087   ;
- $61C1 LD (HL),$03   ;
+ $61C1 LD (HL),$03   ; }
  $61C3 RET           ;
 
 ; Set up level 2
 ;
 ; Used by the routine at #R$61A6.
-c$61C4 CP $02        ;
- $61C6 JR NZ,$61CB   ;
- $61C8 JP $6218      ;
+c$61C4 CP $02        ; Is this level 2?
+ $61C6 JR NZ,$61CB   ; Jump forward if not.
+ $61C8 JP $6218      ; Otherwise, same logic as level 7.
 
 ; Set up level 3
 ;
 ; Used by the routine at #R$61C4.
-c$61CB CP $03        ;
- $61CD JR NZ,$61DE   ;
+c$61CB CP $03        ; Is this level 3?
+ $61CD JR NZ,$61DE   ; Jump forward if not.
 ; This entry point is used by the routines at #R$6209, #R$6265 and #R$6274.
-*$61CF LD IX,$8978   ;
- $61D3 CALL $9A4C    ;
- $61D6 LD IX,$9259   ;
- $61DA CALL $9ACA    ;
+*$61CF LD IX,$8978   ; { Display ramparts.
+ $61D3 CALL $9A4C    ; }
+ $61D6 LD IX,$9259   ; { Display rampart edges.
+ $61DA CALL $9ACA    ; }
  $61DD RET           ;
 
 ; Set up level 4
 ;
 ; Used by the routine at #R$61CB.
-c$61DE CP $04        ;
- $61E0 JR NZ,$61F6   ;
+c$61DE CP $04        ; Is this level 4?
+ $61E0 JR NZ,$61F6   ; Jump forward if not.
 ; This entry point is used by the routines at #R$61F6, #R$6232, #R$6295 and
 ; #R$62C8.
-*$61E2 LD IX,$89D8   ;
- $61E6 CALL $9A4C    ;
- $61E9 LD IX,$92A3   ;
- $61ED CALL $9ACA    ;
- $61F0 LD A,$01      ;
- $61F2 LD ($60B0),A  ;
+*$61E2 LD IX,$89D8   ; { Display long ramparts.
+ $61E6 CALL $9A4C    ; }
+ $61E9 LD IX,$92A3   ; { Display long rampart edges.
+ $61ED CALL $9ACA    ; }
+ $61F0 LD A,$01      ; { This level has soldiers.
+ $61F2 LD ($60B0),A  ; }
  $61F5 RET           ;
 
 ; Set up level 5
 ;
 ; Used by the routine at #R$61DE.
-c$61F6 CP $05        ;
- $61F8 JR NZ,$6209   ;
- $61FA LD ($609E),A  ;
+c$61F6 CP $05        ; Is this level 5?
+ $61F8 JR NZ,$6209   ; Jump forward if not
+ $61FA LD ($609E),A  ; { Set high R - L fireballs.
  $61FD LD A,$03      ;
  $61FF LD ($6096),A  ;
  $6202 LD A,$15      ;
- $6204 LD ($6099),A  ;
- $6207 JR $61E2      ;
+ $6204 LD ($6099),A  ; }
+ $6207 JR $61E2      ; Otherwise same as level 4.
 
 ; Set up level 6
 ;
 ; Used by the routine at #R$61F6.
-c$6209 CP $06        ;
- $620B JR NZ,$6214   ;
- $620D LD A,$01      ;
+c$6209 CP $06        ; Is this level 6?
+ $620B JR NZ,$6214   ; Jump forward if not.
+ $620D LD A,$01      ; Set L - R arrows.
  $620F LD ($609C),A  ;
- $6212 JR $61CF      ;
+ $6212 JR $61CF      ; Otherwise same as level 3.
 
 ; Set up level 7
 ;
 ; Used by the routine at #R$6209.
-c$6214 CP $07        ;
- $6216 JR NZ,$6232   ;
+c$6214 CP $07        ; Is this level 7?
+ $6216 JR NZ,$6232   ; Jump forward if not.
 ; This entry point is used by the routine at #R$61C4.
-*$6218 LD IX,$8918   ;
- $621C CALL $9A4C    ;
- $621F LD IX,$927E   ;
- $6223 CALL $9ACA    ;
- $6226 LD A,$01      ;
- $6228 LD ($60B1),A  ;
- $622B LD HL,$07D0   ;
- $622E LD ($670D),HL ;
+*$6218 LD IX,$8918   ; { Display the pit.
+ $621C CALL $9A4C    ; }
+ $621F LD IX,$927E   ; { Display pit edge.
+ $6223 CALL $9ACA    ; }
+ $6226 LD A,$01      ; { Put the pit in this room.
+ $6228 LD ($60B1),A  ; }
+ $622B LD HL,$07D0   ; { Make the game faster.
+ $622E LD ($670D),HL ; }
  $6231 RET           ;
 
 ; Set up level 8
 ;
 ; Used by the routine at #R$6214.
-c$6232 CP $08        ;
- $6234 JR NZ,$6240   ;
- $6236 LD A,$01      ;
+c$6232 CP $08        ; Is this level 8?
+ $6234 JR NZ,$6240   ; Jump forward if not.
+ $6236 LD A,$01      ; { Add R - L ground and high fireballs.
  $6238 LD ($609B),A  ;
- $623B LD ($609E),A  ;
+ $623B LD ($609E),A  ; }
  $623E JR $61E2      ;
 
 ; Set up level 9
 ;
 ; Used by the routine at #R$6232.
-c$6240 CP $09        ;
- $6242 JR NZ,$6265   ;
- $6244 LD IX,$8918   ;
- $6248 CALL $9A4C    ;
- $624B LD IX,$927E   ;
- $624F CALL $9ACA    ;
- $6252 LD A,$01      ;
- $6254 LD ($60C4),A  ;
- $6257 LD ($609B),A  ;
+c$6240 CP $09        ; Is this level 9?
+ $6242 JR NZ,$6265   ; Jump forward if not.
+ $6244 LD IX,$8918   ; { Draw the pit.
+ $6248 CALL $9A4C    ; }
+ $624B LD IX,$927E   ; { Draw the pit edge.
+ $624F CALL $9ACA    ; }
+ $6252 LD A,$01      ; { Put row of bells in this room.
+ $6254 LD ($60C4),A  ; }
+ $6257 LD ($609B),A  ; { Add R - L fireballs.
  $625A LD A,$03      ;
  $625C LD ($6087),A  ;
  $625F LD A,$15      ;
- $6261 LD ($608A),A  ;
+ $6261 LD ($608A),A  ; }
  $6264 RET           ;
 
 ; Set up level A
 ;
 ; Used by the routine at #R$6240.
-c$6265 CP $0A        ;
- $6267 JR NZ,$6274   ;
- $6269 LD A,$01      ;
+c$6265 CP $0A        ; Is this level A?
+ $6267 JR NZ,$6274   ; Jump forward if not.
+ $6269 LD A,$01      ; { Add L - R ground and high arrows.
  $626B LD ($609D),A  ;
- $626E LD ($609C),A  ;
- $6271 JP $61CF      ;
+ $626E LD ($609C),A  ; }
+ $6271 JP $61CF      ; Otherwise same as level 3.
 
 ; Set up level B
 ;
 ; Used by the routine at #R$6265.
-c$6274 CP $0B        ;
- $6276 JR NZ,$6295   ;
- $6278 LD A,$01      ;
+c$6274 CP $0B        ; Is this level B?
+ $6276 JR NZ,$6295   ; Jump forward if not.
+ $6278 LD A,$01      ; { Set L - R and R - L fireballs
  $627A LD ($609B),A  ;
  $627D LD ($609C),A  ;
  $6280 LD A,$03      ;
@@ -1533,50 +1533,50 @@ c$6274 CP $0B        ;
  $6288 LD A,$15      ;
  $628A LD ($608A),A  ;
  $628D LD A,$1D      ;
- $628F LD ($608F),A  ;
- $6292 JP $61CF      ;
+ $628F LD ($608F),A  ; } 
+ $6292 JP $61CF      ; Otherwise same as level 3.
 
 ; Set up level C
 ;
 ; Used by the routine at #R$6274.
-c$6295 CP $0C        ;
- $6297 JR NZ,$62A4   ;
- $6299 LD A,$01      ;
+c$6295 CP $0C        ; Is this level C?
+ $6297 JR NZ,$62A4   ; Jump forward if not.
+ $6299 LD A,$01      ; { Set L - R ground and high arrows.
  $629B LD ($609D),A  ;
- $629E LD ($609C),A  ;
- $62A1 JP $61E2      ;
+ $629E LD ($609C),A  ; }
+ $62A1 JP $61E2      ; Otherwise same as level 4.
 
 ; Set up level D
 ;
 ; Used by the routine at #R$6295.
-c$62A4 CP $0D        ;
- $62A6 JR NZ,$62AA   ;
- $62A8 JR $62D3      ;
+c$62A4 CP $0D        ; Is this level D?
+ $62A6 JR NZ,$62AA   ; Jump forward if not.
+ $62A8 JR $62D3      ; Otherwise same as some of level F.
 
 ; Set up level E
 ;
 ; Used by the routine at #R$62A4.
-c$62AA CP $0E        ;
- $62AC JR NZ,$62C8   ;
- $62AE LD IX,$8918   ;
- $62B2 CALL $9A4C    ;
- $62B5 LD IX,$927E   ;
- $62B9 CALL $9ACA    ;
- $62BC LD A,$01      ;
- $62BE LD ($60C4),A  ;
- $62C1 LD ($609D),A  ;
- $62C4 LD ($609B),A  ;
+c$62AA CP $0E        ; Is this level E?
+ $62AC JR NZ,$62C8   ; Jump forward if not.
+ $62AE LD IX,$8918   ; { Put the pit in this room.
+ $62B2 CALL $9A4C    ; }
+ $62B5 LD IX,$927E   ; { Draw the pit edges.
+ $62B9 CALL $9ACA    ; }
+ $62BC LD A,$01      ; { Put bells in the room.
+ $62BE LD ($60C4),A  ; }
+ $62C1 LD ($609D),A  ; { Add R - L ground and L - R high arrows. 
+ $62C4 LD ($609B),A  ; }
  $62C7 RET           ;
 
 ; Set up level F
 ;
 ; Draw Esmerelda if it's the final level
-c$62C8 CP $0F        ;
- $62CA JR NZ,$62F0   ;
- $62CC LD IX,$9756   ;
- $62D0 CALL $9ACA    ;
+c$62C8 CP $0F        ; Is this level F?
+ $62CA JR NZ,$62F0   ; Jump forward if not.
+ $62CC LD IX,$9756   ; { Draw Esmerelda 
+ $62D0 CALL $9ACA    ; }
 ; This entry point is used by the routine at #R$62A4.
-*$62D3 LD A,$01      ;
+*$62D3 LD A,$01      ; { Add L - R and R - L fireballs.
  $62D5 LD ($609C),A  ;
  $62D8 LD ($609B),A  ;
  $62DB LD A,$15      ;
@@ -1585,58 +1585,58 @@ c$62C8 CP $0F        ;
  $62E2 LD ($608C),A  ;
  $62E5 LD ($6087),A  ;
  $62E8 LD A,$1D      ;
- $62EA LD ($608F),A  ;
- $62ED JP $61E2      ;
+ $62EA LD ($608F),A  ; }
+ $62ED JP $61E2      ; Otherwise same as level 4.
 
 ; Reset back to level 1 and run it
 ;
 ; Used by the routine at #R$62C8.
-c$62F0 LD A,$01      ;
- $62F2 LD ($60A0),A  ;
- $62F5 LD A,$0D      ;
- $62F7 LD ($60CF),A  ;
- $62FA JP $61A6      ;
+c$62F0 LD A,$01      ; { Set level 1.
+ $62F2 LD ($60A0),A  ; }
+ $62F5 LD A,$0D      ; { Set to the first place on the level display.
+ $62F7 LD ($60CF),A  ; }
+ $62FA JP $61A6      ; Scan again.
 
 ; Draw the game stats
 ;
 ; Used by the routines at #R$6127 and #R$633B.
-c$62FD CALL $6AD1    ;
- $6300 CALL $6AC9    ;
- $6303 LD IX,$92D4   ;
- $6307 CALL $9ACA    ;
- $630A CALL $6AEB    ;
- $630D CALL $6D1B    ;
- $6310 CALL $712D    ;
- $6313 LD A,($60B1)  ;
- $6316 CP $00        ;
- $6318 CALL NZ,$B9CE ;
- $631B LD A,($60B0)  ;
- $631E CP $00        ;
- $6320 JR Z,$6329    ;
- $6322 LD IX,$9325   ;
- $6326 CALL $9ACA    ;
-*$6329 LD A,($60C4)  ;
- $632C CP $00        ;
- $632E JR Z,$6337    ;
- $6330 LD IX,$96C5   ;
- $6334 CALL $9ACA    ;
-*$6337 CALL $80E8    ;
+c$62FD CALL $6AD1    ; Print the score.
+ $6300 CALL $6AC9    ; Draw the main playing area.
+ $6303 LD IX,$92D4   ; { Draw the bonus bells.
+ $6307 CALL $9ACA    ; }
+ $630A CALL $6AEB    ; Make any bonus visible that should be.
+ $630D CALL $6D1B    ; Draw lives.
+ $6310 CALL $712D    ; Display the current level in the graphic.
+ $6313 LD A,($60B1)  ; { Does this level have a pit?
+ $6316 CP $00        ; }
+ $6318 CALL NZ,$B9CE ; Set it up if it does.
+ $631B LD A,($60B0)  ; { Does this level have soldiers?
+ $631E CP $00        ; }
+ $6320 JR Z,$6329    ; Jump forward if it doesn't.
+ $6322 LD IX,$9325   ; { Draw the soldiers (#R$9325).
+ $6326 CALL $9ACA    ; }
+*$6329 LD A,($60C4)  ; { Does this room have bells?
+ $632C CP $00        ; }
+ $632E JR Z,$6337    ; Jump forward if it doesn't.
+ $6330 LD IX,$96C5   ; { Draw the bells (#R$96C5).
+ $6334 CALL $9ACA    ; }
+*$6337 CALL $80E8    ; Play the "start of level" tune.
  $633A RET           ;
 
 ; Start a game
 ;
 ; Used by the routine at #R$6120.
-c$633B CALL $61A6    ;
- $633E CALL $62FD    ;
- $6341 LD A,($607F)  ;
+c$633B CALL $61A6    ; Set up the appropriate data for the current level.
+ $633E CALL $62FD    ; Draw the level.
+ $6341 LD A,($607F)  ; { Get Quasimodo's position and sub-frame.
  $6344 LD D,A        ;
  $6345 LD A,($6080)  ;
  $6348 LD E,A        ;
  $6349 LD A,($6081)  ;
- $634C LD C,A        ;
- $634D LD A,$04      ;
- $634F CALL $B798    ;
- $6352 LD A,($607F)  ;
+ $634C LD C,A        ; }
+ $634D LD A,$04      ; Use green on black.
+ $634F CALL $B798    ; Draw the sprite.
+ $6352 LD A,($607F)  ; { Repeat for the second half as Quasimodo is a double-height sprite.
  $6355 ADD A,$10     ;
  $6357 LD D,A        ;
  $6358 LD A,($6080)  ;
@@ -1645,10 +1645,10 @@ c$633B CALL $61A6    ;
  $635F ADD A,$04     ;
  $6361 LD C,A        ;
  $6362 LD A,$04      ;
- $6364 CALL $B798    ;
- $6367 LD A,($60BD)  ;
- $636A LD D,A        ;
- $636B LD HL,$60BE   ;
+ $6364 CALL $B798    ; }
+ $6367 LD A,($60BD)  ; { Draw the chasing knight climbing if necessary.
+ $636A LD D,A        ; #R$608D - chasing knight Y co-ordinate.
+ $636B LD HL,$60BE   ; #R$60BE - chasing knight graphic ID.
  $636E LD B,$03      ;
 *$6370 PUSH BC       ;
  $6371 LD B,$02      ;
@@ -1669,57 +1669,57 @@ c$633B CALL $61A6    ;
  $6386 ADD A,$08     ;
  $6388 LD D,A        ;
  $6389 POP BC        ;
- $638A DJNZ $6370    ;
+ $638A DJNZ $6370    ; }
 
 ; Main loop (1)
 ;
 ; Used by the routine at #R$6490.
-c$638C LD A,($60B1)  ;
- $638F CP $00        ;
- $6391 JR NZ,$639F   ;
- $6393 LD A,($60C4)  ;
- $6396 CP $00        ;
- $6398 JR NZ,$639F   ;
- $639A CALL $677A    ;
- $639D JR $63A2      ;
-*$639F CALL $70CA    ;
-*$63A2 LD A,($609F)  ;
- $63A5 CP $00        ;
- $63A7 JP NZ,$6831   ;
- $63AA LD A,($60BF)  ;
- $63AD CP $00        ;
- $63AF JP NZ,$6465   ;
- $63B2 LD A,($607F)  ;
+c$638C LD A,($60B1)  ; { Does this level have a pit?
+ $638F CP $00        ; }
+ $6391 JR NZ,$639F   ; Jump forward if not.
+ $6393 LD A,($60C4)  ; { Does this level have bells?
+ $6396 CP $00        ; }
+ $6398 JR NZ,$639F   ; Jump forward if not.
+ $639A CALL $677A    ; { Draw the bells and jump forward.
+ $639D JR $63A2      ; }
+*$639F CALL $70CA    ; Check for any collision.
+*$63A2 LD A,($609F)  ; { Did Quasimodo collide or fall off anything?
+ $63A5 CP $00        ; }
+ $63A7 JP NZ,$6831   ; Jump forward if so to lose a life.
+ $63AA LD A,($60BF)  ; { Is Quasimodo on the rope?
+ $63AD CP $00        ; }
+ $63AF JP NZ,$6465   ; Move forward if so.
+ $63B2 LD A,($607F)  ; { Is Quasimodo's Y co-ordinate near an object?
  $63B5 LD HL,$6082   ;
- $63B8 CP (HL)       ;
- $63B9 JR NZ,$63CE   ;
- $63BB LD HL,$6083   ;
- $63BE LD A,($6080)  ;
- $63C1 CP (HL)       ;
- $63C2 JR NZ,$63CE   ;
- $63C4 LD HL,$6084   ;
+ $63B8 CP (HL)       ; }
+ $63B9 JR NZ,$63CE   ; Jump forward if not.
+ $63BB LD HL,$6083   ; { Is Quasimodo's X co-ordinate near an object?
+ $63BE LD A,($6080)  ; 
+ $63C1 CP (HL)       ; }
+ $63C2 JR NZ,$63CE   ; Jump forward if not.
+ $63C4 LD HL,$6084   ; { Is Quasimodo's sub-frame near an object?
  $63C7 LD A,($6081)  ;
- $63CA CP (HL)       ;
- $63CB JP Z,$6490    ;
+ $63CA CP (HL)       ; }
+ $63CB JP Z,$6490    ; Jump forward if so and see if there was a collision.
 *$63CE NOP           ;
- $63CF LD A,($60C5)  ;
- $63D2 CP $00        ;
- $63D4 JR Z,$63E0    ;
- $63D6 LD A,($60C6)  ;
- $63D9 CP $01        ;
- $63DB JP Z,$6490    ;
- $63DE JR $63E8      ;
-*$63E0 LD A,($60C6)  ;
- $63E3 CP $01        ;
- $63E5 JP Z,$6E73    ;
-*$63E8 LD A,($6083)  ;
+ $63CF LD A,($60C5)  ; { Has Quasimodo grabbed a bell?
+ $63D2 CP $00        ; }
+ $63D4 JR Z,$63E0    ; Jump forward if so.
+ $63D6 LD A,($60C6)  ; { Do objects need updating?
+ $63D9 CP $01        ; }
+ $63DB JP Z,$6490    ; Jump forward if so.
+ $63DE JR $63E8      ; Otherwise continue.
+*$63E0 LD A,($60C6)  ; { Do objects need updating when Quasimodo is on a bell?
+ $63E3 CP $01        ; }
+ $63E5 JP Z,$6E73    ; Jump forward if so.
+*$63E8 LD A,($6083)  ; { Draw the next object.
  $63EB LD E,A        ;
  $63EC LD A,($6082)  ;
  $63EF LD D,A        ;
  $63F0 LD A,($6084)  ;
  $63F3 LD C,A        ;
  $63F4 LD A,$04      ;
- $63F6 CALL $B798    ;
+ $63F6 CALL $B798    ; 
  $63F9 LD A,($6083)  ;
  $63FC LD E,A        ;
  $63FD LD A,($6082)  ;
@@ -1729,21 +1729,21 @@ c$638C LD A,($60B1)  ;
  $6406 ADD A,$04     ;
  $6408 LD C,A        ;
  $6409 LD A,$04      ;
- $640B CALL $B798    ;
- $640E LD A,($60C5)  ;
- $6411 CP $00        ;
- $6413 JR Z,$641D    ;
- $6415 LD A,$01      ;
- $6417 LD ($60C6),A  ;
- $641A JP $6E45      ;
+ $640B CALL $B798    ; }
+ $640E LD A,($60C5)  ; { Has Quasimodo grabbed a bell?
+ $6411 CP $00        ; }
+ $6413 JR Z,$641D    ; If not, re-draw
+ $6415 LD A,$01      ; { Mark objects as needing updating.
+ $6417 LD ($60C6),A  ; }
+ $641A JP $6E45      ; Jump forward.
 
 ; Redraw Quasimodo while jumping
 ;
 ; Used by the routines at #R$638C, #R$6E73 and #R$6FE8.
-c$641D LD A,($6085)  ;
- $6420 CP $02        ;
- $6422 JR NZ,$642E   ;
- $6424 LD A,($607F)  ;
+c$641D LD A,($6085)  ; Get the jump flag.
+ $6420 CP $02        ; Is Quasimodo falling?
+ $6422 JR NZ,$642E   ; Jump forward if not.
+ $6424 LD A,($607F)  ; Get current height.
  $6427 CP $35        ;
  $6429 JR NZ,$642E   ;
  $642B CALL $707C    ;
@@ -2604,8 +2604,8 @@ c$6AC9 LD IX,$9088   ;
 ; Print the score
 ;
 ; Used by the routines at #R$62FD, #R$6A51 and #R$6B08.
-c$6AD1 LD B,$07      ;
- $6AD3 LD HL,$60A1   ;
+c$6AD1 LD B,$07      ; Number of digits.
+ $6AD3 LD HL,$60A1   ; Point to the start of the score.
  $6AD6 LD E,$1E      ;
 *$6AD8 PUSH BC       ;
  $6AD9 LD D,$B8      ;
@@ -2622,24 +2622,24 @@ c$6AD1 LD B,$07      ;
  $6AE8 DJNZ $6AD8    ;
  $6AEA RET           ;
 
-; Display the score box
+; Display the bonus bells
 ;
 ; Used by the routines at #R$62FD and #R$6A51.
-c$6AEB LD A,($60AD)  ;
- $6AEE CP $00        ;
- $6AF0 RET Z         ;
- $6AF1 LD HL,$5821   ;
- $6AF4 LD DE,$0020   ;
- $6AF7 LD A,($60AD)  ;
- $6AFA LD B,A        ;
- $6AFB ADD A,B       ;
- $6AFC LD B,A        ;
-*$6AFD LD (HL),$06   ;
+c$6AEB LD A,($60AD)  ; Get the number of bonus bells.
+ $6AEE CP $00        ; { Return if we don't have any?
+ $6AF0 RET Z         ; }
+ $6AF1 LD HL,$5821   ; Starting attribute.
+ $6AF4 LD DE,$0020   ; Position to move by for each one.
+ $6AF7 LD A,($60AD)  ; Get the number of bonus bells?
+ $6AFA LD B,A        ; { Double it and put it in B.
+ $6AFB ADD A,B       ; 
+ $6AFC LD B,A        ; }
+*$6AFD LD (HL),$06   ; { Make the bell visible.
  $6AFF ADD HL,DE     ;
  $6B00 LD (HL),$06   ;
- $6B02 SBC HL,DE     ;
- $6B04 INC HL        ;
- $6B05 DJNZ $6AFD    ;
+ $6B02 SBC HL,DE     ; }
+ $6B04 INC HL        ; Point to next attribute.
+ $6B05 DJNZ $6AFD    ; Loop if there are more bells to draw.
  $6B07 RET           ;
 
 ; Award the super bonus
@@ -8488,14 +8488,14 @@ c$EAF1 LD HL,$5960   ;
  $EB03 JR NZ,$EAF7   ;
  $EB05 RET           ;
 
-; Check for "left" pressing "4" (?)
+; Check for "right" on Interface 2
 ;
 ; Used by the routine at #R$65BA.
-c$EB06 LD A,$F7      ;
- $EB08 IN A,($FE)    ;
- $EB0A BIT 1,A       ;
- $EB0C JP NZ,$662B   ;
- $EB0F JP $65F1      ;
+c$EB06 LD A,$F7      ; { Scan top left of the keyboard.
+ $EB08 IN A,($FE)    ; } 
+ $EB0A BIT 1,A       ; { Return if '2' was not pressed.
+ $EB0C JP NZ,$662B   ; }
+ $EB0F JP $65F1      ; Otherwise move to the "right" routine.
 
 ; Jump to #R$EB3A
 ;
@@ -8516,48 +8516,52 @@ s$EB1C DEFS $04
 ; Check for "right" on Protek Interface
 ;
 ; Used by the routine at #R$65BA.
-c$EB20 LD A,$EF      ;
- $EB22 IN A,($FE)    ;
- $EB24 BIT 2,A       ;
- $EB26 JP NZ,$662B   ;
- $EB29 JP $65F1      ;
+c$EB20 LD A,$EF      ; { Scan top right of the keyboard.
+ $EB22 IN A,($FE)    ; }
+ $EB24 BIT 2,A       ; { Return if '8' was not pressed.
+ $EB26 JP NZ,$662B   ; }
+ $EB29 JP $65F1      ; Otherwise move to the "right" routine.
 
 ; Check for "left" on Protek Interface
 ;
 ; Used by the routine at #R$662B.
-c$EB2C LD A,$F7      ;
- $EB2E IN A,($FE)    ;
- $EB30 BIT 4,A       ;
- $EB32 JP NZ,$6691   ;
- $EB35 JP $6652      ;
+c$EB2C LD A,$F7      ; { Scan top left of the keyboard.
+ $EB2E IN A,($FE)    ; }
+ $EB30 BIT 4,A       ; { Return if '5' was not pressed.
+ $EB32 JP NZ,$6691   ; }
+ $EB35 JP $6652      ; Otherwise move to the "left" routine.
 
 ; Jump to #R$EB50
 ;
 ; Used by the routine at #R$6691.
 c$EB38 JR $EB50      ;
 
-; Check for "left" pressing "1" (?)
+; Check for "left" on Interface 2
 ;
 ; Used by the routine at #R$EB12.
-c$EB3A LD A,$F7      ;
- $EB3C IN A,($FE)    ;
- $EB3E BIT 0,A       ;
- $EB40 JP NZ,$6691   ;
- $EB43 JP $6652      ;
+c$EB3A LD A,$F7      ; { Scan top left of the keyboard.
+ $EB3C IN A,($FE)    ; }
+ $EB3E BIT 0,A       ; { Return if '1' was not pressed.
+ $EB40 JP NZ,$6691   ; }
+ $EB43 JP $6652      ; Otherwise move to the "left" routine.
 
-; Check for "left" pressing "4" (?)
+; Check for "jump" on Interface 2
 ;
 ; Used by the routine at #R$EB1A.
-c$EB46 LD A,$F7      ;
- $EB48 IN A,($FE)    ;
- $EB4A BIT 4,A       ;
- $EB4C RET NZ        ;
- $EB4D JP $66C3      ;
+c$EB46 LD A,$F7      ; { Scan top left of the keyboard.
+ $EB48 IN A,($FE)    ; }
+ $EB4A BIT 4,A       ; { Return if '5' was not pressed.
+ $EB4C RET NZ        ; }
+ $EB4D JP $66C3      ; Otherwise move to the jump routine.
 
-; Unused
+; Check for "jump" on Protek Interface
 ;
-; Assembler data
-u$EB50 DEFM ">",$EF,$DB,$FE,$CB,"G",$C0,$C3,$C3,"fAUTO",$A0,"RENUM",$A0,$A0,"LOAD",$A0,"VERIFY",$A0,"MONITOR",$A0,$D2,$C5,$D4,$D5,$D2,$CE,$A0
+; Used by the routine at #R$EB38.
+c$EB50 LD A,$EF      ; { Scan top right of the keyboard.
+ $EB52 IN A,($FE)    ; }
+ $EB54 BIT 0,A       ; { Return if '0' was not pressed.
+ $EB56 RET NZ        ; }
+ $EB57 JP $66C3      ; Otherwise move to the jump routine.
 
 ; Unused
 u$EB81 BIT 6,(IY+$76)
